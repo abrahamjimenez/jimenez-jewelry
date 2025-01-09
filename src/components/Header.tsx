@@ -3,39 +3,31 @@ import {
   MagnifyingGlassIcon,
   ShoppingBagIcon,
 } from "@heroicons/react/24/outline";
+import { fetchShopifyData } from "@/utils/shopify";
 
-// todo fix bad practice
-const data = await fetch(process.env.STOREFRONT as string, {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-    "X-Shopify-Access-Token": process.env.ADMIN_ACCESS_TOKEN as string,
-  },
-  body: JSON.stringify({
-    query: `{
-              shop {
-                  name
-              }
-          }`,
-  }),
-});
+// todo Handle Errors (if any) in shopify.ts
+const Header = async () => {
+  const query = `{
+        shop {
+            name
+        }
+    }`;
+  let shopName = "Unknown";
 
-const {
-  data: {
-    shop: { name },
-  },
-} = await data.json();
+  try {
+    const { shop } = await fetchShopifyData(query);
+    shopName = shop.name;
+  } catch (error) {
+    console.log("Failed to fetch shop name:", error);
+  }
 
-console.log(name);
-
-const Header = () => {
   return (
     <div className={"flex justify-between"}>
       <div className={"flex gap-2"}>
         <div>
           <Bars3Icon className={"size-6"} />
         </div>
-        <p>{name}</p>
+        <p>{shopName}</p>
       </div>
 
       <div className={"flex gap-2"}>
