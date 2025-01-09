@@ -4,23 +4,21 @@ import {
   ShoppingBagIcon,
 } from "@heroicons/react/24/outline";
 
-const data = await fetch(
-  "https://jimen971.myshopify.com/admin/api/2025-01/graphql.json",
-  {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "X-Shopify-Access-Token": process.env.ADMIN_ACCESS_TOKEN as string,
-    },
-    body: JSON.stringify({
-      query: `{
+// todo fix bad practice
+const data = await fetch(process.env.STOREFRONT as string, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "X-Shopify-Access-Token": process.env.ADMIN_ACCESS_TOKEN as string,
+  },
+  body: JSON.stringify({
+    query: `{
               shop {
                   name
               }
           }`,
-    }),
-  },
-);
+  }),
+});
 
 const {
   data: {
