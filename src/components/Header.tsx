@@ -26,8 +26,9 @@ const Header = async () => {
         <div>
           <Bars3Icon className={"size-6"} />
         </div>
-        <p>{shopName}</p>
       </div>
+
+      <h2>{shopName}</h2>
 
       <div className={"flex gap-2"}>
         <div>
