@@ -5,7 +5,6 @@ import {
 } from "@heroicons/react/24/outline";
 import { fetchShopifyData } from "@/utils/shopify";
 
-// todo Handle Errors (if any) in shopify.ts
 const Header = async () => {
   const query = `{
         shop {
