@@ -4,6 +4,7 @@ import {
   ShoppingBagIcon,
 } from "@heroicons/react/24/outline";
 import { fetchShopifyData } from "@/utils/shopify";
+import Hamburger from "@/components/Hamburger";
 
 const Header = async () => {
   const query = `{
@@ -23,9 +24,7 @@ const Header = async () => {
   return (
     <div className={"flex justify-between"}>
       <div className={"flex gap-2"}>
-        <div>
-          <Bars3Icon className={"size-6"} />
-        </div>
+        <Hamburger />
       </div>
 
       <h2>{shopName}</h2>
