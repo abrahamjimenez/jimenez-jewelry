@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Bars3Icon } from "@heroicons/react/24/outline";
+import { Bars3Icon, ArrowLongLeftIcon } from "@heroicons/react/24/outline";
 import { useDisclosure } from "@mantine/hooks";
 import { Button, Drawer } from "@mantine/core";
 import { MenuInterface } from "@/components/NavigationMenu";
@@ -37,7 +37,12 @@ const Hamburger = ({ data }: { data: MenuInterface }) => {
 
   return (
     <>
-      <Drawer opened={openedDrawer} onClose={close} size={"sm"}>
+      <Drawer
+        opened={openedDrawer}
+        onClose={close}
+        size={"sm"}
+        closeButtonProps={{ icon: <ArrowLongLeftIcon className={"size-6"} /> }}
+      >
         {/* Looping over the first level of items */}
         <div>
           {data.items.map(
@@ -76,7 +81,14 @@ const Hamburger = ({ data }: { data: MenuInterface }) => {
           )}
         </div>
 
-        <Drawer opened={openedInnerDrawer} onClose={closeInner} size={"sm"}>
+        <Drawer
+          opened={openedInnerDrawer}
+          onClose={closeInner}
+          size={"sm"}
+          closeButtonProps={{
+            icon: <ArrowLongLeftIcon className={"size-6"} />,
+          }}
+        >
           <p className={"font-bold"}>{innerData?.title}</p>
 
           <div>
