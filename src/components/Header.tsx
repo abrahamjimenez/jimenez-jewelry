@@ -1,10 +1,9 @@
 import {
-  Bars3Icon,
   MagnifyingGlassIcon,
   ShoppingBagIcon,
 } from "@heroicons/react/24/outline";
 import { fetchShopifyData } from "@/utils/shopify";
-import Hamburger from "@/components/Hamburger";
+import NavigationMenu from "@/components/NavigationMenu";
 
 const Header = async () => {
   const query = `{
@@ -18,13 +17,13 @@ const Header = async () => {
     const { shop } = await fetchShopifyData(query);
     shopName = shop.name;
   } catch (error) {
-    console.log("Failed to fetch shop name:", error);
+    console.error("Failed to fetch shop name:", error);
   }
 
   return (
     <div className={"flex justify-between"}>
-      <div className={"flex gap-2"}>
-        <Hamburger />
+      <div>
+        <NavigationMenu />
       </div>
 
       <h2>{shopName}</h2>
