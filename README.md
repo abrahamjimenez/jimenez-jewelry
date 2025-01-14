@@ -1,1 +1,1 @@
-Joyeria La Perla uses Next.js and the Shopify Storefront API
+WDD499 Capstone uses Next.js and the Shopify Storefront API
