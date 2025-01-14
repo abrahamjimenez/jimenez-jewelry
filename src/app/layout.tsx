@@ -6,8 +6,8 @@ import Footer from "@/components/Footer";
 import { MantineProvider, mantineHtmlProps } from "@mantine/core";
 
 export const metadata: Metadata = {
-  title: "Joyeria La Perla",
-  description: "Joyeria La Perla - Sell Jewelry",
+  title: "WDD499 Capstone",
+  description: "WDD499 Capstone",
 };
 
 export default function RootLayout({
