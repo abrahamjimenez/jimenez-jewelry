@@ -42,7 +42,7 @@ const Home = async () => {
       node {
         id
         title
-        images(first: 2) {
+        images(first: 5) {
           edges {
             node {
               id
