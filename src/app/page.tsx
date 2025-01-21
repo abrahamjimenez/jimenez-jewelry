@@ -68,7 +68,6 @@ const Home = async () => {
     const { products } = await fetchShopifyData(featuredProductsQuery);
     const { edges } = products;
     data = edges;
-    console.log(JSON.stringify(data, null, 2));
   } catch (e) {
     console.error("Failed to fetch featured products: ", e);
   }
