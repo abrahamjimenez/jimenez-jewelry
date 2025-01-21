@@ -5,11 +5,11 @@ import Image from "next/image";
 
 const FeaturedProducts = ({ data }: { data: ProductData }) => {
   return (
-    <div className="grid grid-cols-4 gap-4">
+    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
       {data.map((productEdge, i) => (
-        <div key={i} className="relative group">
-          <div key={productEdge.node.id}>
-            <div className="relative">
+        <div key={i}>
+          <div key={productEdge.node.id} className="relative group">
+            <div className="relative cursor-pointer">
               {/* Gold Image (default) */}
               <Image
                 width={500}
@@ -24,18 +24,22 @@ const FeaturedProducts = ({ data }: { data: ProductData }) => {
               />
 
               {/* Silver Image (shows on hover) */}
-              {productEdge.node.images.edges[1] && (
-                <Image
-                  width={500}
-                  height={500}
-                  key={productEdge.node.images.edges[1].node.id}
-                  src={productEdge.node.images.edges[1].node.url}
-                  alt={
-                    productEdge.node.images.edges[1].node.altText ||
-                    productEdge.node.title
-                  }
-                  className="transition-opacity duration-300 ease-in-out opacity-0 group-hover:opacity-100 absolute top-0 left-0"
-                />
+              {productEdge.node.images?.edges?.length > 1 && (
+                <>
+                  {productEdge.node.images.edges[1] && (
+                    <Image
+                      width={500}
+                      height={500}
+                      key={productEdge.node.images.edges[1].node.id}
+                      src={productEdge.node.images.edges[1].node.url}
+                      alt={
+                        productEdge.node.images.edges[1].node.altText ||
+                        productEdge.node.title
+                      }
+                      className="transition-opacity duration-300 ease-in-out opacity-0 group-hover:opacity-100 absolute top-0 left-0"
+                    />
+                  )}
+                </>
               )}
             </div>
             <p>{productEdge.node.title}</p>
