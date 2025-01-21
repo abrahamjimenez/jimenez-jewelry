@@ -1,7 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
-import { Bars3Icon, ArrowLongLeftIcon } from "@heroicons/react/24/outline";
+import {
+  Bars3Icon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+} from "@heroicons/react/24/outline";
 import { useDisclosure } from "@mantine/hooks";
 import { Button, Drawer } from "@mantine/core";
 import { MenuInterface } from "@/components/NavigationMenu";
@@ -35,14 +39,14 @@ const Hamburger = ({ data }: { data: MenuInterface }) => {
     }
   }
 
+  function resetDrawer() {
+    closeInner();
+    close();
+  }
+
   return (
     <>
-      <Drawer
-        opened={openedDrawer}
-        onClose={close}
-        size={"sm"}
-        closeButtonProps={{ icon: <ArrowLongLeftIcon className={"size-6"} /> }}
-      >
+      <Drawer opened={openedDrawer} onClose={close} size={"sm"}>
         {/* Looping over the first level of items */}
         <div>
           {data.items.map(
@@ -63,7 +67,10 @@ const Hamburger = ({ data }: { data: MenuInterface }) => {
                       updateInnerDrawer(item.title);
                     }}
                   >
-                    {item.title}
+                    <div className={"flex items-center cursor-pointer"}>
+                      {item.title}
+                      <ChevronRightIcon className={"size-6"} />
+                    </div>
                   </Button>
                 ) : (
                   <Link
@@ -81,15 +88,13 @@ const Hamburger = ({ data }: { data: MenuInterface }) => {
           )}
         </div>
 
-        <Drawer
-          opened={openedInnerDrawer}
-          onClose={closeInner}
-          size={"sm"}
-          closeButtonProps={{
-            icon: <ArrowLongLeftIcon className={"size-6"} />,
-          }}
-        >
-          <p className={"font-bold"}>{innerData?.title}</p>
+        <Drawer opened={openedInnerDrawer} onClose={resetDrawer} size={"sm"}>
+          <div className={"flex items-center cursor-pointer"}>
+            <ChevronLeftIcon className={"size-6"} />
+            <p onClick={closeInner} className={"font-bold"}>
+              {innerData?.title}
+            </p>
+          </div>
 
           <div>
             {innerData?.items.map((item) => (
