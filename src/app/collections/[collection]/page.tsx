@@ -118,13 +118,6 @@ const Page = async ({
                     "transition-opacity duration-300 ease-in-out opacity-0 group-hover:opacity-100 absolute top-0 left-0"
                   }
                 />
-                <p>{collection.node.title}</p>
-                <p>
-                  {collection.node.priceRange.minVariantPrice.amount ===
-                  collection.node.priceRange.maxVariantPrice.amount
-                    ? `$${parseFloat(collection.node.priceRange.minVariantPrice.amount).toFixed(2)}`
-                    : `$${parseFloat(collection.node.priceRange.minVariantPrice.amount).toFixed(2)} - $${parseFloat(collection.node.priceRange.maxVariantPrice.amount).toFixed(2)}`}
-                </p>
               </>
             )}
           </div>
