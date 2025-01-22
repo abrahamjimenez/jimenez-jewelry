@@ -2,14 +2,39 @@ import React from "react";
 import { fetchShopifyData } from "@/utils/shopify";
 import Image from "next/image";
 
+type CollectionData = {
+  node: CollectionNode;
+}[];
+
+interface CollectionNode {
+  id: string;
+  title: string;
+  totalInventory: number;
+  images: {
+    nodes: CollectionImagesNodes[];
+  };
+  priceRange: {
+    maxVariantPrice: {
+      amount: string;
+    };
+    minVariantPrice: {
+      amount: string;
+    };
+  };
+}
+
+interface CollectionImagesNodes {
+  url: string;
+  altText: string | null;
+}
+
 const Page = async ({
   params,
 }: {
   params: Promise<{ collection: string }>;
 }) => {
   const collection = (await params).collection;
-  // todo Find a query that will use the collection name and fetch the corresponding data w/ postman
-  const collectionByHandleQuery = `query getCollectionByHandle {
+  const collectionByHandleQuery = `{
   collection(handle: "${collection}") {
     products(first: 10) {
       edges {
@@ -37,14 +62,12 @@ const Page = async ({
   }
 }`;
 
-  // todo fix ts
-  let data = [];
+  let data: CollectionData = [];
   try {
     const { collection } = await fetchShopifyData(collectionByHandleQuery);
     const { products } = collection;
     const { edges } = products;
     data = edges;
-    console.log(JSON.stringify(data[0], null, 2));
   } catch (e) {
     console.error("Failed to fetch collection data: ", e);
   }
@@ -54,8 +77,6 @@ const Page = async ({
     <div>
       <h1>Dynamic Page</h1>
       <h1>{collection.charAt(0).toUpperCase() + collection.slice(1)}</h1>
-      {/* todo displayed data */}
-      {/* image, title, price*/}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
         {data.map((collection) => (
           <div
