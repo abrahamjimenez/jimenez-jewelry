@@ -119,30 +119,22 @@ const Page = async ({
                 ? `$${parseFloat(collection.node.priceRange.minVariantPrice.amount).toFixed(2)}`
                 : `$${parseFloat(collection.node.priceRange.minVariantPrice.amount).toFixed(2)} - $${parseFloat(collection.node.priceRange.maxVariantPrice.amount).toFixed(2)}`}
             </p>
-            {/*todo Add colors! :D*/}
-            <button>
+            <div>
               {collection.node.options
                 .filter((option) => option.name === "Color")
                 .map((option) => (
                   <div key={option.id}>
-                    {option.optionValues.map((optionValues) => (
-                      <div key={optionValues.id}>
-                        <p
-                          className={
-                            optionValues.name === "Gold"
-                              ? "bg-yellow-500"
-                              : optionValues.name === "White"
-                                ? "bg-white"
-                                : ""
-                          }
-                        >
-                          {optionValues.name}
-                        </p>
-                      </div>
-                    ))}
+                    <p>
+                      Available in:{" "}
+                      <span>
+                        {option.optionValues
+                          .map((optionValues) => optionValues.name)
+                          .join(", ")}
+                      </span>
+                    </p>
                   </div>
                 ))}
-            </button>
+            </div>
 
             {/*Silver Image (shows on hover)*/}
             {collection.node.images?.nodes?.length > 1 && (
