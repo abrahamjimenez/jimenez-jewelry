@@ -1,12 +1,14 @@
 import React from "react";
 import { fetchShopifyData } from "@/utils/shopify";
 import Image from "next/image";
+import Link from "next/link";
 
 type CollectionData = {
   node: CollectionNode;
 }[];
 
 interface CollectionNode {
+  handle: string;
   id: string;
   title: string;
   totalInventory: number;
@@ -51,6 +53,7 @@ const Page = async ({
     products(first: 10) {
       edges {
         node {
+          handle
           id
           title
           options {
@@ -95,23 +98,26 @@ const Page = async ({
   // todo Add filter & sort button
   return (
     <div>
-      <h1>Dynamic Page</h1>
+      <h1>Dynamic Page 1</h1>
       <h1>{collection.charAt(0).toUpperCase() + collection.slice(1)}</h1>
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
         {data.map((collection) => (
           <div key={collection.node.id} className={"relative group"}>
             {/*Gold Image (default)*/}
-            <Image
-              width={500}
-              height={500}
-              src={collection.node.images.nodes[0].url}
-              alt={
-                collection.node.images.nodes[0].altText || collection.node.title
-              }
-              className={
-                "cursor-pointer transition-opacity duration-300 ease-in-out opacity-100"
-              }
-            />
+            <Link href={`/products/${collection.node.handle}`}>
+              <Image
+                width={500}
+                height={500}
+                src={collection.node.images.nodes[0].url}
+                alt={
+                  collection.node.images.nodes[0].altText ||
+                  collection.node.title
+                }
+                className={
+                  "cursor-pointer transition-opacity duration-300 ease-in-out opacity-100"
+                }
+              />
+            </Link>
             <p>{collection.node.title}</p>
             <p>
               {collection.node.priceRange.minVariantPrice.amount ===
