@@ -5,7 +5,6 @@ import Product from "@/components/Product";
 
 interface ProductData {
   title: string;
-  description: string;
   descriptionHtml: string;
   variants: {
     nodes: [
@@ -83,7 +82,7 @@ const Page = async ({ params }: { params: Promise<{ handle: string }> }) => {
     },
   };
 
-  const uniqueColors = new Set<string>();
+  const uniqueColors = new Set<string | "Gold" | "White gold">();
 
   try {
     const { product } = await fetchShopifyData(productByHandleQuery);
@@ -111,25 +110,16 @@ const Page = async ({ params }: { params: Promise<{ handle: string }> }) => {
         height={1000}
       />
       <p>{data.title}</p>
-      {/*Local component for some data*/}
-      {/*<p>TODO: PRICE</p>
-      <p>TODO: SOLD OUT || STOCK</p>*/}
-
+      Local component for some data
+      <p>TODO: PRICE</p>
+      <p>TODO: SOLD OUT || STOCK</p>
       {/*todo javascript SET method to only show the 2 values*/}
-
-      {/* Display unique colors */}
-      {/* {Array.from(uniqueColors).map((color) => (
-        <div key={color}>
-          <p>{color}</p>
-        </div>
-      ))}*/}
       <Product colors={uniqueColors} />
-
-      {/*<p>Color: </p>
+      <p>Color: </p>
       <p>Ring Size :</p>
       <p>Quantity: </p>
       <button>Sold out || Add to cart</button>
-      <div dangerouslySetInnerHTML={{ __html: data.descriptionHtml }} />*/}
+      <div dangerouslySetInnerHTML={{ __html: data.descriptionHtml }} />
     </div>
   );
 };

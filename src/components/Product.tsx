@@ -3,15 +3,16 @@
 import { ColorSwatch, Group } from "@mantine/core";
 import { useState } from "react";
 
-const Product = ({ colors }: { colors: object }) => {
-  const [activeIndex, setActiveIndex] = useState(null);
-
-  console.log("COLORS", colors);
-
+const Product = ({
+  colors,
+}: {
+  colors: Set<string | "Gold" | "White gold">;
+}) => {
+  const [activeIndex, setActiveIndex] = useState(0);
   return (
     <Group>
       {Array.from(colors).map((color, index) => (
-        <div>
+        <div key={index}>
           <ColorSwatch
             color={
               color === "Gold"
