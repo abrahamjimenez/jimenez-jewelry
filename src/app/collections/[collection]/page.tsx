@@ -145,18 +145,20 @@ const Page = async ({
             {/*Silver Image (shows on hover)*/}
             {collection.node.images?.nodes?.length > 1 && (
               <>
-                <Image
-                  width={500}
-                  height={500}
-                  src={collection.node.images.nodes[1].url}
-                  alt={
-                    collection.node.images.nodes[1].altText ||
-                    collection.node.title
-                  }
-                  className={
-                    "cursor-pointer transition-opacity duration-300 ease-in-out opacity-0 group-hover:opacity-100 absolute top-0 left-0"
-                  }
-                />
+                <Link href={`/products/${collection.node.handle}`}>
+                  <Image
+                    width={500}
+                    height={500}
+                    src={collection.node.images.nodes[1].url}
+                    alt={
+                      collection.node.images.nodes[1].altText ||
+                      collection.node.title
+                    }
+                    className={
+                      "cursor-pointer transition-opacity duration-300 ease-in-out opacity-0 group-hover:opacity-100 absolute top-0 left-0"
+                    }
+                  />
+                </Link>
               </>
             )}
           </div>
