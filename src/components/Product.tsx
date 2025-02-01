@@ -10,18 +10,21 @@ import {
   NumberInputHandlers,
 } from "@mantine/core";
 import { PlusIcon, MinusIcon } from "@heroicons/react/20/solid";
+import { ProductData } from "@/app/products/[handle]/page";
 
 const Product = ({
   colors,
   sizes,
+  data,
 }: {
   colors: Set<string | "Gold" | "White gold">;
   sizes: Set<string>;
+  data: ProductData;
 }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const handlersRef = useRef<NumberInputHandlers>(null);
 
-  console.log("sizes", sizes);
+  console.log("data", data);
 
   return (
     <div>

@@ -3,7 +3,7 @@ import { fetchShopifyData } from "@/utils/shopify";
 import Image from "next/image";
 import Product from "@/components/Product";
 
-interface ProductData {
+export interface ProductData {
   title: string;
   descriptionHtml: string;
   variants: {
@@ -11,7 +11,7 @@ interface ProductData {
   };
 }
 
-export interface VariantNodes {
+interface VariantNodes {
   id: string;
   price: {
     amount: string;
@@ -139,7 +139,7 @@ const Page = async ({ params }: { params: Promise<{ handle: string }> }) => {
       <p>TODO: SOLD OUT || STOCK</p>
       {/*-----------------------------------------------------------------------------------------------------------*/}
       {/*todo javascript SET method to only show the 2 values*/}
-      <Product colors={uniqueColors} sizes={uniqueSizes} />
+      <Product colors={uniqueColors} sizes={uniqueSizes} data={data} />
       {/*-----------------------------------------------------------------------------------------------------------*/}
       <p>Color: </p>
       <p>Ring Size :</p>
