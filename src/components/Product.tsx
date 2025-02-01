@@ -51,9 +51,11 @@ const Product = ({
       )
   );
 
+  console.log(filteredVariant);
+
   return (
     <div>
-      {filteredVariant && (
+      {filteredVariant ? (
         <div>
           <Image
             src={filteredVariant.image.url}
@@ -64,16 +66,23 @@ const Product = ({
           />
           <h1>{data.title}</h1>
           <p>Price: ${filteredVariant.price.amount}</p>
-          <p>
-            {filteredVariant.quantityAvailable > 0 ? "In Stock" : "Sold Out"}
-          </p>
-          <Button disabled={filteredVariant.quantityAvailable === 0}>
-            Add to Cart
-          </Button>
+        </div>
+      ) : (
+        <div>
+          <Image
+            src={data.variants.nodes[0].image.url}
+            alt={data.variants.nodes[0].image.altText || data.title}
+            width={1000}
+            height={1000}
+            priority
+          />
+          <h1>{data.title}</h1>
+          <p>Price: ${data.variants.nodes[0].price.amount}</p>
         </div>
       )}
 
-      <p>Color:</p>
+      {filteredVariant && <p>Color:</p>}
+
       <Group>
         {Array.from(colors).map((color, index) => (
           <ColorSwatch
@@ -106,10 +115,15 @@ const Product = ({
           >
             <MinusIcon className="size-6" />
           </Button>
+
           <NumberInput
             handlersRef={handlersRef}
             min={1}
-            max={filteredVariant && filteredVariant.quantityAvailable}
+            max={
+              filteredVariant
+                ? filteredVariant.quantityAvailable
+                : data.variants.nodes[0].quantityAvailable
+            }
             defaultValue={1}
             hideControls
             disabled={
@@ -128,20 +142,48 @@ const Product = ({
         </Group>
       </Paper>
 
-      <p>Ring Size:</p>
-      <Paper p="md" withBorder>
-        <Group>
-          {Array.from(sizes).map((size) => (
-            <Button
-              key={size}
-              variant={selectedSize === size ? "filled" : "outline"}
-              onClick={() => setSelectedSize(size)}
-            >
-              {size}
-            </Button>
-          ))}
-        </Group>
-      </Paper>
+      {filteredVariant && (
+        <>
+          <p>Sizes:</p>
+          <Paper p="md" withBorder>
+            <Group>
+              {Array.from(sizes)
+                .sort()
+                .map((size) => (
+                  <Button
+                    key={size}
+                    variant={selectedSize === size ? "filled" : "outline"}
+                    onClick={() => setSelectedSize(size)}
+                  >
+                    {size}
+                  </Button>
+                ))}
+            </Group>
+          </Paper>
+        </>
+      )}
+
+      {filteredVariant ? (
+        <div>
+          <p>
+            {filteredVariant.quantityAvailable > 0 ? "In Stock" : "Sold Out"}
+          </p>
+          <Button disabled={filteredVariant.quantityAvailable === 0}>
+            Add to Cart
+          </Button>
+        </div>
+      ) : (
+        <div>
+          <p>
+            {data.variants.nodes[0].quantityAvailable > 0
+              ? "In Stock"
+              : "Sold Out"}
+          </p>
+          <Button disabled={data.variants.nodes[0].quantityAvailable === 0}>
+            Add to Cart
+          </Button>
+        </div>
+      )}
     </div>
   );
 };
