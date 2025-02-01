@@ -142,15 +142,17 @@ const Product = ({
           <p>Sizes:</p>
           <Paper p="md" withBorder>
             <Group>
-              {Array.from(sizes).map((size) => (
-                <Button
-                  key={size}
-                  variant={selectedSize === size ? "filled" : "outline"}
-                  onClick={() => setSelectedSize(size)}
-                >
-                  {size}
-                </Button>
-              ))}
+              {Array.from(sizes)
+                .sort()
+                .map((size) => (
+                  <Button
+                    key={size}
+                    variant={selectedSize === size ? "filled" : "outline"}
+                    onClick={() => setSelectedSize(size)}
+                  >
+                    {size}
+                  </Button>
+                ))}
             </Group>
           </Paper>
         </>
