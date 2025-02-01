@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   ColorSwatch,
   Group,
@@ -11,85 +11,135 @@ import {
 } from "@mantine/core";
 import { PlusIcon, MinusIcon } from "@heroicons/react/20/solid";
 import { ProductData } from "@/app/products/[handle]/page";
+import Image from "next/image";
 
 const Product = ({
   colors,
   sizes,
   data,
 }: {
-  colors: Set<string | "Gold" | "White gold">;
+  colors: Set<string>;
   sizes: Set<string>;
   data: ProductData;
 }) => {
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [selectedColor, setSelectedColor] = useState<string | null>(null);
+  const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const handlersRef = useRef<NumberInputHandlers>(null);
 
-  console.log("data", data);
+  useEffect(() => {
+    if (data.variants.nodes.length > 0) {
+      const firstVariant = data.variants.nodes[0];
+      const colorOption = firstVariant.selectedOptions.find(
+        (opt) => opt.name === "Color"
+      );
+      const sizeOption = firstVariant.selectedOptions.find(
+        (opt) => opt.name === "Ring size"
+      );
+
+      if (colorOption) setSelectedColor(colorOption.value);
+      if (sizeOption) setSelectedSize(sizeOption.value);
+    }
+  }, [data.variants.nodes]); // Run when variants data changes
+
+  const filteredVariant = data.variants.nodes.find(
+    (variant) =>
+      variant.selectedOptions.some(
+        (opt) => opt.name === "Color" && opt.value === selectedColor
+      ) &&
+      variant.selectedOptions.some(
+        (opt) => opt.name === "Ring size" && opt.value === selectedSize
+      )
+  );
 
   return (
     <div>
+      {filteredVariant && (
+        <div>
+          <Image
+            src={filteredVariant.image.url}
+            alt={filteredVariant.image.altText || data.title}
+            width={1000}
+            height={1000}
+            priority
+          />
+          <h1>{data.title}</h1>
+          <p>Price: ${filteredVariant.price.amount}</p>
+          <p>
+            {filteredVariant.quantityAvailable > 0 ? "In Stock" : "Sold Out"}
+          </p>
+          <Button disabled={filteredVariant.quantityAvailable === 0}>
+            Add to Cart
+          </Button>
+        </div>
+      )}
+
+      <p>Color:</p>
       <Group>
         {Array.from(colors).map((color, index) => (
-          <div key={index}>
-            <ColorSwatch
-              color={
-                color === "Gold"
-                  ? "gold"
-                  : color === "White gold"
-                    ? "#f8f8f8"
-                    : ""
-              }
-              withShadow={activeIndex === index}
-              onClick={() => setActiveIndex(index)}
-              style={{
-                cursor: "pointer",
-                border: activeIndex === index ? "2px solid black" : "none",
-              }}
-            />
-          </div>
+          <ColorSwatch
+            key={index}
+            color={
+              color === "Gold"
+                ? "gold"
+                : color === "White gold"
+                  ? "#f8f8f8"
+                  : "#ccc"
+            }
+            withShadow={selectedColor === color}
+            onClick={() => setSelectedColor(color)}
+            style={{
+              cursor: "pointer",
+              border: selectedColor === color ? "2px solid black" : "none",
+            }}
+          />
         ))}
       </Group>
 
-      {/*  Input Buttons  */}
-      <Paper p={"md"} withBorder>
-        <Group className={"pt-2 pb-2"}>
+      <Paper p="md" withBorder>
+        <Group>
           <Button
             variant={"transparent"}
             onClick={() => handlersRef.current?.decrement()}
+            disabled={
+              filteredVariant && filteredVariant.quantityAvailable === 0
+            }
           >
-            <MinusIcon className={"size-6"} />
+            <MinusIcon className="size-6" />
           </Button>
-
           <NumberInput
             handlersRef={handlersRef}
-            hideControls
-            // todo set dynamic min and max value
             min={1}
-            max={20}
+            max={filteredVariant && filteredVariant.quantityAvailable}
             defaultValue={1}
+            hideControls
+            disabled={
+              filteredVariant && filteredVariant.quantityAvailable === 0
+            }
           />
-
           <Button
             variant={"transparent"}
             onClick={() => handlersRef.current?.increment()}
+            disabled={
+              filteredVariant && filteredVariant.quantityAvailable === 0
+            }
           >
-            <PlusIcon className={"size-6"} />
+            <PlusIcon className="size-6" />
           </Button>
         </Group>
       </Paper>
 
-      {/* Ring Size Buttons */}
-      {/* todo: When switching colors, update: ring sizes availability, images */}
-
-      <Paper p={"md"} withBorder>
-        <Group gap={"xs"}>
-          {Array.from(sizes)
-            .sort()
-            .map((size) => (
-              <Button variant={"default"} key={size}>
-                {size}
-              </Button>
-            ))}
+      <p>Ring Size:</p>
+      <Paper p="md" withBorder>
+        <Group>
+          {Array.from(sizes).map((size) => (
+            <Button
+              key={size}
+              variant={selectedSize === size ? "filled" : "outline"}
+              onClick={() => setSelectedSize(size)}
+            >
+              {size}
+            </Button>
+          ))}
         </Group>
       </Paper>
     </div>
