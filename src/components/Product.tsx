@@ -159,11 +159,9 @@ const Product = ({
       {filteredVariant ? (
         <div>
           <p>
-            {data.variants.nodes[0].quantityAvailable > 0
-              ? "In Stock"
-              : "Sold Out"}
+            {filteredVariant.quantityAvailable > 0 ? "In Stock" : "Sold Out"}
           </p>
-          <Button disabled={data.variants.nodes[0].quantityAvailable === 0}>
+          <Button disabled={filteredVariant.quantityAvailable === 0}>
             Add to Cart
           </Button>
         </div>
