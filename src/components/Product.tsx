@@ -115,10 +115,15 @@ const Product = ({
           >
             <MinusIcon className="size-6" />
           </Button>
+
           <NumberInput
             handlersRef={handlersRef}
             min={1}
-            max={filteredVariant && filteredVariant.quantityAvailable}
+            max={
+              filteredVariant
+                ? filteredVariant.quantityAvailable
+                : data.variants.nodes[0].quantityAvailable
+            }
             defaultValue={1}
             hideControls
             disabled={
