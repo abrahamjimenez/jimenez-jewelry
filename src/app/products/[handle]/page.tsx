@@ -7,25 +7,26 @@ interface ProductData {
   title: string;
   descriptionHtml: string;
   variants: {
-    nodes: [
-      {
-        price: {
-          amount: string;
-        };
-        image: {
-          url: string;
-          altText: string;
-        };
-        selectedOptions: [
-          {
-            name: string;
-            value: string;
-          },
-        ];
-        quantityAvailable: number;
-      },
-    ];
+    nodes: VariantNodes[];
   };
+}
+
+export interface VariantNodes {
+  id: string;
+  price: {
+    amount: string;
+  };
+  image: {
+    url: string;
+    altText: string;
+  };
+  selectedOptions: [
+    {
+      name: string;
+      value: string;
+    },
+  ];
+  quantityAvailable: number;
 }
 
 const Page = async ({ params }: { params: Promise<{ handle: string }> }) => {
@@ -39,6 +40,7 @@ const Page = async ({ params }: { params: Promise<{ handle: string }> }) => {
     descriptionHtml
     variants(first: 100) {
       nodes {
+        id
         price {
           amount
         }
@@ -63,6 +65,7 @@ const Page = async ({ params }: { params: Promise<{ handle: string }> }) => {
     variants: {
       nodes: [
         {
+          id: "",
           price: {
             amount: "",
           },
@@ -116,7 +119,7 @@ const Page = async ({ params }: { params: Promise<{ handle: string }> }) => {
       <p>TODO: SOLD OUT || STOCK</p>
       {/*-----------------------------------------------------------------------------------------------------------*/}
       {/*todo javascript SET method to only show the 2 values*/}
-      <Product colors={uniqueColors} />
+      <Product colors={uniqueColors} variantNodes={data.variants.nodes} />
       {/*-----------------------------------------------------------------------------------------------------------*/}
       <p>Color: </p>
       <p>Ring Size :</p>

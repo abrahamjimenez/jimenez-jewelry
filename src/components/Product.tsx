@@ -10,15 +10,19 @@ import {
   NumberInputHandlers,
 } from "@mantine/core";
 import { PlusIcon, MinusIcon } from "@heroicons/react/20/solid";
+import { VariantNodes } from "@/app/products/[handle]/page";
 
 const Product = ({
   colors,
+  variantNodes,
 }: {
   colors: Set<string | "Gold" | "White gold">;
+  variantNodes: VariantNodes[];
 }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const handlersRef = useRef<NumberInputHandlers>(null);
 
+  console.log("NODES", variantNodes);
   return (
     <div>
       <Group>
@@ -68,6 +72,28 @@ const Product = ({
           >
             <PlusIcon className={"size-6"} />
           </Button>
+        </Group>
+      </Paper>
+
+      {/* Ring Size Buttons */}
+      {/* todo: When switching colors, update: ring sizes availability, images */}
+      <div>
+        {variantNodes.map((variant) => (
+          <div key={variant.id}>
+            {variant.selectedOptions.map((option) => (
+              <div key={`${option.name} ${option.value}`}>
+                <p>{option.value}</p>
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+
+      <Paper p={"md"} withBorder>
+        <Group gap="xs">
+          <Button variant="default">First</Button>
+          <Button variant="default">Second</Button>
+          <Button variant="default">Third</Button>
         </Group>
       </Paper>
     </div>
