@@ -103,6 +103,26 @@ const Page = async ({ params }: { params: Promise<{ handle: string }> }) => {
     console.error("Failed to fetch product data: ", e);
   }
 
+  const uniqueSizes = new Set<string>();
+
+  try {
+    const { product } = await fetchShopifyData(productByHandleQuery);
+    data = product;
+
+    // Collect unique size variants
+    data.variants.nodes.forEach((variant) => {
+      variant.selectedOptions.forEach((option) => {
+        if (option.name === "Ring size") {
+          uniqueSizes.add(option.value);
+        }
+      });
+    });
+  } catch (e) {
+    console.error("Failed to fetch product data: ", e);
+  }
+
+  console.log("US", uniqueSizes);
+
   return (
     <div>
       <h1>Handle Page</h1>
@@ -119,7 +139,7 @@ const Page = async ({ params }: { params: Promise<{ handle: string }> }) => {
       <p>TODO: SOLD OUT || STOCK</p>
       {/*-----------------------------------------------------------------------------------------------------------*/}
       {/*todo javascript SET method to only show the 2 values*/}
-      <Product colors={uniqueColors} variantNodes={data.variants.nodes} />
+      <Product colors={uniqueColors} sizes={uniqueSizes} />
       {/*-----------------------------------------------------------------------------------------------------------*/}
       <p>Color: </p>
       <p>Ring Size :</p>
