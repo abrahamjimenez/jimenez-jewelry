@@ -108,13 +108,16 @@ const Page = async ({ params }: { params: Promise<{ handle: string }> }) => {
         alt={data.variants.nodes[0].image.altText || data.title}
         width={1000}
         height={1000}
+        priority
       />
       <p>{data.title}</p>
       Local component for some data
       <p>TODO: PRICE</p>
       <p>TODO: SOLD OUT || STOCK</p>
+      {/*-----------------------------------------------------------------------------------------------------------*/}
       {/*todo javascript SET method to only show the 2 values*/}
       <Product colors={uniqueColors} />
+      {/*-----------------------------------------------------------------------------------------------------------*/}
       <p>Color: </p>
       <p>Ring Size :</p>
       <p>Quantity: </p>
