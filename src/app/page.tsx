@@ -13,6 +13,7 @@ interface PriceRange {
 interface ProductNode {
   id: string;
   title: string;
+  handle: string;
   images: ProductImages;
   priceRange: PriceRange;
 }
@@ -41,6 +42,7 @@ const Home = async () => {
     edges {
       node {
         id
+        handle
         title
         images(first: 5) {
           edges {
