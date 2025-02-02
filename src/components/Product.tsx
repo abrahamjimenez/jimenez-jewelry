@@ -51,8 +51,6 @@ const Product = ({
       )
   );
 
-  console.log(filteredVariant);
-
   return (
     <div>
       {filteredVariant ? (
