@@ -89,7 +89,7 @@ const Hamburger = ({ data }: { data: MenuInterface }) => {
         </div>
 
         <Drawer opened={openedInnerDrawer} onClose={resetDrawer} size={"sm"}>
-          <div className={"flex items-center cursor-pointer"}>
+          <div className={"flex items-center"}>
             <button onClick={closeInner} className={"font-bold flex items-center cursor-pointer"}>
             <ChevronLeftIcon className={"size-6"} />
               {innerData?.title}
