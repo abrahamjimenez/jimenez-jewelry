@@ -96,19 +96,19 @@ const Hamburger = ({ data }: { data: MenuInterface }) => {
             </button>
           </div>
 
-          <div>
+          <div className={"flex flex-col"}>
             {innerData?.items.map((item) => (
+              <p key={item.url}>
               <Link
-                className={"block"}
-                key={item.url}
                 href={item.url.replace(
                   process.env.NEXT_PUBLIC_SHOPIFY_URL as string,
                   "/"
                 )}
-                onClick={close}
+                onClick={resetDrawer}
               >
                 {item.title}
               </Link>
+              </p>
             ))}
           </div>
         </Drawer>
