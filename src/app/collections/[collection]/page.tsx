@@ -2,6 +2,7 @@ import React from "react";
 import { fetchShopifyData } from "@/utils/shopify";
 import Image from "next/image";
 import Link from "next/link";
+import Combobox from "@/components/Combobox";
 
 type CollectionData = {
   node: CollectionNode;
@@ -50,7 +51,7 @@ const Page = async ({
   const collection = (await params).collection;
   const collectionByHandleQuery = `{
   collection(handle: "${collection}") {
-    products(first: 10) {
+    products(first: 10, sortKey: RELEVANCE) {
       edges {
         node {
           handle
@@ -95,17 +96,19 @@ const Page = async ({
     console.error("Failed to fetch collection data: ", e);
   }
 
-  // todo Add filter & sort button
   return (
     <div>
-      <h1>Dynamic Page 1</h1>
-      <h1>{collection.charAt(0).toUpperCase() + collection.slice(1)}</h1>
+      <h1 className={"text-2xl"}>{collection.charAt(0).toUpperCase() + collection.slice(1)}</h1>
+      {/* todo Add filter & sort button */}
+      <Combobox />
+
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-        {data.map((collection) => (
+        {data.map((collection, index) => (
           <div key={collection.node.id} className={"relative group"}>
             {/*Gold Image (default)*/}
             <Link href={`/products/${collection.node.handle}`}>
               <Image
+                priority={index === 0}
                 width={500}
                 height={500}
                 src={collection.node.images.nodes[0].url}
@@ -144,7 +147,6 @@ const Page = async ({
 
             {/*Silver Image (shows on hover)*/}
             {collection.node.images?.nodes?.length > 1 && (
-              <>
                 <Link href={`/products/${collection.node.handle}`}>
                   <Image
                     width={500}
@@ -159,7 +161,6 @@ const Page = async ({
                     }
                   />
                 </Link>
-              </>
             )}
           </div>
         ))}
