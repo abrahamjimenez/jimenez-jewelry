@@ -44,47 +44,52 @@ interface CollectionImagesNodes {
 }
 
 const Page = async ({
-  params,
-}: {
+                      params,
+                      searchParams,
+                    }: {
   params: Promise<{ collection: string }>;
+  searchParams: Promise<{ sortKey?: string }>;
 }) => {
-  const collection = (await params).collection;
+  const collectionHandle = (await params).collection;
+  const sortKey = (await searchParams)?.sortKey ?? 'BEST_SELLING';
+
+  // Modified query with dynamic sortKey
   const collectionByHandleQuery = `{
-  collection(handle: "${collection}") {
-    products(first: 10, sortKey: RELEVANCE) {
-      edges {
-        node {
-          handle
-          id
-          title
-          options {
+    collection(handle: "${collectionHandle}") {
+      products(first: 10, sortKey: ${sortKey}) {
+        edges {
+          node {
+            handle
             id
-            name
-            optionValues {
+            title
+            options {
               id
               name
+              optionValues {
+                id
+                name
+              }
             }
+            images(first: 5) {
+              nodes {
+                url(transform: {maxHeight: 500, maxWidth: 500})
+                altText
+              }
+            }
+            priceRange {
+              maxVariantPrice {
+                amount
+              }
+              minVariantPrice {
+                amount
+              }
+            }
+            totalInventory
           }
-          images(first: 5) {
-            nodes {
-              url(transform: {maxHeight: 500, maxWidth: 500})
-              altText
-            }
-          }
-          priceRange {
-            maxVariantPrice {
-              amount
-            }
-            minVariantPrice {
-              amount
-            }
-          }
-          totalInventory
         }
       }
     }
-  }
-}`;
+  }`;
 
   let data: CollectionData = [];
   try {
@@ -98,7 +103,7 @@ const Page = async ({
 
   return (
     <div>
-      <h1 className={"text-2xl"}>{collection.charAt(0).toUpperCase() + collection.slice(1)}</h1>
+      <h1 className={"text-2xl"}>{collectionHandle.charAt(0).toUpperCase() + collectionHandle.slice(1)}</h1>
       {/* todo Add filter & sort button */}
       <Combobox />
 
@@ -113,7 +118,7 @@ const Page = async ({
                 height={500}
                 src={collection.node.images.nodes[0].url}
                 alt={
-                  collection.node.images.nodes[0].altText ||
+                  collection.node.images.nodes[0].altText ??
                   collection.node.title
                 }
                 className={
@@ -153,7 +158,7 @@ const Page = async ({
                     height={500}
                     src={collection.node.images.nodes[1].url}
                     alt={
-                      collection.node.images.nodes[1].altText ||
+                      collection.node.images.nodes[1].altText ??
                       collection.node.title
                     }
                     className={

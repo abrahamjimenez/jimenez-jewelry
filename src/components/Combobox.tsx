@@ -2,23 +2,30 @@
 
 import { useState } from 'react';
 import { InputBase, Combobox, useCombobox } from '@mantine/core';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 const sortKeys = [
-  "TITLE PRICE",
   "BEST_SELLING",
-  "CREATED",
-  "ID",
-  "MANUAL",
-  "COLLECTION_DEFAULT",
-  "RELEVANCE"
+  "TITLE",
+  "PRICE",
+  "RELEVANCE",
+  // "CREATED",
+  // "ID",
+  // "MANUAL",
+  // "COLLECTION_DEFAULT"
 ];
 
 const ComboboxComponent = () => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const combobox = useCombobox({
     onDropdownClose: () => combobox.resetSelectedOption(),
   });
 
-  const [value, setValue] = useState<string | null>("BEST_SELLING");
+  // Get initial sortKey from URL or default
+  const [value, setValue] = useState<string | null>(
+    searchParams.get('sortKey')
+  );
 
   const options = sortKeys.map((item) => (
     <Combobox.Option value={item} key={item}>
@@ -26,13 +33,20 @@ const ComboboxComponent = () => {
     </Combobox.Option>
   ));
 
+  const handleOptionSubmit = (val: string) => {
+    setValue(val);
+    combobox.closeDropdown();
+
+    // Update URL with new sortKey
+    const params = new URLSearchParams(searchParams.toString());
+    params.set('sortKey', val);
+    router.replace(`?${params.toString()}`);
+  };
+
   return (
     <Combobox
       store={combobox}
-      onOptionSubmit={(val) => {
-        setValue(val);
-        combobox.closeDropdown();
-      }}
+      onOptionSubmit={handleOptionSubmit}
     >
       <p>Sort by:</p>
       <Combobox.Target>
