@@ -2,6 +2,7 @@ import React from "react";
 import { fetchShopifyData } from "@/utils/shopify";
 import Image from "next/image";
 import Link from "next/link";
+import Combobox from "@/components/Combobox";
 
 type CollectionData = {
   node: CollectionNode;
@@ -43,47 +44,52 @@ interface CollectionImagesNodes {
 }
 
 const Page = async ({
-  params,
-}: {
+                      params,
+                      searchParams,
+                    }: {
   params: Promise<{ collection: string }>;
+  searchParams: Promise<{ sortKey?: string }>;
 }) => {
-  const collection = (await params).collection;
+  const collectionHandle = (await params).collection;
+  const sortKey = (await searchParams)?.sortKey ?? 'BEST_SELLING';
+
+  // Modified query with dynamic sortKey
   const collectionByHandleQuery = `{
-  collection(handle: "${collection}") {
-    products(first: 10) {
-      edges {
-        node {
-          handle
-          id
-          title
-          options {
+    collection(handle: "${collectionHandle}") {
+      products(first: 10, sortKey: ${sortKey}) {
+        edges {
+          node {
+            handle
             id
-            name
-            optionValues {
+            title
+            options {
               id
               name
+              optionValues {
+                id
+                name
+              }
             }
+            images(first: 5) {
+              nodes {
+                url(transform: {maxHeight: 500, maxWidth: 500})
+                altText
+              }
+            }
+            priceRange {
+              maxVariantPrice {
+                amount
+              }
+              minVariantPrice {
+                amount
+              }
+            }
+            totalInventory
           }
-          images(first: 5) {
-            nodes {
-              url(transform: {maxHeight: 500, maxWidth: 500})
-              altText
-            }
-          }
-          priceRange {
-            maxVariantPrice {
-              amount
-            }
-            minVariantPrice {
-              amount
-            }
-          }
-          totalInventory
         }
       }
     }
-  }
-}`;
+  }`;
 
   let data: CollectionData = [];
   try {
@@ -95,22 +101,24 @@ const Page = async ({
     console.error("Failed to fetch collection data: ", e);
   }
 
-  // todo Add filter & sort button
   return (
     <div>
-      <h1>Dynamic Page 1</h1>
-      <h1>{collection.charAt(0).toUpperCase() + collection.slice(1)}</h1>
+      <h1 className={"text-2xl"}>{collectionHandle.charAt(0).toUpperCase() + collectionHandle.slice(1)}</h1>
+      {/* todo Add filter & sort button */}
+      <Combobox />
+
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-        {data.map((collection) => (
+        {data.map((collection, index) => (
           <div key={collection.node.id} className={"relative group"}>
             {/*Gold Image (default)*/}
             <Link href={`/products/${collection.node.handle}`}>
               <Image
+                priority={index === 0}
                 width={500}
                 height={500}
                 src={collection.node.images.nodes[0].url}
                 alt={
-                  collection.node.images.nodes[0].altText ||
+                  collection.node.images.nodes[0].altText ??
                   collection.node.title
                 }
                 className={
@@ -144,14 +152,13 @@ const Page = async ({
 
             {/*Silver Image (shows on hover)*/}
             {collection.node.images?.nodes?.length > 1 && (
-              <>
                 <Link href={`/products/${collection.node.handle}`}>
                   <Image
                     width={500}
                     height={500}
                     src={collection.node.images.nodes[1].url}
                     alt={
-                      collection.node.images.nodes[1].altText ||
+                      collection.node.images.nodes[1].altText ??
                       collection.node.title
                     }
                     className={
@@ -159,7 +166,6 @@ const Page = async ({
                     }
                   />
                 </Link>
-              </>
             )}
           </div>
         ))}
