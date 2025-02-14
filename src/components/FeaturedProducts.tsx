@@ -8,7 +8,7 @@ const FeaturedProducts = ({ data }: { data: ProductData }) => {
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
       {data.map((productEdge, i) => (
-        <div key={i}>
+        <div key={productEdge.node.id}>
           <div key={productEdge.node.id} className="relative group">
             <div className="relative cursor-pointer">
               {/* Gold Image (default) */}
@@ -23,6 +23,7 @@ const FeaturedProducts = ({ data }: { data: ProductData }) => {
                     productEdge.node.title
                   }
                   className="transition-opacity duration-300 ease-in-out opacity-100"
+                  priority={i === 0}
                 />
               </Link>
 
