@@ -4,6 +4,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { fetchShopifyData } from "@/utils/shopify";
 import NavigationMenu from "@/components/NavigationMenu";
+import Link from "next/link";
 
 const Header = async () => {
   const query = `{
@@ -33,7 +34,9 @@ const Header = async () => {
           <MagnifyingGlassIcon className={"size-6"} />
         </div>
         <div>
-          <ShoppingBagIcon className={"size-6"} />
+          <Link href={"/cart"}>
+            <ShoppingBagIcon className={"size-6"} />
+          </Link>
         </div>
       </div>
     </div>
