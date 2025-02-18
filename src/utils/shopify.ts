@@ -1,3 +1,5 @@
+"use server"
+
 export async function fetchShopifyData(query: string) {
   try {
     const response = await fetch(process.env.STOREFRONT_API_URL as string, {

@@ -12,6 +12,15 @@ import {
 import { PlusIcon, MinusIcon } from "@heroicons/react/20/solid";
 import { ProductData } from "@/app/products/[handle]/page";
 import Image from "next/image";
+import { fetchShopifyData } from "@/utils/shopify";
+
+interface CreateCartId {
+  cartCreate: {
+    cart: {
+      id: string
+    }
+  }
+}
 
 const Product = ({
   colors,
@@ -50,6 +59,14 @@ const Product = ({
         (opt) => opt.name === "Size" && opt.value === selectedSize
       )
   );
+
+  const createCartIdMutation = `mutation {
+    cartCreate {
+        cart {
+            id
+        }
+    }
+  }`
 
   return (
     <div>
@@ -177,7 +194,15 @@ const Product = ({
               ? "In Stock"
               : "Sold Out"}
           </p>
-          <Button disabled={data.variants.nodes[0].quantityAvailable === 0}>
+          <Button disabled={data.variants.nodes[0].quantityAvailable === 0} onClick={async () => {
+            const data: CreateCartId = await fetchShopifyData(createCartIdMutation);
+            const cartId = data.cartCreate.cart.id
+
+            if (!localStorage.getItem("cartId")) {
+              localStorage.setItem("cartId", cartId)
+            }
+
+          }}>
             Add to Cart
           </Button>
         </div>
