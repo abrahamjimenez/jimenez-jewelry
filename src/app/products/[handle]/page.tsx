@@ -56,10 +56,12 @@ const Page = async ({ params }: { params: Promise<{ handle: string }> }) => {
     const { product } = await fetchShopifyData(productByHandleQuery);
     data = product;
 
+    console.log(data);
+
     data.variants.nodes.forEach((variant) => {
       variant.selectedOptions.forEach((option) => {
         if (option.name === "Color") uniqueColors.add(option.value);
-        if (option.name === "Ring size") uniqueSizes.add(option.value);
+        if (option.name === "Size") uniqueSizes.add(option.value);
       });
     });
   } catch (e) {

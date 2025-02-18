@@ -33,7 +33,7 @@ const Product = ({
         (opt) => opt.name === "Color"
       );
       const sizeOption = firstVariant.selectedOptions.find(
-        (opt) => opt.name === "Ring size"
+        (opt) => opt.name === "Size"
       );
 
       if (colorOption) setSelectedColor(colorOption.value);
@@ -47,7 +47,7 @@ const Product = ({
         (opt) => opt.name === "Color" && opt.value === selectedColor
       ) &&
       variant.selectedOptions.some(
-        (opt) => opt.name === "Ring size" && opt.value === selectedSize
+        (opt) => opt.name === "Size" && opt.value === selectedSize
       )
   );
 
@@ -86,10 +86,10 @@ const Product = ({
           <ColorSwatch
             key={index}
             color={
-              color === "Gold"
-                ? "gold"
-                : color === "White gold"
-                  ? "#f8f8f8"
+              color === "White"
+                ? "white"
+                : color === "Rose CZ"
+                  ? "#B76E79"
                   : "#ccc"
             }
             withShadow={selectedColor === color}
