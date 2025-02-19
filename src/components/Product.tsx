@@ -33,6 +33,7 @@ const Product = ({
 }) => {
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
+  const [selectedVariantId, setSelectedVariantId] = useState<string | null>(null);
   const handlersRef = useRef<NumberInputHandlers>(null);
 
   useEffect(() => {
@@ -50,27 +51,34 @@ const Product = ({
     }
   }, [data.variants.nodes]); // Run when variants data changes
 
-  const filteredVariant = data.variants.nodes.find(
-    (variant) =>
-      variant.selectedOptions.some(
-        (opt) => opt.name === "Color" && opt.value === selectedColor
-      ) &&
-      variant.selectedOptions.some(
-        (opt) => opt.name === "Size" && opt.value === selectedSize
-      )
-  );
+  // This keeps track of the Size and Color. Uses find() to find the product variant id
+  useEffect(() => {
+    const filteredVariant = data.variants.nodes.find(
+      (variant) =>
+        variant.selectedOptions.some(
+          (opt) => opt.name === "Color" && opt.value === selectedColor
+        ) &&
+        variant.selectedOptions.some(
+          (opt) => opt.name === "Size" && opt.value === selectedSize
+        )
+    );
+
+    if (filteredVariant) {
+      setSelectedVariantId(filteredVariant.id)
+    }
+  }, [selectedSize, selectedColor]);
 
   const createCartIdMutation = `mutation {
     cartCreate {
-        cart {
-            id
-        }
+      cart {
+        id
+      }
     }
   }`
 
   const handleAddToCart =  async () => {
-    const data: CreateCartId = await fetchShopifyData(createCartIdMutation);
-    const cartId = data.cartCreate.cart.id
+    const cartData: CreateCartId = await fetchShopifyData(createCartIdMutation);
+    const cartId = cartData.cartCreate.cart.id
 
     if (!localStorage.getItem("cartId")) {
       localStorage.setItem("cartId", cartId)
@@ -78,21 +86,23 @@ const Product = ({
 
     // todo get item clicked, qty, variant, and what not and add to cart data
     console.log("cartId already exists")
+    console.log(data);
+    console.log(selectedColor, selectedSize);
   }
 
   return (
     <div>
-      {filteredVariant ? (
+      {selectedVariantId ? (
         <div>
           <Image
-            src={filteredVariant.image.url}
-            alt={filteredVariant.image.altText || data.title}
+            src={data.variants.nodes.find((variant) => variant.id === selectedVariantId)?.image.url ?? ""}
+            alt={data.variants.nodes.find((variant) => variant.id === selectedVariantId)?.image.altText ?? data.title}
             width={1000}
             height={1000}
             priority
           />
           <h1>{data.title}</h1>
-          <p>Price: ${filteredVariant.price.amount}</p>
+          <p>Price: ${data.variants.nodes.find((variant) => variant.id === selectedVariantId)?.price.amount}</p>
         </div>
       ) : (
         <div>
@@ -108,7 +118,7 @@ const Product = ({
         </div>
       )}
 
-      {filteredVariant && <p>Color:</p>}
+      {selectedVariantId && <p>Color:</p>}
 
       <Group>
         {Array.from(colors).map((color, index) => (
@@ -137,7 +147,7 @@ const Product = ({
             variant={"transparent"}
             onClick={() => handlersRef.current?.decrement()}
             disabled={
-              filteredVariant && filteredVariant.quantityAvailable === 0
+              data.variants.nodes.find((variant) => variant.id === selectedVariantId)?.quantityAvailable === 0
             }
           >
             <MinusIcon className="size-6" />
@@ -147,21 +157,20 @@ const Product = ({
             handlersRef={handlersRef}
             min={1}
             max={
-              filteredVariant
-                ? filteredVariant.quantityAvailable
-                : data.variants.nodes[0].quantityAvailable
+              data.variants.nodes.find((variant) => variant.id === selectedVariantId)?.quantityAvailable
+
             }
             defaultValue={1}
             hideControls
             disabled={
-              filteredVariant && filteredVariant.quantityAvailable === 0
+              data.variants.nodes.find((variant) => variant.id === selectedVariantId)?.quantityAvailable === 0
             }
           />
           <Button
             variant={"transparent"}
             onClick={() => handlersRef.current?.increment()}
             disabled={
-              filteredVariant && filteredVariant.quantityAvailable === 0
+              data.variants.nodes.find((variant) => variant.id === selectedVariantId)?.quantityAvailable === 0
             }
           >
             <PlusIcon className="size-6" />
@@ -169,7 +178,7 @@ const Product = ({
         </Group>
       </Paper>
 
-      {filteredVariant && (
+      {selectedVariantId && (
         <>
           <p>Sizes:</p>
           <Paper p="md" withBorder>
@@ -190,12 +199,14 @@ const Product = ({
         </>
       )}
 
-      {filteredVariant ? (
+      {selectedVariantId ? (
         <div>
           <p>
-            {filteredVariant.quantityAvailable > 0 ? "In Stock" : "Sold Out"}
+            {(data.variants.nodes.find((variant) => variant.id = selectedVariantId)?.quantityAvailable ?? 0) > 0 ? "In Stock" : "Sold Out"}
           </p>
-          <Button disabled={filteredVariant.quantityAvailable === 0}>
+          <Button
+            disabled={data.variants.nodes.find(variant => variant.id === selectedVariantId)?.quantityAvailable === 0}
+            onClick={() => handleAddToCart()}>
             Add to Cart
           </Button>
         </div>
