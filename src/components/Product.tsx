@@ -64,8 +64,10 @@ const Product = ({
     );
 
     if (filteredVariant) {
+      console.log("All Variants:", data.variants.nodes);
       setSelectedVariantId(filteredVariant.id)
     }
+
   }, [selectedSize, selectedColor]);
 
   const createCartIdMutation = `mutation {
@@ -88,6 +90,7 @@ const Product = ({
     console.log("cartId already exists")
     console.log(data);
     console.log(selectedColor, selectedSize);
+    console.log(selectedVariantId);
   }
 
   return (
@@ -202,7 +205,7 @@ const Product = ({
       {selectedVariantId ? (
         <div>
           <p>
-            {(data.variants.nodes.find((variant) => variant.id = selectedVariantId)?.quantityAvailable ?? 0) > 0 ? "In Stock" : "Sold Out"}
+            {(data.variants.nodes.find((variant) => variant.id === selectedVariantId)?.quantityAvailable ?? 0) > 0 ? "In Stock" : "Sold Out"}
           </p>
           <Button
             disabled={data.variants.nodes.find(variant => variant.id === selectedVariantId)?.quantityAvailable === 0}
