@@ -68,6 +68,18 @@ const Product = ({
     }
   }`
 
+  const handleAddToCart =  async () => {
+    const data: CreateCartId = await fetchShopifyData(createCartIdMutation);
+    const cartId = data.cartCreate.cart.id
+
+    if (!localStorage.getItem("cartId")) {
+      localStorage.setItem("cartId", cartId)
+    }
+
+    // todo get item clicked, qty, variant, and what not and add to cart data
+    console.log("cartId already exists")
+  }
+
   return (
     <div>
       {filteredVariant ? (
@@ -194,15 +206,7 @@ const Product = ({
               ? "In Stock"
               : "Sold Out"}
           </p>
-          <Button disabled={data.variants.nodes[0].quantityAvailable === 0} onClick={async () => {
-            const data: CreateCartId = await fetchShopifyData(createCartIdMutation);
-            const cartId = data.cartCreate.cart.id
-
-            if (!localStorage.getItem("cartId")) {
-              localStorage.setItem("cartId", cartId)
-            }
-
-          }}>
+          <Button disabled={data.variants.nodes[0].quantityAvailable === 0} onClick={() => handleAddToCart()}>
             Add to Cart
           </Button>
         </div>
