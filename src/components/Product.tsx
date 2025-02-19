@@ -64,11 +64,10 @@ const Product = ({
     );
 
     if (filteredVariant) {
-      console.log("All Variants:", data.variants.nodes);
       setSelectedVariantId(filteredVariant.id)
     }
 
-  }, [selectedSize, selectedColor]);
+  }, [selectedSize, selectedColor, data.variants.nodes]);
 
   const createCartIdMutation = `mutation {
     cartCreate {
@@ -124,9 +123,10 @@ const Product = ({
       {selectedVariantId && <p>Color:</p>}
 
       <Group>
+        {/*todo if color or size is unavailable disable it?*/}
         {Array.from(colors).map((color, index) => (
           <ColorSwatch
-            key={index}
+            key={color + index}
             color={
               color === "White"
                 ? "white"
@@ -193,6 +193,16 @@ const Product = ({
                     key={size}
                     variant={selectedSize === size ? "filled" : "outline"}
                     onClick={() => setSelectedSize(size)}
+                    disabled={
+                    !data.variants.nodes.some(
+                      (variant) => variant.selectedOptions.some(
+                        (opt) => opt.name === "Color" && opt.value === selectedColor
+                      ) && variant.selectedOptions.some(
+                      (opt) => opt.name === "Size" && opt.value === size
+                      ) &&
+                        variant.quantityAvailable > 0
+                    )
+                    }
                   >
                     {size}
                   </Button>
