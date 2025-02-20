@@ -12,6 +12,24 @@ import {
 import { PlusIcon, MinusIcon } from "@heroicons/react/20/solid";
 import { ProductData } from "@/app/products/[handle]/page";
 import Image from "next/image";
+import { fetchShopifyData } from "@/utils/shopify";
+
+interface CreateCartId {
+  cartCreate: {
+    cart: {
+      id: string
+    }
+  }
+}
+
+interface ColorMap {
+  [key: string]: string
+}
+
+const colorMap: ColorMap = {
+  "White": "white",
+  "Rose CZ": "#B76E79"
+}
 
 const Product = ({
   colors,
@@ -24,10 +42,25 @@ const Product = ({
 }) => {
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
+  const [selectedVariantId, setSelectedVariantId] = useState<string | null>(null);
   const handlersRef = useRef<NumberInputHandlers>(null);
+  // todo Keep track of qty
+  const [quantity, setQuantity] = useState<number>(1);
 
   useEffect(() => {
-    if (data.variants.nodes.length > 0) {
+    if (data.variants.nodes.length === 1) {
+      const singleVariant = data.variants.nodes[0];
+      setSelectedVariantId(singleVariant.id);
+      const colorOption = singleVariant.selectedOptions.find(
+        (opt) => opt.name === "Color"
+      );
+      const sizeOption = singleVariant.selectedOptions.find(
+        (opt) => opt.name === "Size"
+      );
+
+      if (colorOption) setSelectedColor(colorOption.value);
+      if (sizeOption) setSelectedSize(sizeOption.value);
+    } else if (data.variants.nodes.length > 1) {
       const firstVariant = data.variants.nodes[0];
       const colorOption = firstVariant.selectedOptions.find(
         (opt) => opt.name === "Color"
@@ -39,31 +72,115 @@ const Product = ({
       if (colorOption) setSelectedColor(colorOption.value);
       if (sizeOption) setSelectedSize(sizeOption.value);
     }
-  }, [data.variants.nodes]); // Run when variants data changes
+  }, [data.variants.nodes]);
 
-  const filteredVariant = data.variants.nodes.find(
-    (variant) =>
-      variant.selectedOptions.some(
-        (opt) => opt.name === "Color" && opt.value === selectedColor
-      ) &&
-      variant.selectedOptions.some(
-        (opt) => opt.name === "Size" && opt.value === selectedSize
-      )
-  );
+  // This keeps track of the Size and Color. Uses find() to find the product variant id
+  useEffect(() => {
+    const filteredVariant = data.variants.nodes.find(
+      (variant) =>
+        variant.selectedOptions.some(
+          (opt) => opt.name === "Color" && opt.value === selectedColor
+        ) &&
+        variant.selectedOptions.some(
+          (opt) => opt.name === "Size" && opt.value === selectedSize
+        )
+    );
+
+    if (filteredVariant) {
+      setSelectedVariantId(filteredVariant.id)
+    }
+
+  }, [selectedSize, selectedColor, data.variants.nodes]);
+
+  const createCartIdMutation = `mutation {
+    cartCreate {
+      cart {
+        id
+      }
+    }
+  }`
+
+  const handleAddToCart =  async () => {
+    const cartData: CreateCartId = await fetchShopifyData(createCartIdMutation);
+    const cartId = cartData.cartCreate.cart.id
+
+    // This runs once; creates cart with first items added
+    if (!localStorage.getItem("cartId")) {
+      localStorage.setItem("cartId", cartId)
+
+      const addProductsToCartMutation = `mutation {
+        cartLinesAdd(
+          cartId: "${cartId}"
+          lines: [{quantity: ${quantity}, merchandiseId: "${selectedVariantId}"}]
+        ) {
+          cart {
+            id
+            checkoutUrl
+            lines(first: 10) {
+              nodes {
+                id
+                quantity
+                merchandise {
+                  ... on ProductVariant {
+                    id
+                    title
+                    product {
+                      title
+                    }
+                  }
+                }
+              }
+            }
+            cost {
+              totalAmount {
+                amount
+                currencyCode
+              }
+            }
+          }
+          userErrors {
+            code
+            field
+            message
+          }
+        }
+      }`
+
+      await fetchShopifyData(addProductsToCartMutation)
+      // todo do something with the URL made here
+    }
+
+    // This runs once cart is created (cartLinesAdd)
+  }
 
   return (
     <div>
-      {filteredVariant ? (
+      {selectedVariantId ? (
         <div>
           <Image
-            src={filteredVariant.image.url}
-            alt={filteredVariant.image.altText || data.title}
+            src={
+              data.variants.nodes.find(
+                (variant) => variant.id === selectedVariantId
+              )?.image.url ?? ""
+            }
+            alt={
+              data.variants.nodes.find(
+                (variant) => variant.id === selectedVariantId
+              )?.image.altText ?? data.title
+            }
             width={1000}
             height={1000}
             priority
           />
           <h1>{data.title}</h1>
-          <p>Price: ${filteredVariant.price.amount}</p>
+          <p>
+            Price: $
+            {
+              data.variants.nodes.find(
+                (variant) => variant.id === selectedVariantId
+              )?.price.amount
+            }
+          </p>
         </div>
       ) : (
         <div>
@@ -79,19 +196,13 @@ const Product = ({
         </div>
       )}
 
-      {filteredVariant && <p>Color:</p>}
+      {data.variants.nodes.length > 1 && <p>Color:</p>}
 
       <Group>
         {Array.from(colors).map((color, index) => (
           <ColorSwatch
-            key={index}
-            color={
-              color === "White"
-                ? "white"
-                : color === "Rose CZ"
-                  ? "#B76E79"
-                  : "#ccc"
-            }
+            key={color + index}
+            color={colorMap[color]}
             withShadow={selectedColor === color}
             onClick={() => setSelectedColor(color)}
             style={{
@@ -108,7 +219,9 @@ const Product = ({
             variant={"transparent"}
             onClick={() => handlersRef.current?.decrement()}
             disabled={
-              filteredVariant && filteredVariant.quantityAvailable === 0
+              data.variants.nodes.find(
+                (variant) => variant.id === selectedVariantId
+              )?.quantityAvailable === 0
             }
           >
             <MinusIcon className="size-6" />
@@ -118,21 +231,32 @@ const Product = ({
             handlersRef={handlersRef}
             min={1}
             max={
-              filteredVariant
-                ? filteredVariant.quantityAvailable
-                : data.variants.nodes[0].quantityAvailable
+              data.variants.nodes.find(
+                (variant) => variant.id === selectedVariantId
+              )?.quantityAvailable
             }
+            value={quantity}
+            onChange={(value) => {
+              if (typeof value === "number") {
+                setQuantity(value)
+                console.log(quantity);
+              }
+            }}
             defaultValue={1}
             hideControls
             disabled={
-              filteredVariant && filteredVariant.quantityAvailable === 0
+              data.variants.nodes.find(
+                (variant) => variant.id === selectedVariantId
+              )?.quantityAvailable === 0
             }
           />
           <Button
             variant={"transparent"}
             onClick={() => handlersRef.current?.increment()}
             disabled={
-              filteredVariant && filteredVariant.quantityAvailable === 0
+              data.variants.nodes.find(
+                (variant) => variant.id === selectedVariantId
+              )?.quantityAvailable === 0
             }
           >
             <PlusIcon className="size-6" />
@@ -140,18 +264,32 @@ const Product = ({
         </Group>
       </Paper>
 
-      {filteredVariant && (
+      {data.variants.nodes.length > 1 && (
         <>
           <p>Sizes:</p>
           <Paper p="md" withBorder>
             <Group>
               {Array.from(sizes)
-                .sort()
+                .sort((a, b) => a.localeCompare(b))
                 .map((size) => (
                   <Button
                     key={size}
                     variant={selectedSize === size ? "filled" : "outline"}
                     onClick={() => setSelectedSize(size)}
+                    disabled={
+                      !data.variants.nodes.some(
+                        (variant) =>
+                          variant.selectedOptions.some(
+                            (opt) =>
+                              opt.name === "Color" &&
+                              opt.value === selectedColor
+                          ) &&
+                          variant.selectedOptions.some(
+                            (opt) => opt.name === "Size" && opt.value === size
+                          ) &&
+                          variant.quantityAvailable > 0
+                      )
+                    }
                   >
                     {size}
                   </Button>
@@ -161,12 +299,23 @@ const Product = ({
         </>
       )}
 
-      {filteredVariant ? (
+      {selectedVariantId ? (
         <div>
           <p>
-            {filteredVariant.quantityAvailable > 0 ? "In Stock" : "Sold Out"}
+            {(data.variants.nodes.find(
+              (variant) => variant.id === selectedVariantId
+            )?.quantityAvailable ?? 0) > 0
+              ? "In Stock"
+              : "Sold Out"}
           </p>
-          <Button disabled={filteredVariant.quantityAvailable === 0}>
+          <Button
+            disabled={
+              data.variants.nodes.find(
+                (variant) => variant.id === selectedVariantId
+              )?.quantityAvailable === 0
+            }
+            onClick={() => handleAddToCart()}
+          >
             Add to Cart
           </Button>
         </div>
@@ -177,7 +326,10 @@ const Product = ({
               ? "In Stock"
               : "Sold Out"}
           </p>
-          <Button disabled={data.variants.nodes[0].quantityAvailable === 0}>
+          <Button
+            disabled={data.variants.nodes[0].quantityAvailable === 0}
+            onClick={() => handleAddToCart()}
+          >
             Add to Cart
           </Button>
         </div>
