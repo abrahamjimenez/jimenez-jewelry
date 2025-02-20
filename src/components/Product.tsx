@@ -104,15 +104,52 @@ const Product = ({
     const cartData: CreateCartId = await fetchShopifyData(createCartIdMutation);
     const cartId = cartData.cartCreate.cart.id
 
+    // This runs once; creates cart with first items added
     if (!localStorage.getItem("cartId")) {
       localStorage.setItem("cartId", cartId)
+
+      const addProductsToCartMutation = `mutation {
+        cartLinesAdd(
+          cartId: "${cartId}"
+          lines: [{quantity: ${quantity}, merchandiseId: "${selectedVariantId}"}]
+        ) {
+          cart {
+            id
+            checkoutUrl
+            lines(first: 10) {
+              nodes {
+                id
+                quantity
+                merchandise {
+                  ... on ProductVariant {
+                    id
+                    title
+                    product {
+                      title
+                    }
+                  }
+                }
+              }
+            }
+            cost {
+              totalAmount {
+                amount
+                currencyCode
+              }
+            }
+          }
+          userErrors {
+            code
+            field
+            message
+          }
+        }
+      }`
+
+      await fetchShopifyData(addProductsToCartMutation)
     }
 
-    // todo get item clicked, qty, variant, and what not and add to cart data
-    console.log("cartId already exists")
-    console.log(data);
-    console.log(selectedColor, selectedSize);
-    console.log(selectedVariantId);
+    // This runs once cart is created (cartLinesAdd)
   }
 
   return (
@@ -198,7 +235,12 @@ const Product = ({
               )?.quantityAvailable
             }
             value={quantity}
-            onChange={(value) => setQuantity(value)}
+            onChange={(value) => {
+              if (typeof value === "number") {
+                setQuantity(value)
+                console.log(quantity);
+              }
+            }}
             defaultValue={1}
             hideControls
             disabled={
@@ -273,7 +315,7 @@ const Product = ({
             }
             onClick={() => handleAddToCart()}
           >
-            Add to Cart {quantity}
+            Add to Cart
           </Button>
         </div>
       ) : (
