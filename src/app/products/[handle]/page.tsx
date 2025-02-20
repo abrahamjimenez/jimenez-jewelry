@@ -56,8 +56,6 @@ const Page = async ({ params }: { params: Promise<{ handle: string }> }) => {
     const { product } = await fetchShopifyData(productByHandleQuery);
     data = product;
 
-    console.log(data);
-
     data.variants.nodes.forEach((variant) => {
       variant.selectedOptions.forEach((option) => {
         if (option.name === "Color") uniqueColors.add(option.value);

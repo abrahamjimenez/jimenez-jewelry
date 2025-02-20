@@ -22,6 +22,15 @@ interface CreateCartId {
   }
 }
 
+interface CartResponse {
+  cartLinesAdd: {
+    cart: {
+      id: string
+      checkoutUrl: string
+    }
+  }
+}
+
 interface ColorMap {
   [key: string]: string
 }
@@ -44,7 +53,6 @@ const Product = ({
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [selectedVariantId, setSelectedVariantId] = useState<string | null>(null);
   const handlersRef = useRef<NumberInputHandlers>(null);
-  // todo Keep track of qty
   const [quantity, setQuantity] = useState<number>(1);
 
   useEffect(() => {
@@ -101,11 +109,13 @@ const Product = ({
   }`
 
   const handleAddToCart =  async () => {
-    const cartData: CreateCartId = await fetchShopifyData(createCartIdMutation);
-    const cartId = cartData.cartCreate.cart.id
+    const existingCartId = localStorage.getItem("cartId")
 
     // This runs once; creates cart with first items added
-    if (!localStorage.getItem("cartId")) {
+    // Then adds checkoutUrl to localStorage
+    if (!existingCartId) {
+      const cartData: CreateCartId = await fetchShopifyData(createCartIdMutation);
+      const cartId = cartData.cartCreate.cart.id
       localStorage.setItem("cartId", cartId)
 
       const addProductsToCartMutation = `mutation {
@@ -146,11 +156,58 @@ const Product = ({
         }
       }`
 
-      await fetchShopifyData(addProductsToCartMutation)
-      // todo do something with the URL made here
+      const cartResponse: CartResponse = await fetchShopifyData(addProductsToCartMutation)
+      localStorage.setItem("checkoutUrl", cartResponse.cartLinesAdd.cart.checkoutUrl)
+
+      return
     }
 
-    // This runs once cart is created (cartLinesAdd)
+    // Additional items get added to cart here
+    const cartId = localStorage.getItem("cartId")
+
+    const addProductsToCartMutation = `mutation {
+        cartLinesAdd(
+          cartId: "${cartId}"
+          lines: [{quantity: ${quantity}, merchandiseId: "${selectedVariantId}"}]
+        ) {
+          cart {
+            id
+            checkoutUrl
+            lines(first: 10) {
+              nodes {
+                id
+                quantity
+                merchandise {
+                  ... on ProductVariant {
+                    id
+                    title
+                    product {
+                      title
+                    }
+                  }
+                }
+              }
+            }
+            cost {
+              totalAmount {
+                amount
+                currencyCode
+              }
+            }
+          }
+          userErrors {
+            code
+            field
+            message
+          }
+        }
+      }`
+
+    const cartResponse: CartResponse = await fetchShopifyData(addProductsToCartMutation)
+
+    console.log(cartResponse.cartLinesAdd.cart.checkoutUrl)
+    console.log(localStorage.getItem("checkoutUrl"))
+
   }
 
   return (
@@ -239,7 +296,6 @@ const Product = ({
             onChange={(value) => {
               if (typeof value === "number") {
                 setQuantity(value)
-                console.log(quantity);
               }
             }}
             defaultValue={1}
