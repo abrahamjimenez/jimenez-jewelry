@@ -147,6 +147,7 @@ const Product = ({
       }`
 
       await fetchShopifyData(addProductsToCartMutation)
+      // todo do something with the URL made here
     }
 
     // This runs once cart is created (cartLinesAdd)
