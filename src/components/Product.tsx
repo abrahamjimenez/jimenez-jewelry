@@ -45,6 +45,7 @@ const Product = ({
   const [selectedVariantId, setSelectedVariantId] = useState<string | null>(null);
   const handlersRef = useRef<NumberInputHandlers>(null);
   // todo Keep track of qty
+  const [quantity, setQuantity] = useState<number>(1);
 
   useEffect(() => {
     if (data.variants.nodes.length === 1) {
@@ -196,6 +197,8 @@ const Product = ({
                 (variant) => variant.id === selectedVariantId
               )?.quantityAvailable
             }
+            value={quantity}
+            onChange={(value) => setQuantity(value)}
             defaultValue={1}
             hideControls
             disabled={
@@ -270,7 +273,7 @@ const Product = ({
             }
             onClick={() => handleAddToCart()}
           >
-            Add to Cart
+            Add to Cart {quantity}
           </Button>
         </div>
       ) : (
