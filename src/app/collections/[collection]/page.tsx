@@ -56,7 +56,7 @@ const Page = async ({
   // Modified query with dynamic sortKey
   const collectionByHandleQuery = `{
     collection(handle: "${collectionHandle}") {
-      products(first: 10, sortKey: ${sortKey}) {
+      products(first: 100, sortKey: ${sortKey}) {
         edges {
           node {
             handle

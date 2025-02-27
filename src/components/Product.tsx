@@ -36,8 +36,12 @@ interface ColorMap {
 }
 
 const colorMap: ColorMap = {
-  "White": "white",
-  "Rose CZ": "#B76E79"
+  "Rose CZ": "#B76E79",
+  "Black CZ": "#000000",
+  "Blue CZ": "#005BD3",
+  "Cyan CZ": "#2AEFC3",
+  "Red CZ": "#FF0000",
+  "White CZ": "#FFFFFF",
 }
 
 const Product = ({
