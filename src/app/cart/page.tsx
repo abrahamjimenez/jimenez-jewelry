@@ -2,6 +2,8 @@
 
 import React, { useEffect, useState } from "react";
 import { fetchShopifyData } from "@/utils/shopify";
+import Image from "next/image";
+import { TrashIcon } from "@heroicons/react/20/solid";
 
 interface CartData {
   cart: {
@@ -18,6 +20,17 @@ interface CartData {
               product: {
                 title: string
                 handle: string
+                variants: {
+                  nodes: [
+                    {
+                      id: string
+                      image: {
+                        url: string
+                        altText: string
+                      }
+                    }
+                  ]
+                }
               }
               price: {
                 amount: string
@@ -66,6 +79,15 @@ const Page = () => {
                       product {
                         title
                         handle
+                        variants(first: 10) {
+                          nodes {
+                            id
+                            image {
+                              url(transform: {maxHeight: 100, maxWidth: 100})
+                              altText
+                            }
+                          }
+                        }
                       }
                       price {
                         amount
@@ -97,7 +119,7 @@ const Page = () => {
 
   return (
     <div>
-      <h1>Your cart</h1>
+      {/*<h1>Your cart</h1>
       <div className="flex justify-between">
         <p>Product</p>
         <p>Total</p>
@@ -111,24 +133,44 @@ const Page = () => {
       />
       <p>14K 3C Fancy Hollow Earrings with Lever Back</p>
       <p>$300</p>
-      <button>+1 | 1 | -1</button>
+      <button>+1 | 1 | -1</button>*/}
 
       {cartData && (
-        <div>
-         {cartData.cart.lines.edges.map((edge) => (
-            <div key={edge.node.id}>
-              <p>{edge.node.merchandise.product.title}</p>
-              <p>{edge.node.quantity}</p>
-              <p>{(parseFloat(edge.node.merchandise.price.amount) * edge.node.quantity).toFixed(2)}</p>
-            </div>
+        <table>
+          <caption>Your cart</caption>
+
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Quantity</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+
+          <tbody>
+          {cartData.cart.lines.edges.map((edge) => (
+            <tr key={edge.node.id} className={"flex"}>
+              <td className="flex">
+                {edge.node.merchandise.product.variants.nodes.map((node) => (
+                  <div key={node.id}>
+                    <Image src={node.image.url} alt={node.image.altText || edge.node.merchandise.product.title} height={100} width={100} />
+                  </div>
+                ))}
+                <p>{edge.node.merchandise.product.title}</p>
+              </td>
+              <td className={"flex"}>
+                {edge.node.quantity}
+                <TrashIcon className={"size-6"} />
+              </td>
+              <td>{(parseFloat(edge.node.merchandise.price.amount) * edge.node.quantity).toFixed(2)}</td>
+            </tr>
           ))}
-
-          <p>Estimaded Total: {parseFloat(cartData.cart.cost.totalAmount.amount).toFixed(2)}</p>
-        </div>
-      )}
-
-      {cartData && (
-        <pre>{JSON.stringify(cartData, null, 2)}</pre>
+          <tr>
+            <td>Estimated Total:</td>
+            <td>{parseFloat(cartData.cart.cost.totalAmount.amount).toFixed(2)}</td>
+          </tr>
+          </tbody>
+        </table>
       )}
     </div>
   );
