@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { fetchShopifyData } from "@/utils/shopify";
 import { TrashIcon } from "@heroicons/react/20/solid";
+import Link from "next/link";
 
 interface CartData {
   cart: {
@@ -169,7 +170,9 @@ const Page = () => {
                   width={100}
                   priority={i === 0}
                 />
-                <p>{edge.node.merchandise.product.title}</p>
+                <Link href={`/products/${edge.node.merchandise.product.handle}`}>
+                  <p className={"hover:underline"}>{edge.node.merchandise.product.title}</p>
+                </Link>
               </td>
               <td className="text-center">{edge.node.quantity}</td>
               <td className="text-center">
