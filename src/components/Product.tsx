@@ -36,8 +36,12 @@ interface ColorMap {
 }
 
 const colorMap: ColorMap = {
-  "White": "white",
-  "Rose CZ": "#B76E79"
+  "Rose CZ": "#B76E79",
+  "Black CZ": "#000000",
+  "Blue CZ": "#005BD3",
+  "Cyan CZ": "#2AEFC3",
+  "Red CZ": "#FF0000",
+  "White CZ": "#FFFFFF",
 }
 
 const Product = ({
@@ -232,11 +236,11 @@ const Product = ({
           <h1>{data.title}</h1>
           <p>
             Price: $
-            {
+            {parseFloat(
               data.variants.nodes.find(
                 (variant) => variant.id === selectedVariantId
-              )?.price.amount
-            }
+              )?.price.amount ?? "0"
+            ).toFixed(2)}
           </p>
         </div>
       ) : (
@@ -295,7 +299,7 @@ const Product = ({
             value={quantity}
             onChange={(value) => {
               if (typeof value === "number") {
-                setQuantity(value)
+                setQuantity(value);
               }
             }}
             defaultValue={1}
