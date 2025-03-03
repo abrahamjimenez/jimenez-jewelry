@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { fetchShopifyData } from "@/utils/shopify";
 import Image from "next/image";
+import { fetchShopifyData } from "@/utils/shopify";
 import { TrashIcon } from "@heroicons/react/20/solid";
 
 interface CartData {
@@ -57,6 +57,7 @@ interface CartData {
 const Page = () => {
   const [cartId, setCartId] = useState<string | null>(null);
   const [cartData, setCartData] = useState<CartData | null>(null);
+  const [lineIdToRemove, setLineIdToRemove] = useState<string | null>(null);
 
   useEffect(() => {
     const storedCartId = localStorage.getItem("cartId");
@@ -123,9 +124,25 @@ const Page = () => {
     };
 
     fetchCartData();
-  }, [cartId]);
+  }, [cartId, lineIdToRemove]);
 
-  // todo removeOneItemQuery
+  // Removes items from the cart (all of them)
+  const handleTrashIconClick = async (lineId: string) => {
+    const removeItemMutation = `mutation {
+      cartLinesRemove(
+        cartId: "${cartId}"
+        lineIds: ["${lineId}"]
+      ) {
+        cart {
+          id
+          checkoutUrl
+        }
+      }
+    }`
+
+    await fetchShopifyData(removeItemMutation)
+    setLineIdToRemove(lineId)
+  }
 
   return (
     <div>
@@ -159,7 +176,9 @@ const Page = () => {
                 ${(parseFloat(edge.node.merchandise.price.amount) * edge.node.quantity).toFixed(2)}
               </td>
               <td>
-                <TrashIcon className="size-6 cursor-pointer" />
+                <button onClick={() => handleTrashIconClick(edge.node.id)}>
+                  <TrashIcon className="size-6 cursor-pointer" />
+                </button>
               </td>
             </tr>
           ))}
