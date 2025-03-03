@@ -236,11 +236,11 @@ const Product = ({
           <h1>{data.title}</h1>
           <p>
             Price: $
-            {
+            {parseFloat(
               data.variants.nodes.find(
                 (variant) => variant.id === selectedVariantId
-              )?.price.amount
-            }
+              )?.price.amount ?? "0"
+            ).toFixed(2)}
           </p>
         </div>
       ) : (
@@ -299,7 +299,7 @@ const Product = ({
             value={quantity}
             onChange={(value) => {
               if (typeof value === "number") {
-                setQuantity(value)
+                setQuantity(value);
               }
             }}
             defaultValue={1}
