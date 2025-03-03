@@ -5,10 +5,12 @@ import Image from "next/image";
 import { fetchShopifyData } from "@/utils/shopify";
 import { TrashIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
+import { Button } from "@mantine/core";
 
 interface CartData {
   cart: {
     id: string
+    checkoutUrl: string
     lines: {
       edges: [
         {
@@ -73,6 +75,7 @@ const Page = () => {
         const cartInformationQuery = `query {
           cart(id: "${cartId}") { 
             id
+            checkoutUrl
             lines(first: 50) {
               edges {
                 node {
@@ -147,7 +150,8 @@ const Page = () => {
 
   return (
     <div>
-      {cartData && (
+      {cartData && cartData.cart.lines.edges.length > 0 ? (
+        <div>
         <table>
           <caption>Your cart</caption>
 
@@ -191,6 +195,18 @@ const Page = () => {
           </tr>
           </tbody>
         </table>
+
+          <Link href={cartData.cart.checkoutUrl}>
+            <Button>Check out</Button>
+          </Link>
+        </div>
+      ) : (
+        <div>
+          <h1>Your cart is empty</h1>
+            <Link href={"/collections/earrings"}>
+              <Button>Continue Shopping</Button>
+            </Link>
+        </div>
       )}
     </div>
   );
