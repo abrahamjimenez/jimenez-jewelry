@@ -17,6 +17,10 @@ interface CartData {
             merchandise: {
               id: string
               title: string
+              image: {
+                url: string
+                altText: string
+              }
               product: {
                 title: string
                 handle: string
@@ -76,6 +80,10 @@ const Page = () => {
                     ... on ProductVariant {
                       id
                       title
+                      image {
+                        url
+                        altText
+                      }
                       product {
                         title
                         handle
@@ -134,26 +142,30 @@ const Page = () => {
           </thead>
 
           <tbody>
-          {cartData.cart.lines.edges.map((edge) => (
-            <tr key={edge.node.id} className={"flex"}>
-              <td className="flex">
-                {edge.node.merchandise.product.variants.nodes.map((node) => (
-                  <div key={node.id}>
-                    <Image src={node.image.url} alt={node.image.altText || edge.node.merchandise.product.title} height={100} width={100} />
-                  </div>
-                ))}
+          {cartData.cart.lines.edges.map((edge, i) => (
+            <tr key={edge.node.id}>
+              <td className="flex items-center gap-2">
+                <Image
+                  src={edge.node.merchandise.image.url}
+                  alt={edge.node.merchandise.image.altText || edge.node.merchandise.product.title}
+                  height={100}
+                  width={100}
+                  priority={i === 0}
+                />
                 <p>{edge.node.merchandise.product.title}</p>
               </td>
-              <td className={"flex"}>
-                {edge.node.quantity}
-                <TrashIcon className={"size-6"} />
+              <td className="text-center">{edge.node.quantity}</td>
+              <td className="text-center">
+                ${(parseFloat(edge.node.merchandise.price.amount) * edge.node.quantity).toFixed(2)}
               </td>
-              <td>{(parseFloat(edge.node.merchandise.price.amount) * edge.node.quantity).toFixed(2)}</td>
+              <td>
+                <TrashIcon className="size-6 cursor-pointer" />
+              </td>
             </tr>
           ))}
           <tr>
-            <td>Estimated Total:</td>
-            <td>{parseFloat(cartData.cart.cost.totalAmount.amount).toFixed(2)}</td>
+            <td colSpan={3} className="text-right font-semibold">Estimated Total:</td>
+            <td className="font-semibold">${parseFloat(cartData.cart.cost.totalAmount.amount).toFixed(2)}</td>
           </tr>
           </tbody>
         </table>
