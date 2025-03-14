@@ -59,6 +59,11 @@ const Product = ({
   const handlersRef = useRef<NumberInputHandlers>(null);
   const [quantity, setQuantity] = useState<number>(1);
 
+  // All Images In Product
+  useEffect(() => {
+    console.log("DDD", data.images);
+  }, []);
+
   useEffect(() => {
     if (data.variants.nodes.length === 1) {
       const singleVariant = data.variants.nodes[0];
