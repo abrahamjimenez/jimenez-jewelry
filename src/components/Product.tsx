@@ -221,7 +221,7 @@ const Product = ({
   const imageUrls: string[] = data.images.edges.map((map) => map.node.url)
 
   return (
-    <div>
+    <div className={"p-2 sm:px-4 lg:p-0"} >
       <div>
         {/*Image Carousel*/}
         <ImageCarousel images={imageUrls} />

@@ -1,6 +1,7 @@
 "use client"
 
 import React from "react";
+import classes from "./ImageCarousel.module.css"
 import { Carousel } from '@mantine/carousel';
 import { Image as ImageMantine } from '@mantine/core';
 
@@ -11,7 +12,7 @@ const ImageCarousel = ({ images }: {images: string[]}) => {
     </Carousel.Slide>
   ));
 
-  return <Carousel withIndicators>{slides}</Carousel>;
+  return <Carousel withIndicators classNames={classes}>{slides}</Carousel>;
 };
 
 export default ImageCarousel;
