@@ -1,5 +1,4 @@
 import {
-  MagnifyingGlassIcon,
   ShoppingBagIcon,
 } from "@heroicons/react/24/outline";
 import { fetchShopifyData } from "@/utils/shopify";
@@ -27,12 +26,9 @@ const Header = async () => {
         <NavigationMenu />
       </div>
 
-      <h2>{shopName}</h2>
+      <Link href={"/"}><h2 className={"text-2xl"}>{shopName}</h2></Link>
 
       <div className={"flex gap-2"}>
-        <div>
-          <MagnifyingGlassIcon className={"size-6"} />
-        </div>
         <div>
           <Link href={"/cart"}>
             <ShoppingBagIcon className={"size-6"} />

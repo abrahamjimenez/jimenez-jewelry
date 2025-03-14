@@ -6,10 +6,10 @@ import Link from "next/link";
 
 const FeaturedProducts = ({ data }: { data: ProductData }) => {
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
       {data.map((productEdge, i) => (
         <div key={productEdge.node.id}>
-          <div key={productEdge.node.id} className="relative group">
+          <div key={productEdge.node.id} className="relative flex flex-col gap-3 group">
             <div className="relative cursor-pointer">
               {/* Gold Image (default) */}
               <Link href={`/products/${productEdge.node.handle}`}>
@@ -22,7 +22,7 @@ const FeaturedProducts = ({ data }: { data: ProductData }) => {
                     productEdge.node.images.edges[0].node.altText ??
                     productEdge.node.title
                   }
-                  className="transition-opacity duration-300 ease-in-out opacity-100"
+                  className="opacity-100 transition-opacity duration-300 ease-in-out"
                   priority={i === 0}
                 />
               </Link>
@@ -40,14 +40,14 @@ const FeaturedProducts = ({ data }: { data: ProductData }) => {
                         productEdge.node.images.edges[1].node.altText ??
                         productEdge.node.title
                       }
-                      className="transition-opacity duration-300 ease-in-out opacity-0 group-hover:opacity-100 absolute top-0 left-0"
+                      className="absolute top-0 left-0 opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100"
                     />
                   )}
                 </Link>
               )}
             </div>
-            <p>{productEdge.node.title}</p>
-            <p>
+            <p className={"text-xs"}>{productEdge.node.title}</p>
+            <p className={"font-bold text-xl"}>
               {productEdge.node.priceRange.minVariantPrice.amount ===
               productEdge.node.priceRange.maxVariantPrice.amount
                 ? `$${parseFloat(productEdge.node.priceRange.minVariantPrice.amount).toFixed(2)}`

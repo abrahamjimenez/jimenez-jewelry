@@ -75,8 +75,7 @@ const Home = async () => {
   }
 
   return (
-    <div>
-      <h1>Featured Products</h1>
+    <div className={" p-2 sm:px-4 lg:p-0"}>
       <FeaturedProducts data={data} />
     </div>
   );

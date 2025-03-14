@@ -19,7 +19,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" {...mantineHtmlProps}>
-      <body>
+      <body className={"flex flex-col"}>
+      <div className={"max-w-screen-xl mx-auto"}>
         <MantineProvider>
           <header>
             <Header />
@@ -31,6 +32,7 @@ export default function RootLayout({
         </MantineProvider>
         <Analytics />
         <SpeedInsights />
+      </div>
       </body>
     </html>
   );
