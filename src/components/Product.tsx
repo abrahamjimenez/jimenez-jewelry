@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import classes from "./Product.module.css"
 import {
   ColorSwatch,
   Group,
@@ -253,7 +254,7 @@ const Product = ({
         ))}
       </Group>
 
-      <Paper p="md" withBorder>
+      <Paper p="md" withBorder className={"flex justify-center"} classNames={classes}>
         <Group>
           <Button
             variant={"transparent"}
@@ -268,6 +269,7 @@ const Product = ({
           </Button>
 
           <NumberInput
+            classNames={classes}
             handlersRef={handlersRef}
             min={1}
             max={
