@@ -11,8 +11,8 @@ import {
 } from "@mantine/core";
 import { PlusIcon, MinusIcon } from "@heroicons/react/20/solid";
 import { ProductData } from "@/app/products/[handle]/page";
-import Image from "next/image";
 import { fetchShopifyData } from "@/utils/shopify";
+import ImageCarousel from "@/components/ImageCarousel";
 
 interface CreateCartId {
   cartCreate: {
@@ -216,51 +216,25 @@ const Product = ({
 
     console.log(cartResponse.cartLinesAdd.cart.checkoutUrl)
     console.log(localStorage.getItem("checkoutUrl"))
-
   }
+
+  const imageUrls: string[] = data.images.edges.map((map) => map.node.url)
 
   return (
     <div>
-      {selectedVariantId ? (
-        <div>
-          <Image
-            src={
-              data.variants.nodes.find(
-                (variant) => variant.id === selectedVariantId
-              )?.image.url ?? ""
-            }
-            alt={
-              data.variants.nodes.find(
-                (variant) => variant.id === selectedVariantId
-              )?.image.altText ?? data.title
-            }
-            width={1000}
-            height={1000}
-            priority
-          />
-          <h1>{data.title}</h1>
-          <p>
-            Price: $
-            {parseFloat(
-              data.variants.nodes.find(
-                (variant) => variant.id === selectedVariantId
-              )?.price.amount ?? "0"
-            ).toFixed(2)}
-          </p>
-        </div>
-      ) : (
-        <div>
-          <Image
-            src={data.variants.nodes[0].image.url}
-            alt={data.variants.nodes[0].image.altText || data.title}
-            width={1000}
-            height={1000}
-            priority
-          />
-          <h1>{data.title}</h1>
-          <p>Price: ${data.variants.nodes[0].price.amount}</p>
-        </div>
-      )}
+      <div>
+        {/*Image Carousel*/}
+        <ImageCarousel images={imageUrls} />
+        <h1>{data.title}</h1>
+        <p>
+          Price: $
+          {parseFloat(
+            data.variants.nodes.find(
+              (variant) => variant.id === selectedVariantId
+            )?.price.amount ?? "0"
+          ).toFixed(2)}
+        </p>
+      </div>
 
       {data.variants.nodes.length > 1 && <p>Color:</p>}
 
