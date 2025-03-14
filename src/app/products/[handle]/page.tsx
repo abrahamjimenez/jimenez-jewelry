@@ -5,6 +5,14 @@ import Product from "@/components/Product";
 export interface ProductData {
   title: string;
   descriptionHtml: string;
+  images: {
+    edges: {
+      node: {
+        url: string
+        altText: string | null
+      }
+    }[]
+  }
   variants: {
     nodes: VariantNodes[];
   };
@@ -32,6 +40,14 @@ const Page = async ({ params }: { params: Promise<{ handle: string }> }) => {
     product(handle: "${handle}") {
       title
       descriptionHtml
+      images (first: 50) {
+        edges {
+          node {
+            url
+            altText
+          }
+        }
+      }
       variants(first: 100) {
         nodes {
           id
@@ -47,6 +63,7 @@ const Page = async ({ params }: { params: Promise<{ handle: string }> }) => {
   let data: ProductData = {
     title: "",
     descriptionHtml: "",
+    images: {edges: []},
     variants: { nodes: [] },
   };
   const uniqueColors = new Set<string>();

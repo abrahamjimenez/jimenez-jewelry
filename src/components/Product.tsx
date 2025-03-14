@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import classes from "./Product.module.css"
 import {
   ColorSwatch,
   Group,
@@ -11,8 +12,8 @@ import {
 } from "@mantine/core";
 import { PlusIcon, MinusIcon } from "@heroicons/react/20/solid";
 import { ProductData } from "@/app/products/[handle]/page";
-import Image from "next/image";
 import { fetchShopifyData } from "@/utils/shopify";
+import ImageCarousel from "@/components/ImageCarousel";
 
 interface CreateCartId {
   cartCreate: {
@@ -58,6 +59,11 @@ const Product = ({
   const [selectedVariantId, setSelectedVariantId] = useState<string | null>(null);
   const handlersRef = useRef<NumberInputHandlers>(null);
   const [quantity, setQuantity] = useState<number>(1);
+
+  // All Images In Product
+  useEffect(() => {
+    console.log("DDD", data.images);
+  }, []);
 
   useEffect(() => {
     if (data.variants.nodes.length === 1) {
@@ -211,51 +217,25 @@ const Product = ({
 
     console.log(cartResponse.cartLinesAdd.cart.checkoutUrl)
     console.log(localStorage.getItem("checkoutUrl"))
-
   }
 
+  const imageUrls: string[] = data.images.edges.map((map) => map.node.url)
+
   return (
-    <div>
-      {selectedVariantId ? (
-        <div>
-          <Image
-            src={
-              data.variants.nodes.find(
-                (variant) => variant.id === selectedVariantId
-              )?.image.url ?? ""
-            }
-            alt={
-              data.variants.nodes.find(
-                (variant) => variant.id === selectedVariantId
-              )?.image.altText ?? data.title
-            }
-            width={1000}
-            height={1000}
-            priority
-          />
-          <h1>{data.title}</h1>
-          <p>
-            Price: $
-            {parseFloat(
-              data.variants.nodes.find(
-                (variant) => variant.id === selectedVariantId
-              )?.price.amount ?? "0"
-            ).toFixed(2)}
-          </p>
-        </div>
-      ) : (
-        <div>
-          <Image
-            src={data.variants.nodes[0].image.url}
-            alt={data.variants.nodes[0].image.altText || data.title}
-            width={1000}
-            height={1000}
-            priority
-          />
-          <h1>{data.title}</h1>
-          <p>Price: ${data.variants.nodes[0].price.amount}</p>
-        </div>
-      )}
+    <div className={"p-2 sm:px-4 lg:p-0"} >
+      <div>
+        {/*Image Carousel*/}
+        <ImageCarousel images={imageUrls} />
+        <h1>{data.title}</h1>
+        <p>
+          Price: $
+          {parseFloat(
+            data.variants.nodes.find(
+              (variant) => variant.id === selectedVariantId
+            )?.price.amount ?? "0"
+          ).toFixed(2)}
+        </p>
+      </div>
 
       {data.variants.nodes.length > 1 && <p>Color:</p>}
 
@@ -274,7 +254,7 @@ const Product = ({
         ))}
       </Group>
 
-      <Paper p="md" withBorder>
+      <Paper p="md" withBorder className={"flex justify-center"} classNames={classes}>
         <Group>
           <Button
             variant={"transparent"}
@@ -289,6 +269,7 @@ const Product = ({
           </Button>
 
           <NumberInput
+            classNames={classes}
             handlersRef={handlersRef}
             min={1}
             max={

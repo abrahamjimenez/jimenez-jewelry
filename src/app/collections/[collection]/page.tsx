@@ -102,12 +102,12 @@ const Page = async ({
   }
 
   return (
-    <div>
+    <div className={"p-2 sm:px-4 lg:p-0"}>
       <h1 className={"text-2xl"}>{collectionHandle.charAt(0).toUpperCase() + collectionHandle.slice(1)}</h1>
-      {/* todo Add filter & sort button */}
+
       <Combobox />
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div className="pt-2 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {data.map((collection, index) => (
           <div key={collection.node.id} className={"relative group"}>
             {/*Gold Image (default)*/}
