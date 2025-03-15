@@ -226,8 +226,8 @@ const Product = ({
       <div>
         {/*Image Carousel*/}
         <ImageCarousel images={imageUrls} />
-        <h1>{data.title}</h1>
-        <p>
+        <h2 className={"text-xs"}>{data.title}</h2>
+        <p className={"font-bold text-xl"}>
           Price: $
           {parseFloat(
             data.variants.nodes.find(
