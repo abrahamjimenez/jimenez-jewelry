@@ -8,11 +8,11 @@ export interface ProductData {
   images: {
     edges: {
       node: {
-        url: string
-        altText: string | null
-      }
-    }[]
-  }
+        url: string;
+        altText: string | null;
+      };
+    }[];
+  };
   variants: {
     nodes: VariantNodes[];
   };
@@ -63,7 +63,7 @@ const Page = async ({ params }: { params: Promise<{ handle: string }> }) => {
   let data: ProductData = {
     title: "",
     descriptionHtml: "",
-    images: {edges: []},
+    images: { edges: [] },
     variants: { nodes: [] },
   };
   const uniqueColors = new Set<string>();

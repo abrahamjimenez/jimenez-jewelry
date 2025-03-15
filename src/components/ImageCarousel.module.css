@@ -1,10 +1,10 @@
 .indicator {
-    width: 12px;
-    height: 4px;
-    transition: width 250ms ease;
-    background-color: gray;
+  width: 12px;
+  height: 4px;
+  transition: width 250ms ease;
+  background-color: gray;
 
-    &[data-active] {
-        width: 40px;
-    }
+  &[data-active] {
+    width: 40px;
+  }
 }

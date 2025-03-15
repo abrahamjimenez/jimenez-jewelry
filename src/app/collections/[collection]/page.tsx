@@ -44,14 +44,14 @@ interface CollectionImagesNodes {
 }
 
 const Page = async ({
-                      params,
-                      searchParams,
-                    }: {
+  params,
+  searchParams,
+}: {
   params: Promise<{ collection: string }>;
   searchParams: Promise<{ sortKey?: string }>;
 }) => {
   const collectionHandle = (await params).collection;
-  const sortKey = (await searchParams)?.sortKey ?? 'BEST_SELLING';
+  const sortKey = (await searchParams)?.sortKey ?? "BEST_SELLING";
 
   // Modified query with dynamic sortKey
   const collectionByHandleQuery = `{
@@ -103,7 +103,9 @@ const Page = async ({
 
   return (
     <div className={"p-2 sm:px-4 lg:p-0"}>
-      <h1 className={"text-2xl"}>{collectionHandle.charAt(0).toUpperCase() + collectionHandle.slice(1)}</h1>
+      <h1 className={"text-2xl"}>
+        {collectionHandle.charAt(0).toUpperCase() + collectionHandle.slice(1)}
+      </h1>
 
       <Combobox />
 
@@ -152,20 +154,20 @@ const Page = async ({
 
             {/*Silver Image (shows on hover)*/}
             {collection.node.images?.nodes?.length > 1 && (
-                <Link href={`/products/${collection.node.handle}`}>
-                  <Image
-                    width={500}
-                    height={500}
-                    src={collection.node.images.nodes[1].url}
-                    alt={
-                      collection.node.images.nodes[1].altText ??
-                      collection.node.title
-                    }
-                    className={
-                      "cursor-pointer transition-opacity duration-300 ease-in-out opacity-0 group-hover:opacity-100 absolute top-0 left-0"
-                    }
-                  />
-                </Link>
+              <Link href={`/products/${collection.node.handle}`}>
+                <Image
+                  width={500}
+                  height={500}
+                  src={collection.node.images.nodes[1].url}
+                  alt={
+                    collection.node.images.nodes[1].altText ??
+                    collection.node.title
+                  }
+                  className={
+                    "cursor-pointer transition-opacity duration-300 ease-in-out opacity-0 group-hover:opacity-100 absolute top-0 left-0"
+                  }
+                />
+              </Link>
             )}
           </div>
         ))}

@@ -1,6 +1,4 @@
-import {
-  ShoppingBagIcon,
-} from "@heroicons/react/24/outline";
+import { ShoppingBagIcon } from "@heroicons/react/24/outline";
 import { fetchShopifyData } from "@/utils/shopify";
 import NavigationMenu from "@/components/NavigationMenu";
 import Link from "next/link";
@@ -26,7 +24,9 @@ const Header = async () => {
         <NavigationMenu />
       </div>
 
-      <Link href={"/"}><h2 className={"text-2xl"}>{shopName}</h2></Link>
+      <Link href={"/"}>
+        <h2 className={"text-2xl"}>{shopName}</h2>
+      </Link>
 
       <div className={"flex gap-2"}>
         <div>

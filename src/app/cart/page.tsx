@@ -9,52 +9,52 @@ import { Button } from "@mantine/core";
 
 interface CartData {
   cart: {
-    id: string
-    checkoutUrl: string
+    id: string;
+    checkoutUrl: string;
     lines: {
       edges: [
         {
           node: {
-            id: string,
-            quantity: number,
+            id: string;
+            quantity: number;
             merchandise: {
-              id: string
-              title: string
+              id: string;
+              title: string;
               image: {
-                url: string
-                altText: string
-              }
+                url: string;
+                altText: string;
+              };
               product: {
-                title: string
-                handle: string
+                title: string;
+                handle: string;
                 variants: {
                   nodes: [
                     {
-                      id: string
+                      id: string;
                       image: {
-                        url: string
-                        altText: string
-                      }
-                    }
-                  ]
-                }
-              }
+                        url: string;
+                        altText: string;
+                      };
+                    },
+                  ];
+                };
+              };
               price: {
-                amount: string
-                currencyCode: string
-              }
-            }
-          }
-        }
-      ]
-    },
+                amount: string;
+                currencyCode: string;
+              };
+            };
+          };
+        },
+      ];
+    };
     cost: {
       totalAmount: {
-        amount: string,
-        currencyCode: string
-      }
-    }
-  }
+        amount: string;
+        currencyCode: string;
+      };
+    };
+  };
 }
 
 const Page = () => {
@@ -142,59 +142,75 @@ const Page = () => {
           checkoutUrl
         }
       }
-    }`
+    }`;
 
-    await fetchShopifyData(removeItemMutation)
-    setLineIdToRemove(lineId)
-  }
+    await fetchShopifyData(removeItemMutation);
+    setLineIdToRemove(lineId);
+  };
 
   return (
     <div>
       {cartData && cartData.cart.lines.edges.length > 0 ? (
         <div>
-        <table>
-          <caption>Your cart</caption>
+          <table>
+            <caption>Your cart</caption>
 
-          <thead>
-            <tr>
-              <th>Product</th>
-              <th>Quantity</th>
-              <th>Total</th>
-            </tr>
-          </thead>
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Total</th>
+              </tr>
+            </thead>
 
-          <tbody>
-          {cartData.cart.lines.edges.map((edge, i) => (
-            <tr key={edge.node.id}>
-              <td className="flex items-center gap-2">
-                <Image
-                  src={edge.node.merchandise.image.url}
-                  alt={edge.node.merchandise.image.altText || edge.node.merchandise.product.title}
-                  height={100}
-                  width={100}
-                  priority={i === 0}
-                />
-                <Link href={`/products/${edge.node.merchandise.product.handle}`}>
-                  <p className={"hover:underline"}>{edge.node.merchandise.product.title}</p>
-                </Link>
-              </td>
-              <td className="text-center">{edge.node.quantity}</td>
-              <td className="text-center">
-                ${(parseFloat(edge.node.merchandise.price.amount) * edge.node.quantity).toFixed(2)}
-              </td>
-              <td>
-                <button onClick={() => handleTrashIconClick(edge.node.id)}>
-                  <TrashIcon className="size-6 cursor-pointer" />
-                </button>
-              </td>
-            </tr>
-          ))}
-          <tr>
-            <td colSpan={3} className="text-right font-semibold">Estimated Total:</td>
-            <td className="font-semibold">${parseFloat(cartData.cart.cost.totalAmount.amount).toFixed(2)}</td>
-          </tr>
-          </tbody>
-        </table>
+            <tbody>
+              {cartData.cart.lines.edges.map((edge, i) => (
+                <tr key={edge.node.id}>
+                  <td className="flex items-center gap-2">
+                    <Image
+                      src={edge.node.merchandise.image.url}
+                      alt={
+                        edge.node.merchandise.image.altText ||
+                        edge.node.merchandise.product.title
+                      }
+                      height={100}
+                      width={100}
+                      priority={i === 0}
+                    />
+                    <Link
+                      href={`/products/${edge.node.merchandise.product.handle}`}
+                    >
+                      <p className={"hover:underline"}>
+                        {edge.node.merchandise.product.title}
+                      </p>
+                    </Link>
+                  </td>
+                  <td className="text-center">{edge.node.quantity}</td>
+                  <td className="text-center">
+                    $
+                    {(
+                      parseFloat(edge.node.merchandise.price.amount) *
+                      edge.node.quantity
+                    ).toFixed(2)}
+                  </td>
+                  <td>
+                    <button onClick={() => handleTrashIconClick(edge.node.id)}>
+                      <TrashIcon className="size-6 cursor-pointer" />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+              <tr>
+                <td colSpan={3} className="text-right font-semibold">
+                  Estimated Total:
+                </td>
+                <td className="font-semibold">
+                  $
+                  {parseFloat(cartData.cart.cost.totalAmount.amount).toFixed(2)}
+                </td>
+              </tr>
+            </tbody>
+          </table>
 
           <Link href={cartData.cart.checkoutUrl}>
             <Button>Check out</Button>
@@ -203,9 +219,9 @@ const Page = () => {
       ) : (
         <div>
           <h1>Your cart is empty</h1>
-            <Link href={"/collections/earrings"}>
-              <Button>Continue Shopping</Button>
-            </Link>
+          <Link href={"/collections/earrings"}>
+            <Button>Continue Shopping</Button>
+          </Link>
         </div>
       )}
     </div>

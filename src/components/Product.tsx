@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import classes from "./Product.module.css"
+import classes from "./Product.module.css";
 import {
   ColorSwatch,
   Group,
@@ -18,22 +18,22 @@ import ImageCarousel from "@/components/ImageCarousel";
 interface CreateCartId {
   cartCreate: {
     cart: {
-      id: string
-    }
-  }
+      id: string;
+    };
+  };
 }
 
 interface CartResponse {
   cartLinesAdd: {
     cart: {
-      id: string
-      checkoutUrl: string
-    }
-  }
+      id: string;
+      checkoutUrl: string;
+    };
+  };
 }
 
 interface ColorMap {
-  [key: string]: string
+  [key: string]: string;
 }
 
 const colorMap: ColorMap = {
@@ -43,7 +43,7 @@ const colorMap: ColorMap = {
   "Cyan CZ": "#2AEFC3",
   "Red CZ": "#FF0000",
   "White CZ": "#FFFFFF",
-}
+};
 
 const Product = ({
   colors,
@@ -56,14 +56,11 @@ const Product = ({
 }) => {
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
-  const [selectedVariantId, setSelectedVariantId] = useState<string | null>(null);
+  const [selectedVariantId, setSelectedVariantId] = useState<string | null>(
+    null
+  );
   const handlersRef = useRef<NumberInputHandlers>(null);
   const [quantity, setQuantity] = useState<number>(1);
-
-  // All Images In Product
-  useEffect(() => {
-    console.log("DDD", data.images);
-  }, []);
 
   useEffect(() => {
     if (data.variants.nodes.length === 1) {
@@ -105,9 +102,8 @@ const Product = ({
     );
 
     if (filteredVariant) {
-      setSelectedVariantId(filteredVariant.id)
+      setSelectedVariantId(filteredVariant.id);
     }
-
   }, [selectedSize, selectedColor, data.variants.nodes]);
 
   const createCartIdMutation = `mutation {
@@ -116,17 +112,18 @@ const Product = ({
         id
       }
     }
-  }`
+  }`;
 
-  const handleAddToCart =  async () => {
-    const existingCartId = localStorage.getItem("cartId")
+  const handleAddToCart = async () => {
+    const existingCartId = localStorage.getItem("cartId");
 
     // This runs once; creates cart with first items added
     // Then adds checkoutUrl to localStorage
     if (!existingCartId) {
-      const cartData: CreateCartId = await fetchShopifyData(createCartIdMutation);
-      const cartId = cartData.cartCreate.cart.id
-      localStorage.setItem("cartId", cartId)
+      const cartData: CreateCartId =
+        await fetchShopifyData(createCartIdMutation);
+      const cartId = cartData.cartCreate.cart.id;
+      localStorage.setItem("cartId", cartId);
 
       const addProductsToCartMutation = `mutation {
         cartLinesAdd(
@@ -164,16 +161,21 @@ const Product = ({
             message
           }
         }
-      }`
+      }`;
 
-      const cartResponse: CartResponse = await fetchShopifyData(addProductsToCartMutation)
-      localStorage.setItem("checkoutUrl", cartResponse.cartLinesAdd.cart.checkoutUrl)
+      const cartResponse: CartResponse = await fetchShopifyData(
+        addProductsToCartMutation
+      );
+      localStorage.setItem(
+        "checkoutUrl",
+        cartResponse.cartLinesAdd.cart.checkoutUrl
+      );
 
-      return
+      return;
     }
 
     // Additional items get added to cart here
-    const cartId = localStorage.getItem("cartId")
+    const cartId = localStorage.getItem("cartId");
 
     const addProductsToCartMutation = `mutation {
         cartLinesAdd(
@@ -211,23 +213,20 @@ const Product = ({
             message
           }
         }
-      }`
+      }`;
 
-    const cartResponse: CartResponse = await fetchShopifyData(addProductsToCartMutation)
+    await fetchShopifyData(addProductsToCartMutation);
+  };
 
-    console.log(cartResponse.cartLinesAdd.cart.checkoutUrl)
-    console.log(localStorage.getItem("checkoutUrl"))
-  }
-
-  const imageUrls: string[] = data.images.edges.map((map) => map.node.url)
+  const imageUrls: string[] = data.images.edges.map((map) => map.node.url);
 
   return (
-    <div className={"p-2 sm:px-4 lg:p-0"} >
+    <div className={"p-2 sm:px-4 lg:p-0"}>
       <div>
         {/*Image Carousel*/}
         <ImageCarousel images={imageUrls} />
-        <h1>{data.title}</h1>
-        <p>
+        <h2 className={"text-xs"}>{data.title}</h2>
+        <p className={"font-bold text-xl"}>
           Price: $
           {parseFloat(
             data.variants.nodes.find(
@@ -254,7 +253,12 @@ const Product = ({
         ))}
       </Group>
 
-      <Paper p="md" withBorder className={"flex justify-center"} classNames={classes}>
+      <Paper
+        p="md"
+        withBorder
+        className={"flex justify-center"}
+        classNames={classes}
+      >
         <Group>
           <Button
             variant={"transparent"}
