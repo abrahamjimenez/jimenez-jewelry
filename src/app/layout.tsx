@@ -1,8 +1,8 @@
-import { Analytics } from "@vercel/analytics/react"
-import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 import "@mantine/core/styles.css";
-import '@mantine/carousel/styles.css';
+import "@mantine/carousel/styles.css";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -21,19 +21,19 @@ export default function RootLayout({
   return (
     <html lang="en" {...mantineHtmlProps}>
       <body className={"flex flex-col"}>
-      <div className={"max-w-screen-xl mx-auto"}>
-        <MantineProvider>
-          <header>
-            <Header />
-          </header>
-          <main>{children}</main>
-          <footer>
-            <Footer />
-          </footer>
-        </MantineProvider>
-        <Analytics />
-        <SpeedInsights />
-      </div>
+        <div className={"max-w-screen-xl mx-auto"}>
+          <MantineProvider>
+            <header>
+              <Header />
+            </header>
+            <main>{children}</main>
+            <footer>
+              <Footer />
+            </footer>
+          </MantineProvider>
+          <Analytics />
+          <SpeedInsights />
+        </div>
       </body>
     </html>
   );

@@ -1,9 +1,9 @@
 .input {
-    width: 50px;
-    text-align: center;
+  width: 50px;
+  text-align: center;
 }
 
 .root {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }

@@ -90,8 +90,11 @@ const Hamburger = ({ data }: { data: MenuInterface }) => {
 
         <Drawer opened={openedInnerDrawer} onClose={resetDrawer} size={"sm"}>
           <div className={"flex items-center"}>
-            <button onClick={closeInner} className={"font-bold flex items-center cursor-pointer"}>
-            <ChevronLeftIcon className={"size-6"} />
+            <button
+              onClick={closeInner}
+              className={"font-bold flex items-center cursor-pointer"}
+            >
+              <ChevronLeftIcon className={"size-6"} />
               {innerData?.title}
             </button>
           </div>
@@ -99,15 +102,15 @@ const Hamburger = ({ data }: { data: MenuInterface }) => {
           <div className={"flex flex-col"}>
             {innerData?.items.map((item) => (
               <p key={item.url}>
-              <Link
-                href={item.url.replace(
-                  process.env.NEXT_PUBLIC_SHOPIFY_URL as string,
-                  "/"
-                )}
-                onClick={resetDrawer}
-              >
-                {item.title}
-              </Link>
+                <Link
+                  href={item.url.replace(
+                    process.env.NEXT_PUBLIC_SHOPIFY_URL as string,
+                    "/"
+                  )}
+                  onClick={resetDrawer}
+                >
+                  {item.title}
+                </Link>
               </p>
             ))}
           </div>

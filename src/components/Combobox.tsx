@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import { useState } from 'react';
-import { InputBase, Combobox, useCombobox } from '@mantine/core';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useState } from "react";
+import { InputBase, Combobox, useCombobox } from "@mantine/core";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const sortKeys = [
   "BEST_SELLING",
@@ -24,7 +24,7 @@ const ComboboxComponent = () => {
 
   // Get initial sortKey from URL or default
   const [value, setValue] = useState<string | null>(
-    searchParams.get('sortKey')
+    searchParams.get("sortKey")
   );
 
   const options = sortKeys.map((item) => (
@@ -39,15 +39,12 @@ const ComboboxComponent = () => {
 
     // Update URL with new sortKey
     const params = new URLSearchParams(searchParams.toString());
-    params.set('sortKey', val);
+    params.set("sortKey", val);
     router.replace(`?${params.toString()}`);
   };
 
   return (
-    <Combobox
-      store={combobox}
-      onOptionSubmit={handleOptionSubmit}
-    >
+    <Combobox store={combobox} onOptionSubmit={handleOptionSubmit}>
       <p>Sort by:</p>
       <Combobox.Target>
         <InputBase
