@@ -53,7 +53,7 @@ const Hamburger = ({ data }: { data: MenuInterface }) => {
         size={"sm"}
         styles={{ body: { padding: 0 } }}
         closeButtonProps={{
-          icon: <XMarkIcon className={"size-8"} />,
+          icon: <XMarkIcon className={"size-8 text-gray-400"} />,
         }}
       >
         {/* Looping over the first level of items */}
@@ -109,7 +109,7 @@ const Hamburger = ({ data }: { data: MenuInterface }) => {
           size={"sm"}
           styles={{ body: { padding: 0 } }}
           closeButtonProps={{
-            icon: <XMarkIcon className={"size-8"} />,
+            icon: <XMarkIcon className={"size-8 text-gray-400"} />,
           }}
         >
           <div>
@@ -117,8 +117,8 @@ const Hamburger = ({ data }: { data: MenuInterface }) => {
               onClick={closeInner}
               className={"font-bold flex items-center cursor-pointer p-2"}
             >
-              <ArrowLeftIcon className={"size-4 mr-2"} />
-              <p className={"text-xs"}>{innerData?.title}</p>
+              <ArrowLeftIcon className={"size-4 mr-2 text-gray-500"} />
+              <p className={"text-xs text-gray-500"}>{innerData?.title}</p>
             </button>
           </div>
 
