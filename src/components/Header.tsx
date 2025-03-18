@@ -29,7 +29,7 @@ const Header = async () => {
       </Link>
 
       <div className={"flex gap-2"}>
-        <div>
+        <div className={"flex items-center"}>
           <Link href={"/cart"}>
             <ShoppingBagIcon className={"size-6"} />
           </Link>

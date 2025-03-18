@@ -46,9 +46,12 @@ const Hamburger = ({ data }: { data: MenuInterface }) => {
 
   return (
     <>
-      <Drawer opened={openedDrawer} onClose={close} size={"sm"}
-              styles={{body: {padding: 0}}}
-                >
+      <Drawer
+        opened={openedDrawer}
+        onClose={close}
+        size={"sm"}
+        styles={{ body: { padding: 0 } }}
+      >
         {/* Looping over the first level of items */}
         <div className={"pl-2"}>
           {data.items.map(
@@ -57,7 +60,10 @@ const Hamburger = ({ data }: { data: MenuInterface }) => {
               items: { title: string }[];
               url: string;
             }) => (
-              <div key={item.title}  className={"p-2 cursor-pointer hover:bg-gray-100 "}>
+              <div
+                key={item.title}
+                className={"p-2 cursor-pointer hover:bg-gray-100 "}
+              >
                 {item.items.length > 0 ? (
                   <Button
                     size={"compact-md"}
@@ -67,12 +73,10 @@ const Hamburger = ({ data }: { data: MenuInterface }) => {
                       openInner();
                       updateInnerDrawer(item.title);
                     }}
-                    styles={
-                    {
-                      root: {padding: 0},
-                      label: {fontWeight: "normal", width: "100%"},
-                    }
-                  }
+                    styles={{
+                      root: { padding: 0 },
+                      label: { fontWeight: "normal", width: "100%" },
+                    }}
                   >
                     <div className={"flex items-center cursor-pointer"}>
                       {item.title}
@@ -95,8 +99,11 @@ const Hamburger = ({ data }: { data: MenuInterface }) => {
           )}
         </div>
 
-        <Drawer opened={openedInnerDrawer} onClose={resetDrawer} size={"sm"}
-                styles={{body: {padding: 0}}}
+        <Drawer
+          opened={openedInnerDrawer}
+          onClose={resetDrawer}
+          size={"sm"}
+          styles={{ body: { padding: 0 } }}
         >
           <div>
             <button
@@ -110,7 +117,10 @@ const Hamburger = ({ data }: { data: MenuInterface }) => {
 
           <div className={"flex flex-col"}>
             {innerData?.items.map((item) => (
-              <p key={item.url} className={"p-2 cursor-pointer hover:bg-gray-100"}>
+              <p
+                key={item.url}
+                className={"p-2 cursor-pointer hover:bg-gray-100"}
+              >
                 <Link
                   href={item.url.replace(
                     process.env.NEXT_PUBLIC_SHOPIFY_URL as string,
@@ -131,6 +141,9 @@ const Hamburger = ({ data }: { data: MenuInterface }) => {
         variant="transparent"
         color={"black"}
         onClick={open}
+        styles={
+        { root: {padding: 0, border: 0} }
+      }
       >
         <Bars3Icon className={"size-6"} />
       </Button>
