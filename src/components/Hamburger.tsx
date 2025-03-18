@@ -5,6 +5,7 @@ import {
   Bars3Icon,
   ArrowLeftIcon,
   ArrowRightIcon,
+    XMarkIcon
 } from "@heroicons/react/24/outline";
 import { useDisclosure } from "@mantine/hooks";
 import { Button, Drawer } from "@mantine/core";
@@ -51,6 +52,9 @@ const Hamburger = ({ data }: { data: MenuInterface }) => {
         onClose={close}
         size={"sm"}
         styles={{ body: { padding: 0 } }}
+        closeButtonProps={{
+          icon: <XMarkIcon className={"size-8"} />,
+        }}
       >
         {/* Looping over the first level of items */}
         <div className={"pl-2"}>
@@ -104,6 +108,9 @@ const Hamburger = ({ data }: { data: MenuInterface }) => {
           onClose={resetDrawer}
           size={"sm"}
           styles={{ body: { padding: 0 } }}
+          closeButtonProps={{
+            icon: <XMarkIcon className={"size-8"} />,
+          }}
         >
           <div>
             <button
@@ -143,7 +150,7 @@ const Hamburger = ({ data }: { data: MenuInterface }) => {
         onClick={open}
         styles={{ root: { padding: 0, border: 0 } }}
       >
-        <Bars3Icon className={"size-6"} />
+        <Bars3Icon className={"size-8"} />
       </Button>
     </>
   );

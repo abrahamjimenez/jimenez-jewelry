@@ -19,7 +19,7 @@ const Header = async () => {
   }
 
   return (
-    <div className={"flex justify-between"}>
+    <div className={"flex justify-between pt-6"}>
       <div>
         <NavigationMenu />
       </div>
@@ -31,7 +31,7 @@ const Header = async () => {
       <div className={"flex gap-2"}>
         <div className={"flex items-center"}>
           <Link href={"/cart"}>
-            <ShoppingBagIcon className={"size-6"} />
+            <ShoppingBagIcon className={"size-8"} />
           </Link>
         </div>
       </div>
