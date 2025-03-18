@@ -141,9 +141,7 @@ const Hamburger = ({ data }: { data: MenuInterface }) => {
         variant="transparent"
         color={"black"}
         onClick={open}
-        styles={
-        { root: {padding: 0, border: 0} }
-      }
+        styles={{ root: { padding: 0, border: 0 } }}
       >
         <Bars3Icon className={"size-6"} />
       </Button>
