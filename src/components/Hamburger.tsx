@@ -3,8 +3,8 @@
 import React, { useState } from "react";
 import {
   Bars3Icon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
+  ArrowLeftIcon,
+  ArrowRightIcon,
 } from "@heroicons/react/24/outline";
 import { useDisclosure } from "@mantine/hooks";
 import { Button, Drawer } from "@mantine/core";
@@ -46,30 +46,37 @@ const Hamburger = ({ data }: { data: MenuInterface }) => {
 
   return (
     <>
-      <Drawer opened={openedDrawer} onClose={close} size={"sm"}>
+      <Drawer opened={openedDrawer} onClose={close} size={"sm"}
+              styles={{body: {padding: 0}}}
+                >
         {/* Looping over the first level of items */}
-        <div>
+        <div className={"pl-2"}>
           {data.items.map(
             (item: {
               title: string;
               items: { title: string }[];
               url: string;
             }) => (
-              <div key={item.title}>
+              <div key={item.title}  className={"p-2 cursor-pointer hover:bg-gray-100 "}>
                 {item.items.length > 0 ? (
                   <Button
-                    className={"p-0"}
                     size={"compact-md"}
-                    variant="transparent"
                     color={"black"}
+                    variant="transparent"
                     onClick={() => {
                       openInner();
                       updateInnerDrawer(item.title);
                     }}
+                    styles={
+                    {
+                      root: {padding: 0},
+                      label: {fontWeight: "normal", width: "100%"},
+                    }
+                  }
                   >
                     <div className={"flex items-center cursor-pointer"}>
                       {item.title}
-                      <ChevronRightIcon className={"size-6"} />
+                      <ArrowRightIcon className={"size-4 ml-2"} />
                     </div>
                   </Button>
                 ) : (
@@ -88,20 +95,22 @@ const Hamburger = ({ data }: { data: MenuInterface }) => {
           )}
         </div>
 
-        <Drawer opened={openedInnerDrawer} onClose={resetDrawer} size={"sm"}>
-          <div className={"flex items-center"}>
+        <Drawer opened={openedInnerDrawer} onClose={resetDrawer} size={"sm"}
+                styles={{body: {padding: 0}}}
+        >
+          <div>
             <button
               onClick={closeInner}
-              className={"font-bold flex items-center cursor-pointer"}
+              className={"font-bold flex items-center cursor-pointer p-2"}
             >
-              <ChevronLeftIcon className={"size-6"} />
-              {innerData?.title}
+              <ArrowLeftIcon className={"size-4 mr-2"} />
+              <p className={"text-xs"}>{innerData?.title}</p>
             </button>
           </div>
 
           <div className={"flex flex-col"}>
             {innerData?.items.map((item) => (
-              <p key={item.url}>
+              <p key={item.url} className={"p-2 cursor-pointer hover:bg-gray-100"}>
                 <Link
                   href={item.url.replace(
                     process.env.NEXT_PUBLIC_SHOPIFY_URL as string,
