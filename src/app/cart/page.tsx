@@ -195,7 +195,7 @@ const Page = () => {
                   </td>
                   <td>
                     <button onClick={() => handleTrashIconClick(edge.node.id)}>
-                      <TrashIcon className="size-6 cursor-pointer" />
+                      <TrashIcon className="cursor-pointer size-6" />
                     </button>
                   </td>
                 </tr>
