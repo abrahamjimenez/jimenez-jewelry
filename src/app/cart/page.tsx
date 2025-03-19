@@ -149,82 +149,72 @@ const Page = () => {
   };
 
   return (
-    <div>
-      {cartData && cartData.cart.lines.edges.length > 0 ? (
-        <div>
-          <table>
-            <caption>Your cart</caption>
+      <div className={"p-4"}>
+        {cartData && cartData.cart.lines.edges.length > 0 ? (
+            <div>
+              <h2 className={"text-2xl font-bold"}>Your cart</h2>
 
-            <thead>
-              <tr>
-                <th>Product</th>
-                <th>Quantity</th>
-                <th>Total</th>
-              </tr>
-            </thead>
+              <div className="flex font-semibold mb-2">
+                <div className="w-1/2">Product</div>
+                <div className="w-1/4 text-center">Quantity</div>
+                <div className="w-1/4 text-center">Total</div>
+              </div>
 
-            <tbody>
+              <hr className={"pb-6"}/>
+
               {cartData.cart.lines.edges.map((edge, i) => (
-                <tr key={edge.node.id}>
-                  <td className="flex items-center gap-2">
-                    <Image
-                      src={edge.node.merchandise.image.url}
-                      alt={
-                        edge.node.merchandise.image.altText ||
-                        edge.node.merchandise.product.title
-                      }
-                      height={100}
-                      width={100}
-                      priority={i === 0}
-                    />
-                    <Link
-                      href={`/products/${edge.node.merchandise.product.handle}`}
-                    >
-                      <p className={"hover:underline"}>
-                        {edge.node.merchandise.product.title}
-                      </p>
-                    </Link>
-                  </td>
-                  <td className="text-center">{edge.node.quantity}</td>
-                  <td className="text-center">
-                    $
-                    {(
-                      parseFloat(edge.node.merchandise.price.amount) *
-                      edge.node.quantity
-                    ).toFixed(2)}
-                  </td>
-                  <td>
-                    <button onClick={() => handleTrashIconClick(edge.node.id)}>
-                      <TrashIcon className="cursor-pointer size-6" />
-                    </button>
-                  </td>
-                </tr>
+                  <div key={edge.node.id} className="flex justify-between items-center mb-4">
+                    <div className="flex items-center gap-2 w-1/2">
+                      <Image
+                          src={edge.node.merchandise.image.url}
+                          alt={edge.node.merchandise.image.altText || edge.node.merchandise.product.title}
+                          height={100}
+                          width={100}
+                          priority={i === 0}
+                      />
+                      <Link href={`/products/${edge.node.merchandise.product.handle}`}>
+                        <p className={"hover:underline"}>
+                          {edge.node.merchandise.product.title}
+                        </p>
+                      </Link>
+                    </div>
+                    <div className="text-center w-1/4">{edge.node.quantity}</div>
+                    <div className="text-center w-1/4">
+                      $
+                      {(
+                          parseFloat(edge.node.merchandise.price.amount) *
+                          edge.node.quantity
+                      ).toFixed(2)}
+                    </div>
+                    <div>
+                      <button onClick={() => handleTrashIconClick(edge.node.id)}>
+                        <TrashIcon className="cursor-pointer size-6" />
+                      </button>
+                    </div>
+                  </div>
               ))}
-              <tr>
-                <td colSpan={3} className="text-right font-semibold">
-                  Estimated Total:
-                </td>
-                <td className="font-semibold">
+
+              <div className="flex justify-between mt-4 font-semibold">
+                <div>Estimated Total:</div>
+                <div>
                   $
                   {parseFloat(cartData.cart.cost.totalAmount.amount).toFixed(2)}
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                </div>
+              </div>
 
-          <Link href={cartData.cart.checkoutUrl}>
-            <Button>Check out</Button>
-          </Link>
-        </div>
-      ) : (
-        <div>
-          <h1>Your cart is empty</h1>
-          <Link href={"/collections/earrings"}>
-            <Button>Continue Shopping</Button>
-          </Link>
-        </div>
-      )}
-    </div>
+              <Link href={cartData.cart.checkoutUrl}>
+                <Button>Check out</Button>
+              </Link>
+            </div>
+        ) : (
+            <div>
+              <h1>Your cart is empty</h1>
+              <Link href={"/collections/earrings"}>
+                <Button>Continue Shopping</Button>
+              </Link>
+            </div>
+        )}
+      </div>
   );
 };
 
