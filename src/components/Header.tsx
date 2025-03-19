@@ -19,13 +19,13 @@ const Header = async () => {
   }
 
   return (
-    <div className={"flex justify-between pt-6"}>
+    <div className={"flex justify-between pt-6 px-4"}>
       <div>
         <NavigationMenu />
       </div>
 
       <Link href={"/"}>
-        <h2 className={"text-2xl"}>{shopName}</h2>
+        <h2 className={"text-2xl md:text-3xl"}>{shopName}</h2>
       </Link>
 
       <div className={"flex gap-2"}>

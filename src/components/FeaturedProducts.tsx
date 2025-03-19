@@ -49,8 +49,8 @@ const FeaturedProducts = ({ data }: { data: ProductData }) => {
                 </Link>
               )}
             </div>
-            <p className={"text-xs"}>{productEdge.node.title}</p>
-            <p className={"font-bold text-xl"}>
+            <p className={"text-xs md:text-sm"}>{productEdge.node.title}</p>
+            <p className={"font-bold text-xl md:text-2xl"}>
               {productEdge.node.priceRange.minVariantPrice.amount ===
               productEdge.node.priceRange.maxVariantPrice.amount
                 ? `$${parseFloat(productEdge.node.priceRange.minVariantPrice.amount).toFixed(2)}`

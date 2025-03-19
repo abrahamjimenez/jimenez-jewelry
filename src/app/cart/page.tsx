@@ -152,9 +152,9 @@ const Page = () => {
     <div className={"p-4"}>
       {cartData && cartData.cart.lines.edges.length > 0 ? (
         <div>
-          <h2 className={"text-2xl font-bold pb-6"}>Your cart</h2>
+          <h2 className={"text-2xl md:text-3xl font-bold pb-6"}>Your cart</h2>
 
-          <div className="mb-2 flex text-xs text-gray-600">
+          <div className="mb-2 flex text-xs md:text-sm text-gray-600">
             <div className="w-1/2">Product</div>
             <div className="w-1/4 text-center">Quantity</div>
             <div className="w-1/4 text-center">Total</div>
@@ -165,7 +165,7 @@ const Page = () => {
           {cartData.cart.lines.edges.map((edge, i) => (
             <div
               key={edge.node.id}
-              className="mb-5 flex items-center justify-between"
+              className="mb-5 flex items-center justify-between md:text-lg"
             >
               <div className="flex w-1/2 items-center gap-2">
                 <Image
@@ -205,8 +205,10 @@ const Page = () => {
             </div>
           ))}
 
-          <div className="mt-4 flex items-end justify-evenly pb-3 text-lg text-gray-700">
-            <div className={"font-light text-xs text-gray-600"}>
+          <hr/>
+
+          <div className="mt-4 flex items-end justify-evenly md:justify-end md:gap-6 pb-3 text-lg md:text-xl text-gray-700">
+            <div className={"font-light text-xs text-gray-600 "}>
               Estimated Total
             </div>
             <div>
@@ -224,7 +226,7 @@ const Page = () => {
           </Link>
         </div>
       ) : (
-        <div>
+        <div className={"text-center text-xl md:text-2xl flex flex-col gap-4 pt-40"}>
           <h1>Your cart is empty</h1>
           <Link href={"/collections/earrings"}>
             <Button>Continue Shopping</Button>
