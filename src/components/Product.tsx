@@ -225,15 +225,20 @@ const Product = ({
       <div>
         {/*Image Carousel*/}
         <ImageCarousel images={imageUrls} />
-        <h2 className={"text-xs"}>{data.title}</h2>
-        <p className={"font-bold text-xl"}>
-          Price: $
+        <div className={"pt-6 flex flex-col gap-4"}>
+        <h2 className={"text-2xl"}>{data.title}</h2>
+        <p className={"font-bold text-sm"}>
+          $
           {parseFloat(
             data.variants.nodes.find(
               (variant) => variant.id === selectedVariantId
             )?.price.amount ?? "0"
           ).toFixed(2)}
+          {" "}
+          USD
         </p>
+        <p className={"text-xs text-gray-500"}>Quantity</p>
+        </div>
       </div>
 
       {data.variants.nodes.length > 1 && <p>Color:</p>}
@@ -346,7 +351,7 @@ const Product = ({
 
       {selectedVariantId ? (
         <div>
-          <p>
+          <p className={"text-gray-500 text-xs pt-4"}>
             {(data.variants.nodes.find(
               (variant) => variant.id === selectedVariantId
             )?.quantityAvailable ?? 0) > 0
@@ -360,13 +365,14 @@ const Product = ({
               )?.quantityAvailable === 0
             }
             onClick={() => handleAddToCart()}
+            fullWidth
           >
             Add to Cart
           </Button>
         </div>
       ) : (
         <div>
-          <p>
+          <p className={"text-gray-500 text-xs"}>
             {data.variants.nodes[0].quantityAvailable > 0
               ? "In Stock"
               : "Sold Out"}
@@ -374,6 +380,7 @@ const Product = ({
           <Button
             disabled={data.variants.nodes[0].quantityAvailable === 0}
             onClick={() => handleAddToCart()}
+            fullWidth
           >
             Add to Cart
           </Button>
