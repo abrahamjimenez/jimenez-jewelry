@@ -111,7 +111,10 @@ const Page = async ({
 
       <div className="grid grid-cols-1 gap-6 pt-2 sm:grid-cols-2 lg:grid-cols-4">
         {data.map((collection, index) => (
-          <div key={collection.node.id} className={"relative group"}>
+          <div
+            key={collection.node.id}
+            className={"relative group flex flex-col gap-3 group"}
+          >
             {/*Gold Image (default)*/}
             <Link href={`/products/${collection.node.handle}`}>
               <Image
@@ -128,8 +131,8 @@ const Page = async ({
                 }
               />
             </Link>
-            <p>{collection.node.title}</p>
-            <p>
+            <p className={"text-xs"}>{collection.node.title}</p>
+            <p className={"font-bold text-xl"}>
               {collection.node.priceRange.minVariantPrice.amount ===
               collection.node.priceRange.maxVariantPrice.amount
                 ? `$${parseFloat(collection.node.priceRange.minVariantPrice.amount).toFixed(2)}`
