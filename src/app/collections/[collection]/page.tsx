@@ -103,7 +103,7 @@ const Page = async ({
 
   return (
     <div className={"p-2 sm:px-4 lg:p-0"}>
-      <h1 className={"text-2xl"}>
+      <h1 className={"text-3xl"}>
         {collectionHandle.charAt(0).toUpperCase() + collectionHandle.slice(1)}
       </h1>
 

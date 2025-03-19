@@ -45,7 +45,7 @@ const ComboboxComponent = () => {
 
   return (
     <Combobox store={combobox} onOptionSubmit={handleOptionSubmit}>
-      <p>Sort by:</p>
+      <p className={"text-xs text-gray-500 pt-3"}>Sort by:</p>
       <Combobox.Target>
         <InputBase
           component="button"
