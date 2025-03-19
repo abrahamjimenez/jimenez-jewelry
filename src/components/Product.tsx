@@ -226,18 +226,17 @@ const Product = ({
         {/*Image Carousel*/}
         <ImageCarousel images={imageUrls} />
         <div className={"pt-6 flex flex-col gap-4"}>
-        <h2 className={"text-2xl"}>{data.title}</h2>
-        <p className={"font-bold text-sm"}>
-          $
-          {parseFloat(
-            data.variants.nodes.find(
-              (variant) => variant.id === selectedVariantId
-            )?.price.amount ?? "0"
-          ).toFixed(2)}
-          {" "}
-          USD
-        </p>
-        <p className={"text-xs text-gray-500"}>Quantity</p>
+          <h2 className={"text-2xl"}>{data.title}</h2>
+          <p className={"font-bold text-sm"}>
+            $
+            {parseFloat(
+              data.variants.nodes.find(
+                (variant) => variant.id === selectedVariantId
+              )?.price.amount ?? "0"
+            ).toFixed(2)}{" "}
+            USD
+          </p>
+          <p className={"text-xs text-gray-500"}>Quantity</p>
         </div>
       </div>
 
