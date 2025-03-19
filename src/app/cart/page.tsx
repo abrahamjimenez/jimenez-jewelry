@@ -152,9 +152,9 @@ const Page = () => {
       <div className={"p-4"}>
         {cartData && cartData.cart.lines.edges.length > 0 ? (
             <div>
-              <h2 className={"text-2xl font-bold"}>Your cart</h2>
+              <h2 className={"text-2xl font-bold pb-6"}>Your cart</h2>
 
-              <div className="flex font-semibold mb-2">
+              <div className="flex text-xs text-gray-600 mb-2">
                 <div className="w-1/2">Product</div>
                 <div className="w-1/4 text-center">Quantity</div>
                 <div className="w-1/4 text-center">Total</div>
@@ -163,7 +163,7 @@ const Page = () => {
               <hr className={"pb-6"}/>
 
               {cartData.cart.lines.edges.map((edge, i) => (
-                  <div key={edge.node.id} className="flex justify-between items-center mb-4">
+                  <div key={edge.node.id} className="flex justify-between items-center mb-5">
                     <div className="flex items-center gap-2 w-1/2">
                       <Image
                           src={edge.node.merchandise.image.url}
@@ -187,23 +187,27 @@ const Page = () => {
                       ).toFixed(2)}
                     </div>
                     <div>
-                      <button onClick={() => handleTrashIconClick(edge.node.id)}>
+                      <button onClick={() => handleTrashIconClick(edge.node.id)} className={"hover:text-red-600"}>
                         <TrashIcon className="cursor-pointer size-6" />
                       </button>
                     </div>
                   </div>
               ))}
 
-              <div className="flex justify-between mt-4 font-semibold">
-                <div>Estimated Total:</div>
+              <div className="flex justify-evenly  items-end mt-4 text-lg text-gray-700 pb-3">
+                <div className={"font-light text-xs text-gray-600"}>Estimated Total</div>
                 <div>
                   $
                   {parseFloat(cartData.cart.cost.totalAmount.amount).toFixed(2)}
+                  {" "}
+                  {cartData.cart.cost.totalAmount.currencyCode}
                 </div>
               </div>
 
+              <p className={"pb-2 text-xs font-light text-gray-500 text-center"}>Taxes, discounts and shipping calculated at checkout. </p>
+
               <Link href={cartData.cart.checkoutUrl}>
-                <Button>Check out</Button>
+                <Button fullWidth>Check out</Button>
               </Link>
             </div>
         ) : (
