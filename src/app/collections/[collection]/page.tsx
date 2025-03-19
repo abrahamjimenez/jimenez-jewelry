@@ -103,7 +103,7 @@ const Page = async ({
 
   return (
     <div className={"p-2 sm:px-4 lg:p-0"}>
-      <h1 className={"text-3xl"}>
+      <h1 className={"text-3xl md:text-4xl"}>
         {collectionHandle.charAt(0).toUpperCase() + collectionHandle.slice(1)}
       </h1>
 
@@ -131,8 +131,8 @@ const Page = async ({
                 }
               />
             </Link>
-            <p className={"text-xs"}>{collection.node.title}</p>
-            <p className={"font-bold text-xl"}>
+            <p className={"text-xs md:text-sm"}>{collection.node.title}</p>
+            <p className={"font-bold text-xl md:text-2xl"}>
               {collection.node.priceRange.minVariantPrice.amount ===
               collection.node.priceRange.maxVariantPrice.amount
                 ? `$${parseFloat(collection.node.priceRange.minVariantPrice.amount).toFixed(2)}`

@@ -221,13 +221,13 @@ const Product = ({
   const imageUrls: string[] = data.images.edges.map((map) => map.node.url);
 
   return (
-    <div className={"p-2 sm:px-4 lg:p-0"}>
-      <div>
+    <div className={"p-2 sm:px-4 lg:p-0 "}>
+      <div className={"md:grid md:grid-cols-2 gap-10"}>
         {/*Image Carousel*/}
         <ImageCarousel images={imageUrls} />
         <div className={"pt-6 flex flex-col gap-4"}>
-          <h2 className={"text-2xl"}>{data.title}</h2>
-          <p className={"font-bold text-sm"}>
+          <h2 className={"text-2xl md:text-3xl"}>{data.title}</h2>
+          <p className={"font-bold text-sm md:text-lg"}>
             $
             {parseFloat(
               data.variants.nodes.find(
@@ -236,13 +236,13 @@ const Product = ({
             ).toFixed(2)}{" "}
             USD
           </p>
-          <p className={"text-xs text-gray-500"}>Quantity</p>
+          <p className={"text-xs text-gray-500 md:hidden"}>Quantity</p>
         </div>
       </div>
 
       {data.variants.nodes.length > 1 && <p>Color:</p>}
 
-      <Group>
+      <Group className={"pt-6"}>
         {Array.from(colors).map((color, index) => (
           <ColorSwatch
             key={color + index}
@@ -350,7 +350,7 @@ const Product = ({
 
       {selectedVariantId ? (
         <div>
-          <p className={"text-gray-500 text-xs pt-4"}>
+          <p className={"text-gray-500 text-xs md:text-sm md:text-gray-600 pt-4"}>
             {(data.variants.nodes.find(
               (variant) => variant.id === selectedVariantId
             )?.quantityAvailable ?? 0) > 0
