@@ -154,7 +154,7 @@ const Page = () => {
         <div>
           <h2 className={"text-2xl font-bold pb-6"}>Your cart</h2>
 
-          <div className="flex text-xs text-gray-600 mb-2">
+          <div className="mb-2 flex text-xs text-gray-600">
             <div className="w-1/2">Product</div>
             <div className="w-1/4 text-center">Quantity</div>
             <div className="w-1/4 text-center">Total</div>
@@ -165,9 +165,9 @@ const Page = () => {
           {cartData.cart.lines.edges.map((edge, i) => (
             <div
               key={edge.node.id}
-              className="flex justify-between items-center mb-5"
+              className="mb-5 flex items-center justify-between"
             >
-              <div className="flex items-center gap-2 w-1/2">
+              <div className="flex w-1/2 items-center gap-2">
                 <Image
                   src={edge.node.merchandise.image.url}
                   alt={
@@ -186,8 +186,8 @@ const Page = () => {
                   </p>
                 </Link>
               </div>
-              <div className="text-center w-1/4">{edge.node.quantity}</div>
-              <div className="text-center w-1/4">
+              <div className="w-1/4 text-center">{edge.node.quantity}</div>
+              <div className="w-1/4 text-center">
                 $
                 {(
                   parseFloat(edge.node.merchandise.price.amount) *
@@ -205,7 +205,7 @@ const Page = () => {
             </div>
           ))}
 
-          <div className="flex justify-evenly  items-end mt-4 text-lg text-gray-700 pb-3">
+          <div className="mt-4 flex items-end justify-evenly pb-3 text-lg text-gray-700">
             <div className={"font-light text-xs text-gray-600"}>
               Estimated Total
             </div>
