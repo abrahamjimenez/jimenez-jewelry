@@ -149,76 +149,89 @@ const Page = () => {
   };
 
   return (
-      <div className={"p-4"}>
-        {cartData && cartData.cart.lines.edges.length > 0 ? (
-            <div>
-              <h2 className={"text-2xl font-bold pb-6"}>Your cart</h2>
+    <div className={"p-4"}>
+      {cartData && cartData.cart.lines.edges.length > 0 ? (
+        <div>
+          <h2 className={"text-2xl font-bold pb-6"}>Your cart</h2>
 
-              <div className="flex text-xs text-gray-600 mb-2">
-                <div className="w-1/2">Product</div>
-                <div className="w-1/4 text-center">Quantity</div>
-                <div className="w-1/4 text-center">Total</div>
+          <div className="flex text-xs text-gray-600 mb-2">
+            <div className="w-1/2">Product</div>
+            <div className="w-1/4 text-center">Quantity</div>
+            <div className="w-1/4 text-center">Total</div>
+          </div>
+
+          <hr className={"pb-6"} />
+
+          {cartData.cart.lines.edges.map((edge, i) => (
+            <div
+              key={edge.node.id}
+              className="flex justify-between items-center mb-5"
+            >
+              <div className="flex items-center gap-2 w-1/2">
+                <Image
+                  src={edge.node.merchandise.image.url}
+                  alt={
+                    edge.node.merchandise.image.altText ||
+                    edge.node.merchandise.product.title
+                  }
+                  height={100}
+                  width={100}
+                  priority={i === 0}
+                />
+                <Link
+                  href={`/products/${edge.node.merchandise.product.handle}`}
+                >
+                  <p className={"hover:underline"}>
+                    {edge.node.merchandise.product.title}
+                  </p>
+                </Link>
               </div>
-
-              <hr className={"pb-6"}/>
-
-              {cartData.cart.lines.edges.map((edge, i) => (
-                  <div key={edge.node.id} className="flex justify-between items-center mb-5">
-                    <div className="flex items-center gap-2 w-1/2">
-                      <Image
-                          src={edge.node.merchandise.image.url}
-                          alt={edge.node.merchandise.image.altText || edge.node.merchandise.product.title}
-                          height={100}
-                          width={100}
-                          priority={i === 0}
-                      />
-                      <Link href={`/products/${edge.node.merchandise.product.handle}`}>
-                        <p className={"hover:underline"}>
-                          {edge.node.merchandise.product.title}
-                        </p>
-                      </Link>
-                    </div>
-                    <div className="text-center w-1/4">{edge.node.quantity}</div>
-                    <div className="text-center w-1/4">
-                      $
-                      {(
-                          parseFloat(edge.node.merchandise.price.amount) *
-                          edge.node.quantity
-                      ).toFixed(2)}
-                    </div>
-                    <div>
-                      <button onClick={() => handleTrashIconClick(edge.node.id)} className={"hover:text-red-600"}>
-                        <TrashIcon className="cursor-pointer size-6" />
-                      </button>
-                    </div>
-                  </div>
-              ))}
-
-              <div className="flex justify-evenly  items-end mt-4 text-lg text-gray-700 pb-3">
-                <div className={"font-light text-xs text-gray-600"}>Estimated Total</div>
-                <div>
-                  $
-                  {parseFloat(cartData.cart.cost.totalAmount.amount).toFixed(2)}
-                  {" "}
-                  {cartData.cart.cost.totalAmount.currencyCode}
-                </div>
+              <div className="text-center w-1/4">{edge.node.quantity}</div>
+              <div className="text-center w-1/4">
+                $
+                {(
+                  parseFloat(edge.node.merchandise.price.amount) *
+                  edge.node.quantity
+                ).toFixed(2)}
               </div>
-
-              <p className={"pb-2 text-xs font-light text-gray-500 text-center"}>Taxes, discounts and shipping calculated at checkout. </p>
-
-              <Link href={cartData.cart.checkoutUrl}>
-                <Button fullWidth>Check out</Button>
-              </Link>
+              <div>
+                <button
+                  onClick={() => handleTrashIconClick(edge.node.id)}
+                  className={"hover:text-red-600"}
+                >
+                  <TrashIcon className="cursor-pointer size-6" />
+                </button>
+              </div>
             </div>
-        ) : (
+          ))}
+
+          <div className="flex justify-evenly  items-end mt-4 text-lg text-gray-700 pb-3">
+            <div className={"font-light text-xs text-gray-600"}>
+              Estimated Total
+            </div>
             <div>
-              <h1>Your cart is empty</h1>
-              <Link href={"/collections/earrings"}>
-                <Button>Continue Shopping</Button>
-              </Link>
+              ${parseFloat(cartData.cart.cost.totalAmount.amount).toFixed(2)}{" "}
+              {cartData.cart.cost.totalAmount.currencyCode}
             </div>
-        )}
-      </div>
+          </div>
+
+          <p className={"pb-2 text-xs font-light text-gray-500 text-center"}>
+            Taxes, discounts and shipping calculated at checkout.{" "}
+          </p>
+
+          <Link href={cartData.cart.checkoutUrl}>
+            <Button fullWidth>Check out</Button>
+          </Link>
+        </div>
+      ) : (
+        <div>
+          <h1>Your cart is empty</h1>
+          <Link href={"/collections/earrings"}>
+            <Button>Continue Shopping</Button>
+          </Link>
+        </div>
+      )}
+    </div>
   );
 };
 
