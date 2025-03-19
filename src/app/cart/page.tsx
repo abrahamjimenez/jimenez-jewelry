@@ -149,71 +149,78 @@ const Page = () => {
   };
 
   return (
-    <div>
+    <div className={"p-4"}>
       {cartData && cartData.cart.lines.edges.length > 0 ? (
         <div>
-          <table>
-            <caption>Your cart</caption>
+          <h2 className={"text-2xl font-bold pb-6"}>Your cart</h2>
 
-            <thead>
-              <tr>
-                <th>Product</th>
-                <th>Quantity</th>
-                <th>Total</th>
-              </tr>
-            </thead>
+          <div className="mb-2 flex text-xs text-gray-600">
+            <div className="w-1/2">Product</div>
+            <div className="w-1/4 text-center">Quantity</div>
+            <div className="w-1/4 text-center">Total</div>
+          </div>
 
-            <tbody>
-              {cartData.cart.lines.edges.map((edge, i) => (
-                <tr key={edge.node.id}>
-                  <td className="flex items-center gap-2">
-                    <Image
-                      src={edge.node.merchandise.image.url}
-                      alt={
-                        edge.node.merchandise.image.altText ||
-                        edge.node.merchandise.product.title
-                      }
-                      height={100}
-                      width={100}
-                      priority={i === 0}
-                    />
-                    <Link
-                      href={`/products/${edge.node.merchandise.product.handle}`}
-                    >
-                      <p className={"hover:underline"}>
-                        {edge.node.merchandise.product.title}
-                      </p>
-                    </Link>
-                  </td>
-                  <td className="text-center">{edge.node.quantity}</td>
-                  <td className="text-center">
-                    $
-                    {(
-                      parseFloat(edge.node.merchandise.price.amount) *
-                      edge.node.quantity
-                    ).toFixed(2)}
-                  </td>
-                  <td>
-                    <button onClick={() => handleTrashIconClick(edge.node.id)}>
-                      <TrashIcon className="cursor-pointer size-6" />
-                    </button>
-                  </td>
-                </tr>
-              ))}
-              <tr>
-                <td colSpan={3} className="text-right font-semibold">
-                  Estimated Total:
-                </td>
-                <td className="font-semibold">
-                  $
-                  {parseFloat(cartData.cart.cost.totalAmount.amount).toFixed(2)}
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <hr className={"pb-6"} />
+
+          {cartData.cart.lines.edges.map((edge, i) => (
+            <div
+              key={edge.node.id}
+              className="mb-5 flex items-center justify-between"
+            >
+              <div className="flex w-1/2 items-center gap-2">
+                <Image
+                  src={edge.node.merchandise.image.url}
+                  alt={
+                    edge.node.merchandise.image.altText ||
+                    edge.node.merchandise.product.title
+                  }
+                  height={100}
+                  width={100}
+                  priority={i === 0}
+                />
+                <Link
+                  href={`/products/${edge.node.merchandise.product.handle}`}
+                >
+                  <p className={"hover:underline"}>
+                    {edge.node.merchandise.product.title}
+                  </p>
+                </Link>
+              </div>
+              <div className="w-1/4 text-center">{edge.node.quantity}</div>
+              <div className="w-1/4 text-center">
+                $
+                {(
+                  parseFloat(edge.node.merchandise.price.amount) *
+                  edge.node.quantity
+                ).toFixed(2)}
+              </div>
+              <div>
+                <button
+                  onClick={() => handleTrashIconClick(edge.node.id)}
+                  className={"hover:text-red-600"}
+                >
+                  <TrashIcon className="cursor-pointer size-6" />
+                </button>
+              </div>
+            </div>
+          ))}
+
+          <div className="mt-4 flex items-end justify-evenly pb-3 text-lg text-gray-700">
+            <div className={"font-light text-xs text-gray-600"}>
+              Estimated Total
+            </div>
+            <div>
+              ${parseFloat(cartData.cart.cost.totalAmount.amount).toFixed(2)}{" "}
+              {cartData.cart.cost.totalAmount.currencyCode}
+            </div>
+          </div>
+
+          <p className={"pb-2 text-xs font-light text-gray-500 text-center"}>
+            Taxes, discounts and shipping calculated at checkout.{" "}
+          </p>
 
           <Link href={cartData.cart.checkoutUrl}>
-            <Button>Check out</Button>
+            <Button fullWidth>Check out</Button>
           </Link>
         </div>
       ) : (
