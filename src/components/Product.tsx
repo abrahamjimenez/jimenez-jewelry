@@ -350,7 +350,11 @@ const Product = ({
 
       {selectedVariantId ? (
         <div>
-          <p className={"text-gray-500 text-xs md:text-sm lg:text-lg md:text-gray-600 pt-4"}>
+          <p
+            className={
+              "text-gray-500 text-xs md:text-sm lg:text-lg md:text-gray-600 pt-4"
+            }
+          >
             {(data.variants.nodes.find(
               (variant) => variant.id === selectedVariantId
             )?.quantityAvailable ?? 0) > 0
