@@ -76,9 +76,7 @@ const Home = async () => {
 
   return (
     <div className={"p-2 sm:px-4 lg:p-0"}>
-      <h1 className={"text-xl md:text-2xl pb-4"}>
-        Featured products
-      </h1>
+      <h1 className={"text-xl md:text-2xl pb-4 pl-4"}>Featured products</h1>
       <FeaturedProducts data={data} />
     </div>
   );
