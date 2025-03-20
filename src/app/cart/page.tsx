@@ -155,7 +155,7 @@ const Page = () => {
           <h2 className="pb-6 text-2xl font-bold md:text-3xl">Your cart</h2>
 
           {/* Grid Header */}
-          <div className="mb-2 grid grid-cols-4 text-xs text-gray-600 md:text-sm">
+          <div className="mb-2 grid grid-cols-[2fr_1fr_1fr_1fr] text-xs text-gray-600 md:text-sm">
             <div>Product</div>
             <div className="text-center">Quantity</div>
             <div className="text-center">Total</div>
@@ -168,10 +168,10 @@ const Page = () => {
           {cartData.cart.lines.edges.map((edge, i) => (
             <div
               key={edge.node.id}
-              className="mb-5 grid grid-cols-4 items-center gap-4 md:gap-6"
+              className="mb-5 grid grid-cols-[2fr_1fr_1fr_1fr] items-center gap-4 md:gap-6"
             >
               {/* Product Info */}
-              <div className="flex items-center gap-2">
+              <div className="flex flex-col md:flex-row items-center gap-2 md:gap-4">
                 <Image
                   src={edge.node.merchandise.image.url}
                   alt={
