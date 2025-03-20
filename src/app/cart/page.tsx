@@ -214,7 +214,7 @@ const Page = () => {
               <hr />
 
               {/* Estimated Total */}
-              <div className="mt-4 grid grid-cols-2 items-end md:gap-6 pb-3 text-lg md:text-xl text-gray-700">
+              <div className="mt-4 grid grid-cols-2 md:flex items-end justify-end md:gap-6 pb-3 text-lg md:text-xl text-gray-700">
                 <div className="font-light text-xs text-gray-600">Estimated Total</div>
                 <div className="text-right">
                   ${parseFloat(cartData.cart.cost.totalAmount.amount).toFixed(2)}{" "}
