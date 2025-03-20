@@ -103,13 +103,15 @@ const Page = async ({
 
   return (
     <div className={"p-2 sm:px-4 lg:p-0"}>
-      <h1 className={"text-3xl md:text-4xl"}>
+      <h1 className={"text-3xl md:text-4xl pl-4"}>
         {collectionHandle.charAt(0).toUpperCase() + collectionHandle.slice(1)}
       </h1>
 
-      <Combobox />
+      <div className={"px-4"}>
+        <Combobox />
+      </div>
 
-      <div className="grid grid-cols-1 gap-6 pt-2 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-6 pt-2 px-4 sm:grid-cols-2 lg:grid-cols-4">
         {data.map((collection, index) => (
           <div
             key={collection.node.id}
