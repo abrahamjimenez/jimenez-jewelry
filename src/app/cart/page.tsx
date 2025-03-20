@@ -149,13 +149,13 @@ const Page = () => {
   };
 
   return (
-    <div className="p-4 max-w-screen-lg mx-auto">
+    <div className="mx-auto max-w-screen-lg p-4">
       {cartData && cartData.cart.lines.edges.length > 0 ? (
         <div>
-          <h2 className="text-2xl md:text-3xl font-bold pb-6">Your cart</h2>
+          <h2 className="pb-6 text-2xl font-bold md:text-3xl">Your cart</h2>
 
           {/* Grid Header */}
-          <div className="grid grid-cols-4 text-xs md:text-sm text-gray-600 mb-2">
+          <div className="mb-2 grid grid-cols-4 text-xs text-gray-600 md:text-sm">
             <div>Product</div>
             <div className="text-center">Quantity</div>
             <div className="text-center">Total</div>
@@ -168,7 +168,7 @@ const Page = () => {
           {cartData.cart.lines.edges.map((edge, i) => (
             <div
               key={edge.node.id}
-              className="grid grid-cols-4 items-center gap-4 md:gap-6 mb-5"
+              className="mb-5 grid grid-cols-4 items-center gap-4 md:gap-6"
             >
               {/* Product Info */}
               <div className="flex items-center gap-2">
@@ -209,7 +209,7 @@ const Page = () => {
                   onClick={() => handleTrashIconClick(edge.node.id)}
                   className="hover:text-red-600"
                 >
-                  <TrashIcon className="cursor-pointer size-6 mx-auto" />
+                  <TrashIcon className="mx-auto cursor-pointer size-6" />
                 </button>
               </div>
             </div>
@@ -218,8 +218,8 @@ const Page = () => {
           <hr />
 
           {/* Estimated Total */}
-          <div className="mt-4 grid grid-cols-2 md:flex items-end justify-end md:gap-6 pb-3 text-lg md:text-xl text-gray-700">
-            <div className="font-light text-xs text-gray-600">
+          <div className="mt-4 grid grid-cols-2 items-end justify-end pb-3 text-lg text-gray-700 md:flex md:gap-6 md:text-xl">
+            <div className="text-xs font-light text-gray-600">
               Estimated Total
             </div>
             <div className="text-right">
@@ -228,7 +228,7 @@ const Page = () => {
             </div>
           </div>
 
-          <p className="pb-2 text-xs font-light text-gray-500 text-center">
+          <p className="pb-2 text-center text-xs font-light text-gray-500">
             Taxes, discounts and shipping calculated at checkout.
           </p>
 
@@ -237,7 +237,7 @@ const Page = () => {
           </Link>
         </div>
       ) : (
-        <div className="text-center text-xl md:text-2xl flex flex-col gap-4 pt-40">
+        <div className="flex flex-col gap-4 pt-40 text-center text-xl md:text-2xl">
           <h1>Your cart is empty</h1>
           <Link href={"/collections/earrings"}>
             <Button>Continue Shopping</Button>
