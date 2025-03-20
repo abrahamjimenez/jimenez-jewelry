@@ -6,9 +6,9 @@ import Link from "next/link";
 
 const FeaturedProducts = ({ data }: { data: ProductData }) => {
   return (
-    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+    <div className="grid grid-cols-1 gap-6 px-4 sm:grid-cols-2 lg:grid-cols-4">
       {data.map((productEdge, i) => (
-        <div key={productEdge.node.id}>
+        <div className={"flex mx-auto"} key={productEdge.node.id}>
           <div
             key={productEdge.node.id}
             className="relative flex flex-col gap-3 group"

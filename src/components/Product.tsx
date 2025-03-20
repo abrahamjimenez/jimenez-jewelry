@@ -221,8 +221,8 @@ const Product = ({
   const imageUrls: string[] = data.images.edges.map((map) => map.node.url);
 
   return (
-    <div className={"p-2 sm:px-4 lg:p-0 "}>
-      <div className={"md:grid md:grid-cols-2 gap-10"}>
+    <div className={"p-4 sm:px-6 lg:p-8 "}>
+      <div className={"md:grid md:grid-cols-2 gap-10 mx-auto"}>
         {/*Image Carousel*/}
         <ImageCarousel images={imageUrls} />
         <div className={"pt-6 flex flex-col gap-4"}>
@@ -350,7 +350,11 @@ const Product = ({
 
       {selectedVariantId ? (
         <div>
-          <p className={"text-gray-500 text-xs md:text-sm md:text-gray-600 pt-4"}>
+          <p
+            className={
+              "text-gray-500 text-xs md:text-sm lg:text-lg md:text-gray-600 pt-4"
+            }
+          >
             {(data.variants.nodes.find(
               (variant) => variant.id === selectedVariantId
             )?.quantityAvailable ?? 0) > 0
@@ -371,7 +375,7 @@ const Product = ({
         </div>
       ) : (
         <div>
-          <p className={"text-gray-500 text-xs"}>
+          <p className={"text-gray-500 text-xs md:text-sm lg:text-lg"}>
             {data.variants.nodes[0].quantityAvailable > 0
               ? "In Stock"
               : "Sold Out"}
