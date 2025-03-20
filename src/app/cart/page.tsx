@@ -149,91 +149,96 @@ const Page = () => {
   };
 
   return (
-    <div className={"p-4"}>
-      {cartData && cartData.cart.lines.edges.length > 0 ? (
-        <div>
-          <h2 className={"text-2xl md:text-3xl font-bold pb-6"}>Your cart</h2>
-
-          <div className="mb-2 flex text-xs md:text-sm text-gray-600">
-            <div className="w-1/2">Product</div>
-            <div className="w-1/4 text-center">Quantity</div>
-            <div className="w-1/4 text-center">Total</div>
-          </div>
-
-          <hr className={"pb-6"} />
-
-          {cartData.cart.lines.edges.map((edge, i) => (
-            <div
-              key={edge.node.id}
-              className="mb-5 flex items-center justify-between md:text-lg"
-            >
-              <div className="flex w-1/2 items-center gap-2">
-                <Image
-                  src={edge.node.merchandise.image.url}
-                  alt={
-                    edge.node.merchandise.image.altText ||
-                    edge.node.merchandise.product.title
-                  }
-                  height={100}
-                  width={100}
-                  priority={i === 0}
-                />
-                <Link
-                  href={`/products/${edge.node.merchandise.product.handle}`}
-                >
-                  <p className={"hover:underline"}>
-                    {edge.node.merchandise.product.title}
-                  </p>
-                </Link>
-              </div>
-              <div className="w-1/4 text-center">{edge.node.quantity}</div>
-              <div className="w-1/4 text-center">
-                $
-                {(
-                  parseFloat(edge.node.merchandise.price.amount) *
-                  edge.node.quantity
-                ).toFixed(2)}
-              </div>
-              <div>
-                <button
-                  onClick={() => handleTrashIconClick(edge.node.id)}
-                  className={"hover:text-red-600"}
-                >
-                  <TrashIcon className="cursor-pointer size-6" />
-                </button>
-              </div>
-            </div>
-          ))}
-
-          <hr/>
-
-          <div className="mt-4 flex items-end justify-evenly md:justify-end md:gap-6 pb-3 text-lg md:text-xl text-gray-700">
-            <div className={"font-light text-xs text-gray-600 "}>
-              Estimated Total
-            </div>
+      <div className="p-4 max-w-screen-lg mx-auto">
+        {cartData && cartData.cart.lines.edges.length > 0 ? (
             <div>
-              ${parseFloat(cartData.cart.cost.totalAmount.amount).toFixed(2)}{" "}
-              {cartData.cart.cost.totalAmount.currencyCode}
+              <h2 className="text-2xl md:text-3xl font-bold pb-6">Your cart</h2>
+
+              {/* Grid Header */}
+              <div className="grid grid-cols-4 text-xs md:text-sm text-gray-600 mb-2">
+                <div>Product</div>
+                <div className="text-center">Quantity</div>
+                <div className="text-center">Total</div>
+                <div className="text-center">Remove</div>
+              </div>
+
+              <hr className="pb-6" />
+
+              {/* Cart Items Grid */}
+              {cartData.cart.lines.edges.map((edge, i) => (
+                  <div
+                      key={edge.node.id}
+                      className="grid grid-cols-4 items-center gap-4 md:gap-6 mb-5"
+                  >
+                    {/* Product Info */}
+                    <div className="flex items-center gap-2">
+                      <Image
+                          src={edge.node.merchandise.image.url}
+                          alt={
+                              edge.node.merchandise.image.altText ||
+                              edge.node.merchandise.product.title
+                          }
+                          height={100}
+                          width={100}
+                          priority={i === 0}
+                      />
+                      <Link href={`/products/${edge.node.merchandise.product.handle}`}>
+                        <p className="hover:underline">{edge.node.merchandise.product.title}</p>
+                      </Link>
+                    </div>
+
+                    {/* Quantity */}
+                    <div className="text-center">{edge.node.quantity}</div>
+
+                    {/* Total Price */}
+                    <div className="text-center">
+                      $
+                      {(
+                          parseFloat(edge.node.merchandise.price.amount) *
+                          edge.node.quantity
+                      ).toFixed(2)}
+                    </div>
+
+                    {/* Remove (Trash Icon) */}
+                    <div className="text-center">
+                      <button
+                          onClick={() => handleTrashIconClick(edge.node.id)}
+                          className="hover:text-red-600"
+                      >
+                        <TrashIcon className="cursor-pointer size-6 mx-auto" />
+                      </button>
+                    </div>
+                  </div>
+              ))}
+
+              <hr />
+
+              {/* Estimated Total */}
+              <div className="mt-4 grid grid-cols-2 items-end md:gap-6 pb-3 text-lg md:text-xl text-gray-700">
+                <div className="font-light text-xs text-gray-600">Estimated Total</div>
+                <div className="text-right">
+                  ${parseFloat(cartData.cart.cost.totalAmount.amount).toFixed(2)}{" "}
+                  {cartData.cart.cost.totalAmount.currencyCode}
+                </div>
+              </div>
+
+              <p className="pb-2 text-xs font-light text-gray-500 text-center">
+                Taxes, discounts and shipping calculated at checkout.
+              </p>
+
+              <Link href={cartData.cart.checkoutUrl}>
+                <Button fullWidth>Check out</Button>
+              </Link>
             </div>
-          </div>
-
-          <p className={"pb-2 text-xs font-light text-gray-500 text-center"}>
-            Taxes, discounts and shipping calculated at checkout.{" "}
-          </p>
-
-          <Link href={cartData.cart.checkoutUrl}>
-            <Button fullWidth>Check out</Button>
-          </Link>
-        </div>
-      ) : (
-        <div className={"text-center text-xl md:text-2xl flex flex-col gap-4 pt-40"}>
-          <h1>Your cart is empty</h1>
-          <Link href={"/collections/earrings"}>
-            <Button>Continue Shopping</Button>
-          </Link>
-        </div>
-      )}
-    </div>
+        ) : (
+            <div className="text-center text-xl md:text-2xl flex flex-col gap-4 pt-40">
+              <h1>Your cart is empty</h1>
+              <Link href={"/collections/earrings"}>
+                <Button>Continue Shopping</Button>
+              </Link>
+            </div>
+        )}
+      </div>
   );
 };
 
