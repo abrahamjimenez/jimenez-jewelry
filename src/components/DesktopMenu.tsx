@@ -64,7 +64,7 @@ const DesktopMenu = ({ data }: { data: MenuInterface }) => {
                                 onClose={() => setOpened(false)}
                             >
                                 <Menu.Target>
-                                    <Anchor>
+                                    <Anchor c={"black"}>
                                         {item.title} <span style={{ transform: `rotate(${opened ? 180 : 0}deg)`, display: "inline-block", transition: "transform 0.2s ease" }}>▼</span>
                                     </Anchor>
                                 </Menu.Target>
