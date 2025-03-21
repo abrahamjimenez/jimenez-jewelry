@@ -48,7 +48,12 @@ const NavigationMenu = async () => {
 
   return (
     <div>
-      <Hamburger data={menuItems} />
+        <div className={"lg:hidden"}>
+            <Hamburger data={menuItems} />
+        </div>
+        <div className={"hidden lg:block"}>
+            <DesktopMenu data={menuItems} />
+        </div>
     </div>
   );
 };
