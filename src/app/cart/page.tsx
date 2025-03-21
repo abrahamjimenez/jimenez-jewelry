@@ -185,7 +185,7 @@ const Page = () => {
                 <Link
                   href={`/products/${edge.node.merchandise.product.handle}`}
                 >
-                  <p className="hover:underline">
+                  <p className="hover:underline text-center">
                     {edge.node.merchandise.product.title}
                   </p>
                 </Link>

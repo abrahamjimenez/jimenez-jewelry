@@ -1,20 +1,21 @@
 import React from "react";
 import { fetchShopifyData } from "@/utils/shopify";
 import Hamburger from "@/components/Hamburger";
+import DesktopMenu from "@/components/DesktopMenu";
 
 export interface MenuInterface {
-  items: [
+  items: Array<
     {
       title: string;
       url: string;
-      items: [
+      items: Array<
         {
           title: string;
           url: string;
-        },
-      ];
-    },
-  ];
+        }
+      >;
+    }
+  >;
 }
 
 const NavigationMenu = async () => {
@@ -48,7 +49,12 @@ const NavigationMenu = async () => {
 
   return (
     <div>
-      <Hamburger data={menuItems} />
+        <div className={"lg:hidden"}>
+            <Hamburger data={menuItems} />
+        </div>
+        <div className={"hidden lg:block"}>
+            <DesktopMenu data={menuItems} />
+        </div>
     </div>
   );
 };

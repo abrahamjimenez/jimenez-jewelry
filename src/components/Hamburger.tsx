@@ -15,7 +15,7 @@ import Link from "next/link";
 interface InnerMenuInterface {
   title: string;
   url: string;
-  items: [{ title: string; url: string }];
+  items: Array<{ title: string; url: string }>;
 }
 
 const Hamburger = ({ data }: { data: MenuInterface }) => {
