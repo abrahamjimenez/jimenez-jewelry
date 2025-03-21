@@ -27,18 +27,18 @@ const Header = async () => {
   }
 
   return (
-    <div className={"flex justify-between pt-6 px-4"}>
-      <div className={"flex self-center"}>
+    <div className={"grid grid-cols-3 lg:grid-cols-2 justify-items-center items-center pt-6 px-4"}>
+      <div className={"flex self-center justify-self-start"}>
         <NavigationMenu />
       </div>
 
         {/*  */}
-      <Link className={"lg:hidden"} href={"/"}>
+      <Link className={"lg:hidden items-center"} href={"/"}>
         {/*<h2 className={"text-2xl md:text-3xl"}>{shopName}</h2>*/}
         <Image src={shopLogo} alt={"logo"} width={100} height={100} />
       </Link>
 
-      <div className={"flex gap-2"}>
+      <div className={"flex gap-2 justify-self-end"}>
         <div className={"flex items-center"}>
           <Link href={"/cart"}>
             <ShoppingBagIcon className={"size-8"} />
