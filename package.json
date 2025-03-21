@@ -19,6 +19,7 @@
     "@vercel/speed-insights": "^1.2.0",
     "embla-carousel-react": "^8.5.2",
     "next": "15.2.3",
+    "nodemailer": "^6.10.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
