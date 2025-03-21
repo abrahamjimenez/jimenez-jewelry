@@ -1,6 +1,7 @@
 import React from "react";
 import { fetchShopifyData } from "@/utils/shopify";
 import Hamburger from "@/components/Hamburger";
+import DesktopMenu from "@/components/DesktopMenu";
 
 export interface MenuInterface {
   items: Array<
