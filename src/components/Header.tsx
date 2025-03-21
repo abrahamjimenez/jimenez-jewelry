@@ -2,30 +2,40 @@ import { ShoppingBagIcon } from "@heroicons/react/24/outline";
 import { fetchShopifyData } from "@/utils/shopify";
 import NavigationMenu from "@/components/NavigationMenu";
 import Link from "next/link";
+import Image from "next/image";
 
 const Header = async () => {
   const query = `{
         shop {
             name
+            brand {
+            logo {
+                image {
+                  url(transform: {maxWidth: 100, maxHeight: 100})
+                }
+            }
         }
-    }`;
-  let shopName = "Unknown";
+    }
+}`;
+  let shopLogo = "Unknown";
 
   try {
     const { shop } = await fetchShopifyData(query);
-    shopName = shop.name;
+    shopLogo = shop.brand.logo.image.url
   } catch (error) {
     console.error("Failed to fetch shop name:", error);
   }
 
   return (
     <div className={"flex justify-between pt-6 px-4"}>
-      <div>
+      <div className={"flex self-center"}>
         <NavigationMenu />
       </div>
 
-      <Link href={"/"}>
-        <h2 className={"text-2xl md:text-3xl"}>{shopName}</h2>
+        {/*  */}
+      <Link className={"lg:hidden"} href={"/"}>
+        {/*<h2 className={"text-2xl md:text-3xl"}>{shopName}</h2>*/}
+        <Image src={shopLogo} alt={"logo"} width={100} height={100} />
       </Link>
 
       <div className={"flex gap-2"}>
