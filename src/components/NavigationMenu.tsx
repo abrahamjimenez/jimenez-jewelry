@@ -3,18 +3,18 @@ import { fetchShopifyData } from "@/utils/shopify";
 import Hamburger from "@/components/Hamburger";
 
 export interface MenuInterface {
-  items: [
+  items: Array<
     {
       title: string;
       url: string;
-      items: [
+      items: Array<
         {
           title: string;
           url: string;
-        },
-      ];
-    },
-  ];
+        }
+      >;
+    }
+  >;
 }
 
 const NavigationMenu = async () => {
