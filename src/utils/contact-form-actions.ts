@@ -8,9 +8,10 @@ import {Values} from "@/components/ContactForm";
 export async function action({values}: {values: Values}) {
 // Nodemailer Transporter
 const transporter = nodemailer.createTransport({
+    service: "gmail",
     host: "smtp.gmail.com",
-    port: 587,
-    secure: false, // true for port 465, false for other ports
+    port: 465,
+    secure: true, // true for port 465, false for other ports
     auth: {
         user: process.env.MAIL,
         pass: process.env.MAIL_PASSWORD,
@@ -19,9 +20,9 @@ const transporter = nodemailer.createTransport({
 
 // Nodemailer Send Mail
 const mailOptions: Options = {
-    from: process.env.GMAIL,
-    to: values.email,
-    subject: "Jimenez Jewelry - Storefront",
+    from: process.env.MAIL,
+    to: process.env.MAIL_TO,
+    subject: "Jimenez Jewelry",
     html: `<b>Name: </b> ${values.name}<br/><br/><b>Email: </b> ${values.email}<br/><br/><b>Phone: </b> ${values.phone}<br/><br/><b>Comment: </b> ${values.comment}`
 }
 
