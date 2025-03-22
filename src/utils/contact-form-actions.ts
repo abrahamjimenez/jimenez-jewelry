@@ -26,11 +26,14 @@ const mailOptions: Options = {
     html: `<b>Name: </b> ${values.name}<br/><br/><b>Email: </b> ${values.email}<br/><br/><b>Phone: </b> ${values.phone}<br/><br/><b>Comment: </b> ${values.comment}`
 }
 
-transporter.sendMail(mailOptions, (error: Error | null, info: SentMessageInfo) => {
-    if (error) {
-        console.error("Error sending email: ", error)
-    } else {
-        console.log("Email sent: ", info.response)
-    }
+await new Promise(() => {
+    transporter.sendMail(mailOptions, (error: Error | null, info: SentMessageInfo) => {
+        if (error) {
+            console.error("Error sending email: ", error)
+        } else {
+            console.log("Email sent: ", info.response)
+        }
+    })
 })
+
 }
