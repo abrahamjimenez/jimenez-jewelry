@@ -4,18 +4,14 @@ import Hamburger from "@/components/Hamburger";
 import DesktopMenu from "@/components/DesktopMenu";
 
 export interface MenuInterface {
-  items: Array<
-    {
+  items: Array<{
+    title: string;
+    url: string;
+    items: Array<{
       title: string;
       url: string;
-      items: Array<
-        {
-          title: string;
-          url: string;
-        }
-      >;
-    }
-  >;
+    }>;
+  }>;
 }
 
 const NavigationMenu = async () => {
@@ -49,12 +45,12 @@ const NavigationMenu = async () => {
 
   return (
     <div>
-        <div className={"lg:hidden"}>
-            <Hamburger data={menuItems} />
-        </div>
-        <div className={"hidden lg:block"}>
-            <DesktopMenu data={menuItems} />
-        </div>
+      <div className={"lg:hidden"}>
+        <Hamburger data={menuItems} />
+      </div>
+      <div className={"hidden lg:block"}>
+        <DesktopMenu data={menuItems} />
+      </div>
     </div>
   );
 };
