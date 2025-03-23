@@ -66,26 +66,17 @@ const Page = async ({ params }: { params: Promise<{ handle: string }> }) => {
     images: { edges: [] },
     variants: { nodes: [] },
   };
-  const uniqueColors = new Set<string>();
-  const uniqueSizes = new Set<string>();
 
   try {
     const { product } = await fetchShopifyData(productByHandleQuery);
     data = product;
-
-    data.variants.nodes.forEach((variant) => {
-      variant.selectedOptions.forEach((option) => {
-        if (option.name === "Color") uniqueColors.add(option.value);
-        if (option.name === "Size") uniqueSizes.add(option.value);
-      });
-    });
   } catch (e) {
     console.error("Failed to fetch product data: ", e);
   }
 
   return (
     <div>
-      <Product colors={uniqueColors} sizes={uniqueSizes} data={data} />
+      <Product data={data} />
       <div dangerouslySetInnerHTML={{ __html: data.descriptionHtml }} />
     </div>
   );

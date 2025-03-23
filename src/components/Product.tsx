@@ -1,10 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import classes from "./Product.module.css";
 import {
-  ColorSwatch,
-  Group,
   NumberInput,
   Button,
   Paper,
@@ -32,79 +30,10 @@ interface CartResponse {
   };
 }
 
-interface ColorMap {
-  [key: string]: string;
-}
-
-const colorMap: ColorMap = {
-  "Rose CZ": "#B76E79",
-  "Black CZ": "#000000",
-  "Blue CZ": "#005BD3",
-  "Cyan CZ": "#2AEFC3",
-  "Red CZ": "#FF0000",
-  "White CZ": "#FFFFFF",
-};
-
-const Product = ({
-  colors,
-  sizes,
-  data,
-}: {
-  colors: Set<string>;
-  sizes: Set<string>;
-  data: ProductData;
-}) => {
-  const [selectedColor, setSelectedColor] = useState<string | null>(null);
-  const [selectedSize, setSelectedSize] = useState<string | null>(null);
-  const [selectedVariantId, setSelectedVariantId] = useState<string | null>(
-    null
-  );
+const Product = ({ data }: { data: ProductData }) => {
+  const productId = data.variants.nodes[0].id;
   const handlersRef = useRef<NumberInputHandlers>(null);
   const [quantity, setQuantity] = useState<number>(1);
-
-  useEffect(() => {
-    if (data.variants.nodes.length === 1) {
-      const singleVariant = data.variants.nodes[0];
-      setSelectedVariantId(singleVariant.id);
-      const colorOption = singleVariant.selectedOptions.find(
-        (opt) => opt.name === "Color"
-      );
-      const sizeOption = singleVariant.selectedOptions.find(
-        (opt) => opt.name === "Size"
-      );
-
-      if (colorOption) setSelectedColor(colorOption.value);
-      if (sizeOption) setSelectedSize(sizeOption.value);
-    } else if (data.variants.nodes.length > 1) {
-      const firstVariant = data.variants.nodes[0];
-      const colorOption = firstVariant.selectedOptions.find(
-        (opt) => opt.name === "Color"
-      );
-      const sizeOption = firstVariant.selectedOptions.find(
-        (opt) => opt.name === "Size"
-      );
-
-      if (colorOption) setSelectedColor(colorOption.value);
-      if (sizeOption) setSelectedSize(sizeOption.value);
-    }
-  }, [data.variants.nodes]);
-
-  // This keeps track of the Size and Color. Uses find() to find the product variant id
-  useEffect(() => {
-    const filteredVariant = data.variants.nodes.find(
-      (variant) =>
-        variant.selectedOptions.some(
-          (opt) => opt.name === "Color" && opt.value === selectedColor
-        ) &&
-        variant.selectedOptions.some(
-          (opt) => opt.name === "Size" && opt.value === selectedSize
-        )
-    );
-
-    if (filteredVariant) {
-      setSelectedVariantId(filteredVariant.id);
-    }
-  }, [selectedSize, selectedColor, data.variants.nodes]);
 
   const createCartIdMutation = `mutation {
     cartCreate {
@@ -117,100 +46,39 @@ const Product = ({
   const handleAddToCart = async () => {
     const existingCartId = localStorage.getItem("cartId");
 
-    // This runs once; creates cart with first items added
-    // Then adds checkoutUrl to localStorage
     if (!existingCartId) {
-      const cartData: CreateCartId =
-        await fetchShopifyData(createCartIdMutation);
+      const cartData: CreateCartId = await fetchShopifyData(createCartIdMutation);
       const cartId = cartData.cartCreate.cart.id;
       localStorage.setItem("cartId", cartId);
 
       const addProductsToCartMutation = `mutation {
         cartLinesAdd(
           cartId: "${cartId}"
-          lines: [{quantity: ${quantity}, merchandiseId: "${selectedVariantId}"}]
+          lines: [{quantity: ${quantity}, merchandiseId: "${productId}"}]
         ) {
           cart {
             id
             checkoutUrl
-            lines(first: 10) {
-              nodes {
-                id
-                quantity
-                merchandise {
-                  ... on ProductVariant {
-                    id
-                    title
-                    product {
-                      title
-                    }
-                  }
-                }
-              }
-            }
-            cost {
-              totalAmount {
-                amount
-                currencyCode
-              }
-            }
-          }
-          userErrors {
-            code
-            field
-            message
           }
         }
       }`;
 
-      const cartResponse: CartResponse = await fetchShopifyData(
-        addProductsToCartMutation
-      );
-      localStorage.setItem(
-        "checkoutUrl",
-        cartResponse.cartLinesAdd.cart.checkoutUrl
-      );
+      const cartResponse: CartResponse = await fetchShopifyData(addProductsToCartMutation);
+      localStorage.setItem("checkoutUrl", cartResponse.cartLinesAdd.cart.checkoutUrl);
 
       return;
     }
 
-    // Additional items get added to cart here
     const cartId = localStorage.getItem("cartId");
 
     const addProductsToCartMutation = `mutation {
         cartLinesAdd(
           cartId: "${cartId}"
-          lines: [{quantity: ${quantity}, merchandiseId: "${selectedVariantId}"}]
+          lines: [{quantity: ${quantity}, merchandiseId: "${productId}"}]
         ) {
           cart {
             id
             checkoutUrl
-            lines(first: 10) {
-              nodes {
-                id
-                quantity
-                merchandise {
-                  ... on ProductVariant {
-                    id
-                    title
-                    product {
-                      title
-                    }
-                  }
-                }
-              }
-            }
-            cost {
-              totalAmount {
-                amount
-                currencyCode
-              }
-            }
-          }
-          userErrors {
-            code
-            field
-            message
           }
         }
       }`;
@@ -223,172 +91,49 @@ const Product = ({
   return (
     <div className={"p-4 sm:px-6 lg:p-8 "}>
       <div className={"md:grid md:grid-cols-2 gap-10 mx-auto"}>
-        {/*Image Carousel*/}
         <ImageCarousel images={imageUrls} />
         <div className={"pt-6 flex flex-col gap-4"}>
           <h2 className={"text-2xl md:text-3xl"}>{data.title}</h2>
           <p className={"font-bold text-sm md:text-lg"}>
-            $
-            {parseFloat(
-              data.variants.nodes.find(
-                (variant) => variant.id === selectedVariantId
-              )?.price.amount ?? "0"
-            ).toFixed(2)}{" "}
-            USD
+            ${parseFloat(data.variants.nodes[0].price.amount).toFixed(2)} USD
           </p>
           <p className={"text-xs text-gray-500 md:hidden"}>Quantity</p>
         </div>
       </div>
 
-      {data.variants.nodes.length > 1 && <p>Color:</p>}
+      <Paper p="md" withBorder className={"flex justify-center"} classNames={classes}>
+        <Button variant={"transparent"} onClick={() => handlersRef.current?.decrement()}>
+          <MinusIcon className="size-6" />
+        </Button>
 
-      <Group className={"pt-6"}>
-        {Array.from(colors).map((color, index) => (
-          <ColorSwatch
-            key={color + index}
-            color={colorMap[color]}
-            withShadow={selectedColor === color}
-            onClick={() => setSelectedColor(color)}
-            style={{
-              cursor: "pointer",
-              border: selectedColor === color ? "2px solid black" : "none",
-            }}
-          />
-        ))}
-      </Group>
-
-      <Paper
-        p="md"
-        withBorder
-        className={"flex justify-center"}
-        classNames={classes}
-      >
-        <Group>
-          <Button
-            variant={"transparent"}
-            onClick={() => handlersRef.current?.decrement()}
-            disabled={
-              data.variants.nodes.find(
-                (variant) => variant.id === selectedVariantId
-              )?.quantityAvailable === 0
+        <NumberInput
+          classNames={classes}
+          handlersRef={handlersRef}
+          min={1}
+          value={quantity}
+          onChange={(value) => {
+            if (typeof value === "number") {
+              setQuantity(value);
             }
-          >
-            <MinusIcon className="size-6" />
-          </Button>
-
-          <NumberInput
-            classNames={classes}
-            handlersRef={handlersRef}
-            min={1}
-            max={
-              data.variants.nodes.find(
-                (variant) => variant.id === selectedVariantId
-              )?.quantityAvailable
-            }
-            value={quantity}
-            onChange={(value) => {
-              if (typeof value === "number") {
-                setQuantity(value);
-              }
-            }}
-            defaultValue={1}
-            hideControls
-            disabled={
-              data.variants.nodes.find(
-                (variant) => variant.id === selectedVariantId
-              )?.quantityAvailable === 0
-            }
-          />
-          <Button
-            variant={"transparent"}
-            onClick={() => handlersRef.current?.increment()}
-            disabled={
-              data.variants.nodes.find(
-                (variant) => variant.id === selectedVariantId
-              )?.quantityAvailable === 0
-            }
-          >
-            <PlusIcon className="size-6" />
-          </Button>
-        </Group>
+          }}
+          defaultValue={1}
+          hideControls
+        />
+        <Button variant={"transparent"} onClick={() => handlersRef.current?.increment()}>
+          <PlusIcon className="size-6" />
+        </Button>
       </Paper>
 
-      {data.variants.nodes.length > 1 && (
-        <>
-          <p>Sizes:</p>
-          <Paper p="md" withBorder>
-            <Group>
-              {Array.from(sizes)
-                .sort((a, b) => a.localeCompare(b))
-                .map((size) => (
-                  <Button
-                    key={size}
-                    variant={selectedSize === size ? "filled" : "outline"}
-                    onClick={() => setSelectedSize(size)}
-                    disabled={
-                      !data.variants.nodes.some(
-                        (variant) =>
-                          variant.selectedOptions.some(
-                            (opt) =>
-                              opt.name === "Color" &&
-                              opt.value === selectedColor
-                          ) &&
-                          variant.selectedOptions.some(
-                            (opt) => opt.name === "Size" && opt.value === size
-                          ) &&
-                          variant.quantityAvailable > 0
-                      )
-                    }
-                  >
-                    {size}
-                  </Button>
-                ))}
-            </Group>
-          </Paper>
-        </>
-      )}
-
-      {selectedVariantId ? (
-        <div>
-          <p
-            className={
-              "text-gray-500 text-xs md:text-sm lg:text-lg md:text-gray-600 pt-4"
-            }
-          >
-            {(data.variants.nodes.find(
-              (variant) => variant.id === selectedVariantId
-            )?.quantityAvailable ?? 0) > 0
-              ? "In Stock"
-              : "Sold Out"}
-          </p>
-          <Button
-            disabled={
-              data.variants.nodes.find(
-                (variant) => variant.id === selectedVariantId
-              )?.quantityAvailable === 0
-            }
-            onClick={() => handleAddToCart()}
-            fullWidth
-          >
-            Add to Cart
-          </Button>
-        </div>
-      ) : (
-        <div>
-          <p className={"text-gray-500 text-xs md:text-sm lg:text-lg"}>
-            {data.variants.nodes[0].quantityAvailable > 0
-              ? "In Stock"
-              : "Sold Out"}
-          </p>
-          <Button
-            disabled={data.variants.nodes[0].quantityAvailable === 0}
-            onClick={() => handleAddToCart()}
-            fullWidth
-          >
-            Add to Cart
-          </Button>
-        </div>
-      )}
+      <p className={"text-gray-500 text-xs md:text-sm lg:text-lg md:text-gray-600 pt-4"}>
+        {data.variants.nodes[0].quantityAvailable > 0 ? "In Stock" : "Sold Out"}
+      </p>
+      <Button
+        disabled={data.variants.nodes[0].quantityAvailable === 0}
+        onClick={() => handleAddToCart()}
+        fullWidth
+      >
+        Add to Cart
+      </Button>
     </div>
   );
 };
