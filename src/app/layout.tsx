@@ -9,8 +9,8 @@ import Footer from "@/components/Footer";
 import { MantineProvider, mantineHtmlProps } from "@mantine/core";
 
 export const metadata: Metadata = {
-  title: "Capstone",
-  description: "Capstone",
+  title: "Jimenez Jewelry",
+  description: "Shop at Jimenez Jewelry for an exquisite collection of 14k gold and silver earrings.",
 };
 
 export default function RootLayout({
