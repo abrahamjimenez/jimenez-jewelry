@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import classes from "./Product.module.css";
 import {
   NumberInput,
@@ -31,29 +31,45 @@ interface CartResponse {
 }
 
 const Product = ({ data }: { data: ProductData }) => {
-  const productId = data.variants.nodes[0].id;
+  const productId = data.variants.nodes[0]?.id;
   const handlersRef = useRef<NumberInputHandlers>(null);
   const [quantity, setQuantity] = useState<number>(1);
+  const [cartId, setCartId] = useState<string | null>(null);
 
-  const createCartIdMutation = `mutation {
-    cartCreate {
-      cart {
-        id
-      }
-    }
-  }`;
-
-  const handleAddToCart = async () => {
+  useEffect(() => {
     const existingCartId = localStorage.getItem("cartId");
+    if (existingCartId) {
+      setCartId(existingCartId);
+    }
+  }, []);
 
-    if (!existingCartId) {
-      const cartData: CreateCartId = await fetchShopifyData(createCartIdMutation);
-      const cartId = cartData.cartCreate.cart.id;
-      localStorage.setItem("cartId", cartId);
+  const handleAddToCart = useCallback(async () => {
+    try {
+      let currentCartId = cartId;
+
+      if (!currentCartId) {
+        const createCartIdMutation = `mutation {
+          cartCreate {
+            cart {
+              id
+            }
+          }
+        }`;
+        const cartData: CreateCartId = await fetchShopifyData(createCartIdMutation);
+        currentCartId = cartData?.cartCreate?.cart?.id;
+
+        if (!currentCartId) {
+          console.error("Failed to create cart");
+          return;
+        }
+
+        setCartId(currentCartId);
+        localStorage.setItem("cartId", currentCartId);
+      }
 
       const addProductsToCartMutation = `mutation {
         cartLinesAdd(
-          cartId: "${cartId}"
+          cartId: "${currentCartId}"
           lines: [{quantity: ${quantity}, merchandiseId: "${productId}"}]
         ) {
           cart {
@@ -64,38 +80,26 @@ const Product = ({ data }: { data: ProductData }) => {
       }`;
 
       const cartResponse: CartResponse = await fetchShopifyData(addProductsToCartMutation);
-      localStorage.setItem("checkoutUrl", cartResponse.cartLinesAdd.cart.checkoutUrl);
+      const checkoutUrl = cartResponse?.cartLinesAdd?.cart?.checkoutUrl;
 
-      return;
+      if (checkoutUrl) {
+        localStorage.setItem("checkoutUrl", checkoutUrl);
+      }
+    } catch (error) {
+      console.error("Error adding product to cart:", error);
     }
-
-    const cartId = localStorage.getItem("cartId");
-
-    const addProductsToCartMutation = `mutation {
-        cartLinesAdd(
-          cartId: "${cartId}"
-          lines: [{quantity: ${quantity}, merchandiseId: "${productId}"}]
-        ) {
-          cart {
-            id
-            checkoutUrl
-          }
-        }
-      }`;
-
-    await fetchShopifyData(addProductsToCartMutation);
-  };
+  }, [cartId, productId, quantity]);
 
   const imageUrls: string[] = data.images.edges.map((map) => map.node.url);
 
   return (
-    <div className={"p-4 sm:px-6 lg:p-8 "}>
+    <div className={"p-4 sm:px-6 lg:p-8"}>
       <div className={"md:grid md:grid-cols-2 gap-10 mx-auto"}>
         <ImageCarousel images={imageUrls} />
         <div className={"pt-6 flex flex-col gap-4"}>
           <h2 className={"text-2xl md:text-3xl"}>{data.title}</h2>
           <p className={"font-bold text-sm md:text-lg"}>
-            ${parseFloat(data.variants.nodes[0].price.amount).toFixed(2)} USD
+            ${parseFloat(data.variants.nodes[0]?.price.amount || "0").toFixed(2)} USD
           </p>
           <p className={"text-xs text-gray-500 md:hidden"}>Quantity</p>
         </div>
@@ -125,11 +129,11 @@ const Product = ({ data }: { data: ProductData }) => {
       </Paper>
 
       <p className={"text-gray-500 text-xs md:text-sm lg:text-lg md:text-gray-600 pt-4"}>
-        {data.variants.nodes[0].quantityAvailable > 0 ? "In Stock" : "Sold Out"}
+        {data.variants.nodes[0]?.quantityAvailable > 0 ? "In Stock" : "Sold Out"}
       </p>
       <Button
-        disabled={data.variants.nodes[0].quantityAvailable === 0}
-        onClick={() => handleAddToCart()}
+        disabled={data.variants.nodes[0]?.quantityAvailable === 0}
+        onClick={handleAddToCart}
         fullWidth
       >
         Add to Cart
