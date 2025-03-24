@@ -35,6 +35,7 @@ const Product = ({ data }: { data: ProductData }) => {
   const handlersRef = useRef<NumberInputHandlers>(null);
   const [quantity, setQuantity] = useState<number>(1);
   const [cartId, setCartId] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const existingCartId = localStorage.getItem("cartId");
@@ -44,11 +45,16 @@ const Product = ({ data }: { data: ProductData }) => {
   }, []);
 
   const handleAddToCart = useCallback(async () => {
+    // Prevent multiple clicks
+    if (loading) return;
+    setLoading(true)
+
     try {
       let currentCartId = cartId;
 
       if (!currentCartId) {
-        const createCartIdMutation = `mutation {
+        const createCartIdMutation = `
+        mutation {
           cartCreate {
             cart {
               id
@@ -65,17 +71,13 @@ const Product = ({ data }: { data: ProductData }) => {
 
         setCartId(currentCartId);
         localStorage.setItem("cartId", currentCartId);
+        await new Promise((resolve) => setTimeout(resolve, 10)) // Ensures the state updates before proceeding
       }
 
-      const addProductsToCartMutation = `mutation {
-        cartLinesAdd(
-          cartId: "${currentCartId}"
-          lines: [{quantity: ${quantity}, merchandiseId: "${productId}"}]
-        ) {
-          cart {
-            id
-            checkoutUrl
-          }
+      const addProductsToCartMutation = `
+      mutation {
+        cartLinesAdd(cartId: "${currentCartId}", lines: [{quantity: ${quantity}, merchandiseId: "${productId}"}]) {
+          cart { id, checkoutUrl }
         }
       }`;
 
@@ -87,8 +89,10 @@ const Product = ({ data }: { data: ProductData }) => {
       }
     } catch (error) {
       console.error("Error adding product to cart:", error);
+    } finally {
+      setLoading(false)
     }
-  }, [cartId, productId, quantity]);
+  }, [cartId, productId, quantity, loading]);
 
   const imageUrls: string[] = data.images.edges.map((map) => map.node.url);
 
@@ -131,11 +135,11 @@ const Product = ({ data }: { data: ProductData }) => {
             {data.variants.nodes[0]?.quantityAvailable > 0 ? `${data.variants.nodes[0]?.quantityAvailable} left in stock` : "Sold out"}
           </p>
           <Button
-            disabled={data.variants.nodes[0]?.quantityAvailable === 0}
+            disabled={loading || data.variants.nodes[0]?.quantityAvailable === 0}
             onClick={handleAddToCart}
             fullWidth
           >
-            Add to Cart
+            {loading ? "Adding..." : "Add to Cart"}
           </Button>
         </div>
       </div>
