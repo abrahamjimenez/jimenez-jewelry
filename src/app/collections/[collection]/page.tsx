@@ -53,7 +53,6 @@ const Page = async ({
   const collectionHandle = (await params).collection;
   const sortKey = (await searchParams)?.sortKey ?? "BEST_SELLING";
 
-  // Modified query with dynamic sortKey
   const collectionByHandleQuery = `{
     collection(handle: "${collectionHandle}") {
       products(first: 100, sortKey: ${sortKey}) {
@@ -117,7 +116,7 @@ const Page = async ({
             key={collection.node.id}
             className={"relative group flex flex-col gap-3 group"}
           >
-            {/*Gold Image (default)*/}
+            {/* First Image (default) */}
             <Link href={`/products/${collection.node.handle}`}>
               <Image
                 priority={index === 0}
@@ -140,24 +139,8 @@ const Page = async ({
                 ? `$${parseFloat(collection.node.priceRange.minVariantPrice.amount).toFixed(2)}`
                 : `$${parseFloat(collection.node.priceRange.minVariantPrice.amount).toFixed(2)} - $${parseFloat(collection.node.priceRange.maxVariantPrice.amount).toFixed(2)}`}
             </p>
-            <div>
-              {collection.node.options
-                .filter((option) => option.name === "Color")
-                .map((option) => (
-                  <div key={option.id}>
-                    <p>
-                      Available in:{" "}
-                      <span>
-                        {option.optionValues
-                          .map((optionValues) => optionValues.name)
-                          .join(", ")}
-                      </span>
-                    </p>
-                  </div>
-                ))}
-            </div>
 
-            {/*Silver Image (shows on hover)*/}
+            {/* Second Image (shows on hover) */}
             {collection.node.images?.nodes?.length > 1 && (
               <Link href={`/products/${collection.node.handle}`}>
                 <Image
