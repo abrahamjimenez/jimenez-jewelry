@@ -9,13 +9,17 @@ const FeaturedProducts = ({ data }: { data: ProductData }) => {
     <div className="grid grid-cols-1 gap-6 px-4 sm:grid-cols-2 lg:grid-cols-4">
       {data.map((productEdge, i) => {
         const { node } = productEdge;
-        const {id, handle, title, priceRange, images } = node;
-        const {edges} = images
-        const primaryImage = edges[0]?.node
+        const { id, handle, title, priceRange, images } = node;
+        const { edges } = images;
+        const primaryImage = edges[0]?.node;
         // todo #5 Display secondary image on hover, add CSS effects too
         // const secondaryImage = edges[1]?.node
-        const minPrice = parseFloat(priceRange.minVariantPrice.amount).toFixed(2)
-        const maxPrice = parseFloat(priceRange.maxVariantPrice.amount).toFixed(2)
+        const minPrice = parseFloat(priceRange.minVariantPrice.amount).toFixed(
+          2
+        );
+        const maxPrice = parseFloat(priceRange.maxVariantPrice.amount).toFixed(
+          2
+        );
 
         return (
           <div className={"flex mx-auto"} key={id}>
@@ -34,10 +38,14 @@ const FeaturedProducts = ({ data }: { data: ProductData }) => {
               </div>
 
               <p className={"text-xs md:text-sm"}>{title}</p>
-              <p className={"font-bold text-xl md:text-2xl"}>{minPrice === maxPrice ? `$${minPrice}` : `$${minPrice}-$${maxPrice}`}</p>
+              <p className={"font-bold text-xl md:text-2xl"}>
+                {minPrice === maxPrice
+                  ? `$${minPrice}`
+                  : `$${minPrice}-$${maxPrice}`}
+              </p>
             </div>
           </div>
-        )
+        );
       })}
     </div>
   );

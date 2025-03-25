@@ -10,7 +10,8 @@ import { MantineProvider, mantineHtmlProps } from "@mantine/core";
 
 export const metadata: Metadata = {
   title: "Jimenez Jewelry",
-  description: "Shop at Jimenez Jewelry for an exquisite collection of 14k gold and silver earrings.",
+  description:
+    "Shop at Jimenez Jewelry for an exquisite collection of 14k gold and silver earrings.",
 };
 
 export default function RootLayout({

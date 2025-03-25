@@ -2,12 +2,7 @@
 
 import { useEffect, useRef, useState, useCallback } from "react";
 import classes from "./Product.module.css";
-import {
-  NumberInput,
-  Button,
-  Paper,
-  NumberInputHandlers,
-} from "@mantine/core";
+import { NumberInput, Button, Paper, NumberInputHandlers } from "@mantine/core";
 import { PlusIcon, MinusIcon } from "@heroicons/react/20/solid";
 import { ProductData } from "@/app/products/[handle]/page";
 import { fetchShopifyData } from "@/utils/shopify";
@@ -47,7 +42,7 @@ const Product = ({ data }: { data: ProductData }) => {
   const handleAddToCart = useCallback(async () => {
     // Prevent multiple clicks
     if (loading) return;
-    setLoading(true)
+    setLoading(true);
 
     try {
       let currentCartId = cartId;
@@ -61,7 +56,8 @@ const Product = ({ data }: { data: ProductData }) => {
             }
           }
         }`;
-        const cartData: CreateCartId = await fetchShopifyData(createCartIdMutation);
+        const cartData: CreateCartId =
+          await fetchShopifyData(createCartIdMutation);
         currentCartId = cartData?.cartCreate?.cart?.id;
 
         if (!currentCartId) {
@@ -71,7 +67,7 @@ const Product = ({ data }: { data: ProductData }) => {
 
         setCartId(currentCartId);
         localStorage.setItem("cartId", currentCartId);
-        await new Promise((resolve) => setTimeout(resolve, 10)) // Ensures the state updates before proceeding
+        await new Promise((resolve) => setTimeout(resolve, 10)); // Ensures the state updates before proceeding
       }
 
       const addProductsToCartMutation = `
@@ -81,7 +77,9 @@ const Product = ({ data }: { data: ProductData }) => {
         }
       }`;
 
-      const cartResponse: CartResponse = await fetchShopifyData(addProductsToCartMutation);
+      const cartResponse: CartResponse = await fetchShopifyData(
+        addProductsToCartMutation
+      );
       const checkoutUrl = cartResponse?.cartLinesAdd?.cart?.checkoutUrl;
 
       if (checkoutUrl) {
@@ -90,7 +88,7 @@ const Product = ({ data }: { data: ProductData }) => {
     } catch (error) {
       console.error("Error adding product to cart:", error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }, [cartId, productId, quantity, loading]);
 
@@ -98,17 +96,31 @@ const Product = ({ data }: { data: ProductData }) => {
 
   return (
     <div className={"p-4 sm:px-6 lg:p-8"}>
-      <div className={"md:grid md:grid-cols-2 lg:grid-cols-[2fr_1fr] gap-10 mx-auto"}>
+      <div
+        className={
+          "md:grid md:grid-cols-2 lg:grid-cols-[2fr_1fr] gap-10 mx-auto"
+        }
+      >
         <ImageCarousel images={imageUrls} />
         <div className={"pt-6 flex flex-col gap-4"}>
           <h2 className={"text-2xl md:text-3xl"}>{data.title}</h2>
           <p className={"text-sm md:text-lg"}>
-            ${parseFloat(data.variants.nodes[0]?.price.amount || "0").toFixed(2)} USD
+            $
+            {parseFloat(data.variants.nodes[0]?.price.amount || "0").toFixed(2)}{" "}
+            USD
           </p>
           <p className={"text-xs text-gray-500"}>Quantity</p>
 
-          <Paper p="md" withBorder className={"flex justify-center min-w-1/2 w-2/3"} classNames={classes}>
-            <Button variant={"transparent"} onClick={() => handlersRef.current?.decrement()}>
+          <Paper
+            p="md"
+            withBorder
+            className={"flex justify-center min-w-1/2 w-2/3"}
+            classNames={classes}
+          >
+            <Button
+              variant={"transparent"}
+              onClick={() => handlersRef.current?.decrement()}
+            >
               <MinusIcon className="size-6" />
             </Button>
 
@@ -126,16 +138,27 @@ const Product = ({ data }: { data: ProductData }) => {
               defaultValue={1}
               hideControls
             />
-            <Button variant={"transparent"} onClick={() => handlersRef.current?.increment()}>
+            <Button
+              variant={"transparent"}
+              onClick={() => handlersRef.current?.increment()}
+            >
               <PlusIcon className="size-6" />
             </Button>
           </Paper>
 
-          <p className={"text-gray-500 text-xs md:text-sm lg:text-lg md:text-gray-600 pt-4"}>
-            {data.variants.nodes[0]?.quantityAvailable > 0 ? `${data.variants.nodes[0]?.quantityAvailable} left in stock` : "Sold out"}
+          <p
+            className={
+              "text-gray-500 text-xs md:text-sm lg:text-lg md:text-gray-600 pt-4"
+            }
+          >
+            {data.variants.nodes[0]?.quantityAvailable > 0
+              ? `${data.variants.nodes[0]?.quantityAvailable} left in stock`
+              : "Sold out"}
           </p>
           <Button
-            disabled={loading || data.variants.nodes[0]?.quantityAvailable === 0}
+            disabled={
+              loading || data.variants.nodes[0]?.quantityAvailable === 0
+            }
             onClick={handleAddToCart}
             fullWidth
           >
