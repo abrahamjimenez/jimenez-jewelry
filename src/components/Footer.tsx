@@ -5,14 +5,14 @@ import Link from "next/link";
 interface FooterMenu {
   menu: {
     items: Array<{
-      title: string
-      url: string
+      title: string;
+      url: string;
       items: Array<{
-        title: string
-        url: string
-      }>
-    }>
-  }
+        title: string;
+        url: string;
+      }>;
+    }>;
+  };
 }
 
 const Footer = async () => {
@@ -27,41 +27,45 @@ const Footer = async () => {
       }
     }
   }
-}`
+}`;
   let data: FooterMenu | null = null;
   try {
-    data =  await fetchShopifyData(footerMenuQuery);
+    data = await fetchShopifyData(footerMenuQuery);
   } catch (error) {
     console.error("Failed to fetch footer menu:", error);
   }
 
-  return <div className={"text-gray-600 flex flex-col gap-4 py-4"}>
-    <Link href={"/"} className={"text-sm text-gray-800"}>© {new Date().getFullYear()}, Jimenez Jewelry</Link>
+  return (
+    <div className={"text-gray-600 flex flex-col gap-4 py-4"}>
+      <Link href={"/"} className={"text-sm text-gray-800"}>
+        © {new Date().getFullYear()}, Jimenez Jewelry
+      </Link>
 
-    <div className={"flex gap-6 text-xs "}>
-      {data?.menu.items.map((item) => {
-        const {title, url, items: subItems} = item
+      <div className={"flex gap-6 text-xs "}>
+        {data?.menu.items.map((item) => {
+          const { title, url, items: subItems } = item;
 
-        return (
-          <ul key={url} className={"list-disc list-inside"}>
-            <Link href={url}>{title}</Link>
+          return (
+            <ul key={url} className={"list-disc list-inside"}>
+              <Link href={url}>{title}</Link>
 
-            {subItems?.map((subItem) => {
-              const {title: subTitle, url: subUrl} = subItem
+              {subItems?.map((subItem) => {
+                const { title: subTitle, url: subUrl } = subItem;
 
-              return (
-                <li key={subUrl}>
-                  <Link href={subUrl}>{subTitle}</Link>
-                </li>
-              )
-            })}
-          </ul>
-        )
-      })}
+                return (
+                  <li key={subUrl}>
+                    <Link href={subUrl}>{subTitle}</Link>
+                  </li>
+                );
+              })}
+            </ul>
+          );
+        })}
+      </div>
+
+      {/*<pre>{JSON.stringify(data, null, 2)}</pre>*/}
     </div>
-
-    {/*<pre>{JSON.stringify(data, null, 2)}</pre>*/}
-  </div>;
+  );
 };
 
 export default Footer;
