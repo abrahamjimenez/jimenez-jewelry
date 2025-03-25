@@ -44,7 +44,9 @@ const DesktopMenu = ({ data }: { data: MenuInterface }) => {
       <Group>
         {/* Logo */}
         {shopLogo ? (
+        <Link href={"/"} >
           <Image src={shopLogo} alt={"logo"} width={100} height={100} />
+        </Link>
         ) : (
           <Link href="/">{shopName}</Link>
         )}
