@@ -32,10 +32,10 @@ export async function action({ values }: { values: Values }) {
       (error: Error | null, info: SentMessageInfo) => {
         if (error) {
           console.error("Error sending email: ", error);
-          reject(error)
+          reject(error);
         } else {
           console.log("Email sent: ", info.response);
-          resolve(info)
+          resolve(info);
         }
       }
     );

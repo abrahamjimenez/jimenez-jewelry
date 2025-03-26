@@ -5,7 +5,7 @@ import { Button, Group, Textarea, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { action } from "@/utils/contact-form-actions";
 import validator from "validator";
-import {CheckCircleIcon} from "@heroicons/react/24/outline";
+import { CheckCircleIcon } from "@heroicons/react/24/outline";
 
 export interface Values {
   name: string;
@@ -40,12 +40,12 @@ const ContactForm = () => {
 
     try {
       await action({ values });
-      setSubmitted(true)
-      form.reset()
+      setSubmitted(true);
+      form.reset();
     } catch (e) {
-      console.error("Could not submit contact form", e)
+      console.error("Could not submit contact form", e);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   };
 
@@ -89,12 +89,17 @@ const ContactForm = () => {
       {submitted && (
         <div className={"flex"}>
           <CheckCircleIcon className={"text-green-700 size-6 shrink-0"} />
-          <p className={"text-gray-800"}>Thanks for contacting us. We&#39;ll get back to you as soon as possible.</p>
+          <p className={"text-gray-800"}>
+            Thanks for contacting us. We&#39;ll get back to you as soon as
+            possible.
+          </p>
         </div>
       )}
 
       <Group justify="flex-start" mt="md">
-        <Button disabled={loading}  type="submit">{loading ? "Sending..." : "Send"}</Button>
+        <Button disabled={loading} type="submit">
+          {loading ? "Sending..." : "Send"}
+        </Button>
       </Group>
     </form>
   );
