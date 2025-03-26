@@ -7,9 +7,9 @@ import Link from "next/link";
 const FeaturedProducts = ({ data }: { data: ProductData }) => {
   return (
     <>
-      <h2 className="text-2xl pb-4">Featured products</h2>
+      <h2 className="pb-4 text-2xl">Featured products</h2>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-6">
+      <div className="grid grid-cols-2 gap-x-4 gap-y-6 md:grid-cols-3 lg:grid-cols-4">
         {data.map((productEdge, i) => {
           const { node } = productEdge;
           const { id, handle, title, priceRange, images } = node;
