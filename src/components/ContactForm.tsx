@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Button, Group, Textarea, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { action } from "@/utils/contact-form-actions";
@@ -14,6 +14,8 @@ export interface Values {
 }
 
 const ContactForm = () => {
+  const [loading, setLoading] = useState<boolean>(false);
+
   // Mantine Docs
   const form = useForm({
     mode: "uncontrolled",
@@ -31,7 +33,16 @@ const ContactForm = () => {
   });
 
   const handleSubmit = async (values: Values) => {
-    await action({ values });
+    if (loading) return;
+    setLoading(true);
+
+    try {
+      await action({ values });
+    } catch (e) {
+      console.error("Could not submit contact form", e)
+    } finally {
+      setLoading(false)
+    }
   };
 
   return (
@@ -71,7 +82,7 @@ const ContactForm = () => {
       />
 
       <Group justify="flex-start" mt="md">
-        <Button type="submit">Send</Button>
+        <Button disabled={loading}  type="submit">{loading ? "Sending..." : "Send"}</Button>
       </Group>
     </form>
   );
