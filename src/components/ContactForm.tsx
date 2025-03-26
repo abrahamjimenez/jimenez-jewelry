@@ -1,10 +1,11 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Button, Group, Textarea, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { action } from "@/utils/contact-form-actions";
 import validator from "validator";
+import { CheckCircleIcon } from "@heroicons/react/24/outline";
 
 export interface Values {
   name: string;
@@ -14,6 +15,9 @@ export interface Values {
 }
 
 const ContactForm = () => {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [submitted, setSubmitted] = useState<boolean>(false);
+
   // Mantine Docs
   const form = useForm({
     mode: "uncontrolled",
@@ -31,13 +35,25 @@ const ContactForm = () => {
   });
 
   const handleSubmit = async (values: Values) => {
-    await action({ values });
+    if (loading) return;
+    setLoading(true);
+
+    try {
+      await action({ values });
+      setSubmitted(true);
+      form.reset();
+    } catch (e) {
+      console.error("Could not submit contact form", e);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <form
-      className={"flex flex-col gap-4"}
+      className={"flex flex-col gap-4 px-2 lg:px-0"}
       onSubmit={form.onSubmit(handleSubmit)}
+      onReset={form.onReset}
     >
       <TextInput
         label="Name"
@@ -70,8 +86,20 @@ const ContactForm = () => {
         {...form.getInputProps("comment")}
       />
 
+      {submitted && (
+        <div className={"flex"}>
+          <CheckCircleIcon className={"text-green-700 size-6 shrink-0"} />
+          <p className={"text-gray-800"}>
+            Thanks for contacting us. We&#39;ll get back to you as soon as
+            possible.
+          </p>
+        </div>
+      )}
+
       <Group justify="flex-start" mt="md">
-        <Button type="submit">Send</Button>
+        <Button disabled={loading} type="submit">
+          {loading ? "Sending..." : "Send"}
+        </Button>
       </Group>
     </form>
   );

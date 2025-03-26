@@ -22,18 +22,20 @@ export async function action({ values }: { values: Values }) {
   const mailOptions: Options = {
     from: process.env.MAIL,
     to: process.env.MAIL_TO,
-    subject: "Jimenez Jewelry",
+    subject: "Jimenez Jewelry (Storefront)",
     html: `<b>Name: </b> ${values.name}<br/><br/><b>Email: </b> ${values.email}<br/><br/><b>Phone: </b> ${values.phone}<br/><br/><b>Comment: </b> ${values.comment}`,
   };
 
-  await new Promise(() => {
+  await new Promise((resolve, reject) => {
     transporter.sendMail(
       mailOptions,
       (error: Error | null, info: SentMessageInfo) => {
         if (error) {
           console.error("Error sending email: ", error);
+          reject(error);
         } else {
           console.log("Email sent: ", info.response);
+          resolve(info);
         }
       }
     );
