@@ -48,7 +48,7 @@ const Home = async () => {
           edges {
             node {
               id
-              url(transform: {maxHeight: 500, maxWidth: 500})
+              url(transform: {maxHeight: 300, maxWidth: 300})
             }
           }
         }
@@ -75,10 +75,7 @@ const Home = async () => {
   }
 
   return (
-    <div className={"p-2 sm:px-4 lg:p-0"}>
-      <h1 className={"text-xl md:text-2xl pb-4 pl-4"}>Featured products</h1>
-      <FeaturedProducts data={data} />
-    </div>
+    <FeaturedProducts data={data} />
   );
 };
 
