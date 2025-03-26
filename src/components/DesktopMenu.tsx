@@ -80,13 +80,14 @@ const DesktopMenu = ({ data }: { data: MenuInterface }) => {
                   {item.items.map((subItem) => (
                     <Menu.Item
                       key={subItem.title}
-                      component="a"
-                      href={subItem.url.replace(
-                        process.env.NEXT_PUBLIC_SHOPIFY_URL as string,
-                        "/"
-                      )}
                     >
-                      {subItem.title}
+                      <Link
+                        href={subItem.url.replace(
+                          process.env.NEXT_PUBLIC_SHOPIFY_URL as string,
+                          "/"
+                        )}>
+                        {subItem.title}
+                      </Link>
                     </Menu.Item>
                   ))}
                 </Menu.Dropdown>
