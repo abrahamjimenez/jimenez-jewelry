@@ -78,17 +78,15 @@ const DesktopMenu = ({ data }: { data: MenuInterface }) => {
                 </Menu.Target>
                 <Menu.Dropdown>
                   {item.items.map((subItem) => (
-                      <Link
+                    <Link
                       key={subItem.title}
-                        className={"hover:underline"}
-                        href={subItem.url.replace(
-                          process.env.NEXT_PUBLIC_SHOPIFY_URL as string,
-                          "/"
-                        )}>
-                    <Menu.Item
+                      className={"hover:underline"}
+                      href={subItem.url.replace(
+                        process.env.NEXT_PUBLIC_SHOPIFY_URL as string,
+                        "/"
+                      )}
                     >
-                        {subItem.title}
-                    </Menu.Item>
+                      <Menu.Item>{subItem.title}</Menu.Item>
                     </Link>
                   ))}
                 </Menu.Dropdown>
