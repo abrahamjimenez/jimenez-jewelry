@@ -4,6 +4,7 @@ import React from "react";
 import { Button, Group, Textarea, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { action } from "@/utils/contact-form-actions";
+import validator from "validator"
 
 export interface Values {
   name: string;
@@ -13,6 +14,7 @@ export interface Values {
 }
 
 const ContactForm = () => {
+  // Mantine Docs
   const form = useForm({
     mode: "uncontrolled",
     initialValues: {
@@ -24,7 +26,7 @@ const ContactForm = () => {
 
     validate: {
       email: (value) =>
-        /^\S+@\S+$/.test(value) ? null : "Please enter an email address",
+        validator.isEmail(value) ? null : "Please enter an email address",
     },
   });
 
