@@ -4,7 +4,7 @@ import React from "react";
 import { Button, Group, Textarea, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { action } from "@/utils/contact-form-actions";
-import validator from "validator"
+import validator from "validator";
 
 export interface Values {
   name: string;
