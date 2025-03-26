@@ -26,8 +26,8 @@ const FeaturedProducts = ({ data }: { data: ProductData }) => {
           return (
             <Link href={`/products/${handle}`} key={id}>
               <Image
-                width={300}
-                height={300}
+                width={360}
+                height={360}
                 src={primaryImage?.url}
                 alt={primaryImage?.altText ?? title}
                 priority={i === 0}

@@ -48,7 +48,7 @@ const Home = async () => {
           edges {
             node {
               id
-              url(transform: {maxHeight: 300, maxWidth: 300})
+              url(transform: {maxHeight: 360, maxWidth: 360})
             }
           }
         }
