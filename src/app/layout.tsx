@@ -22,14 +22,16 @@ export default function RootLayout({
   return (
     <html lang="en" {...mantineHtmlProps}>
       <body className={"flex justify-center border border-black"}>
-        <div className={"max-w-screen-sm md:max-w-screen-md lg:max-w-screen-xl xl:max-w-screen-xl"}>
+        <div
+          className={
+            "max-w-screen-sm md:max-w-screen-md lg:max-w-screen-xl xl:max-w-screen-xl"
+          }
+        >
           <MantineProvider>
             {/*<header>
               <Header />
             </header>*/}
-            <main className={"px-4 md:px-3 lg:px-4"}>
-              {children}
-            </main>
+            <main className={"px-4 md:px-3 lg:px-4"}>{children}</main>
             {/*<footer>
               <Footer />
             </footer>*/}

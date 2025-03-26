@@ -74,9 +74,7 @@ const Home = async () => {
     console.error("Failed to fetch featured products: ", e);
   }
 
-  return (
-    <FeaturedProducts data={data} />
-  );
+  return <FeaturedProducts data={data} />;
 };
 
 export default Home;
