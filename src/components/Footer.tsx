@@ -36,7 +36,9 @@ const Footer = async () => {
   }
 
   return (
-    <div className={" px-4 text-gray-600 flex flex-col gap-4 py-4 md:py-6 lg:py-8"}>
+    <div
+      className={" px-4 text-gray-600 flex flex-col gap-4 py-4 md:py-6 lg:py-8"}
+    >
       <Link href={"/"} className={"text-sm text-gray-800"}>
         © {new Date().getFullYear()}, Jimenez Jewelry
       </Link>
