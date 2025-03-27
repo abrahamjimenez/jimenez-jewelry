@@ -6,7 +6,7 @@ import Combobox from "@/components/Combobox";
 
 interface CollectionData {
   collection: {
-    title: string
+    title: string;
     products: {
       edges: Array<{
         node: {
@@ -37,10 +37,10 @@ interface CollectionData {
               ];
             },
           ];
-        }
-      }>
-    }
-  }
+        };
+      }>;
+    };
+  };
 }
 
 interface CollectionImagesNodes {
@@ -100,9 +100,9 @@ const Page = async ({
     collection: {
       title: "",
       products: {
-        edges: []
-      }
-    }
+        edges: [],
+      },
+    },
   };
 
   try {
@@ -125,11 +125,19 @@ const Page = async ({
           const primaryImage = imageNodes[0];
           const secondaryImage = imageNodes[1];
 
-          const minPrice = parseFloat(priceRange.minVariantPrice.amount).toFixed(2);
-          const maxPrice = parseFloat(priceRange.maxVariantPrice.amount).toFixed(2);
+          const minPrice = parseFloat(
+            priceRange.minVariantPrice.amount
+          ).toFixed(2);
+          const maxPrice = parseFloat(
+            priceRange.maxVariantPrice.amount
+          ).toFixed(2);
 
           return (
-            <Link href={`/products/${handle}`} key={id} className={"hover-image-parent group"}>
+            <Link
+              href={`/products/${handle}`}
+              key={id}
+              className={"hover-image-parent group"}
+            >
               {/* First Image (default) */}
               <Image
                 width={500}
@@ -154,7 +162,9 @@ const Page = async ({
 
               <p className="product-title">{title}</p>
               <p className="product-price">
-                {minPrice === maxPrice ? `$${minPrice}` : `$${minPrice} - $${maxPrice}`}
+                {minPrice === maxPrice
+                  ? `$${minPrice}`
+                  : `$${minPrice} - $${maxPrice}`}
               </p>
             </Link>
           );

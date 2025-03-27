@@ -49,14 +49,18 @@ const Footer = async () => {
 
           return (
             <ul key={url} className={"list-disc list-inside"}>
-              <Link href={url} className={"hover:underline"}>{title}</Link>
+              <Link href={url} className={"hover:underline"}>
+                {title}
+              </Link>
 
               {subItems?.map((subItem) => {
                 const { title: subTitle, url: subUrl } = subItem;
 
                 return (
                   <li key={subUrl}>
-                    <Link href={subUrl} className={"hover:underline"}>{subTitle}</Link>
+                    <Link href={subUrl} className={"hover:underline"}>
+                      {subTitle}
+                    </Link>
                   </li>
                 );
               })}

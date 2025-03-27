@@ -25,7 +25,11 @@ const FeaturedProducts = ({ data }: { data: ProductData }) => {
           ).toFixed(2);
 
           return (
-            <Link href={`/products/${handle}`} key={id} className={"hover-image-parent group"}>
+            <Link
+              href={`/products/${handle}`}
+              key={id}
+              className={"hover-image-parent group"}
+            >
               <Image
                 width={360}
                 height={360}
