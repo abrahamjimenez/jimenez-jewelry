@@ -117,7 +117,9 @@ const Page = async ({
 
       <div className={"flex justify-end items-center gap-2"}>
         <Combobox />
-        <p className={"text-sm text-gray-500"}>{data.collection.products.edges.length} products</p>
+        <p className={"text-sm text-gray-500"}>
+          {data.collection.products.edges.length} products
+        </p>
       </div>
 
       <div className="product-grid">
