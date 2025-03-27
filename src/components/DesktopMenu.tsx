@@ -52,7 +52,7 @@ const DesktopMenu = ({ data }: { data: MenuInterface }) => {
         )}
 
         {/* Navigation */}
-        <Group>
+        <Group gap={"lg"}>
           {data.items.map((item) =>
             item.items.length > 0 ? (
               <Menu
@@ -78,16 +78,16 @@ const DesktopMenu = ({ data }: { data: MenuInterface }) => {
                 </Menu.Target>
                 <Menu.Dropdown>
                   {item.items.map((subItem) => (
-                    <Menu.Item
+                    <Link
                       key={subItem.title}
-                      component="a"
+                      className={"hover:underline"}
                       href={subItem.url.replace(
                         process.env.NEXT_PUBLIC_SHOPIFY_URL as string,
                         "/"
                       )}
                     >
-                      {subItem.title}
-                    </Menu.Item>
+                      <Menu.Item>{subItem.title}</Menu.Item>
+                    </Link>
                   ))}
                 </Menu.Dropdown>
               </Menu>
@@ -98,6 +98,7 @@ const DesktopMenu = ({ data }: { data: MenuInterface }) => {
                   process.env.NEXT_PUBLIC_SHOPIFY_URL as string,
                   "/"
                 )}
+                className={"p-1.5 hover:underline"}
               >
                 {item.title}
               </Link>

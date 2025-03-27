@@ -152,7 +152,7 @@ const Page = () => {
     <div className="mx-auto max-w-screen-lg p-4">
       {cartData && cartData.cart.lines.edges.length > 0 ? (
         <div>
-          <h2 className="pb-6 text-2xl font-bold md:text-3xl">Your cart</h2>
+          <h2>Your cart</h2>
 
           {/* Grid Header */}
           <div className="mb-2 grid text-xs text-gray-600 grid-cols-[2fr_1fr_1fr_1fr] md:text-sm">

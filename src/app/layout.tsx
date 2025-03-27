@@ -21,14 +21,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" {...mantineHtmlProps}>
-      <body className={"flex flex-col min-h-screen"}>
-        <div className={"flex flex-col grow max-w-screen-xl mx-auto"}>
+      <body>
+        <div className={"flex flex-col max-w-screen-xl min-h-screen mx-auto"}>
           <MantineProvider>
             <header>
               <Header />
             </header>
-            <main className={"grow"}>{children}</main>
-            <footer>
+
+            <main className={"grow px-4 md:px-3 lg:px-4"}>{children}</main>
+
+            <footer className={""}>
               <Footer />
             </footer>
           </MantineProvider>

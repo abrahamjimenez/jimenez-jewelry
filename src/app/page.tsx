@@ -48,7 +48,7 @@ const Home = async () => {
           edges {
             node {
               id
-              url(transform: {maxHeight: 500, maxWidth: 500})
+              url(transform: {maxHeight: 360, maxWidth: 360})
             }
           }
         }
@@ -74,12 +74,7 @@ const Home = async () => {
     console.error("Failed to fetch featured products: ", e);
   }
 
-  return (
-    <div className={"p-2 sm:px-4 lg:p-0"}>
-      <h1 className={"text-xl md:text-2xl pb-4 pl-4"}>Featured products</h1>
-      <FeaturedProducts data={data} />
-    </div>
-  );
+  return <FeaturedProducts data={data} />;
 };
 
 export default Home;
