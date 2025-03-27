@@ -7,14 +7,15 @@ import Link from "next/link";
 const FeaturedProducts = ({ data }: { data: ProductData }) => {
   return (
     <>
-      <h2 className="pb-4 text-2xl">Featured products</h2>
+      <h2>Featured products</h2>
 
-      <div className="grid grid-cols-2 gap-x-4 gap-y-6 md:grid-cols-3 lg:grid-cols-4">
+      <div className="product-grid">
         {data.map((productEdge, i) => {
           const { node } = productEdge;
           const { id, handle, title, priceRange, images } = node;
           const { edges } = images;
           const primaryImage = edges[0]?.node;
+          const secondaryImage = edges[1]?.node;
 
           const minPrice = parseFloat(
             priceRange.minVariantPrice.amount
@@ -24,17 +25,27 @@ const FeaturedProducts = ({ data }: { data: ProductData }) => {
           ).toFixed(2);
 
           return (
-            <Link href={`/products/${handle}`} key={id}>
+            <Link href={`/products/${handle}`} key={id} className={"hover-image-parent group"}>
               <Image
                 width={360}
                 height={360}
                 src={primaryImage?.url}
                 alt={primaryImage?.altText ?? title}
                 priority={i === 0}
+                className={"hover-primary-image"}
               />
 
-              <p className="mt-2 font-semibold">{title}</p>
-              <p className="text-gray-700">
+              <Image
+                width={360}
+                height={360}
+                src={secondaryImage?.url}
+                alt={secondaryImage?.altText ?? title}
+                priority={i === 0}
+                className={"hover-secondary-image"}
+              />
+
+              <p className="product-title">{title}</p>
+              <p className="product-price">
                 {minPrice === maxPrice
                   ? `$${minPrice}`
                   : `$${minPrice}-$${maxPrice}`}
