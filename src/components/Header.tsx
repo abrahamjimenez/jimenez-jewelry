@@ -38,7 +38,7 @@ const Header = async () => {
 
       {/*  */}
       <Link className={"lg:hidden items-center"} href={"/"}>
-        <Image src={shopLogo} alt={"logo"} width={100} height={100} />
+        <Image src={shopLogo} alt={"logo"} width={100} height={100} priority />
       </Link>
 
       <div className={"flex gap-2 justify-self-end"}>

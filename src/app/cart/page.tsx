@@ -169,13 +169,16 @@ const Page = () => {
           <hr />
 
           {/* Cart Items Grid */}
-          {cartData.cart.lines.edges.map((edge, i) => (
+          {cartData.cart.lines.edges.map((edge) => (
             <div
               key={edge.node.id}
               className="mb-5 grid items-center gap-4 grid-cols-[2fr_1fr_1fr_1fr] md:gap-6"
             >
               {/* Product Info */}
-              <div className="flex flex-col items-center gap-2 md:flex-row md:gap-4">
+              <Link
+                href={`/products/${edge.node.merchandise.product.handle}`}
+                className="flex flex-col items-center gap-2 md:flex-row md:gap-4"
+              >
                 <Image
                   src={edge.node.merchandise.image.url}
                   alt={
@@ -184,16 +187,12 @@ const Page = () => {
                   }
                   height={100}
                   width={100}
-                  priority={i === 0}
                 />
-                <Link
-                  href={`/products/${edge.node.merchandise.product.handle}`}
-                >
-                  <p className="cart-product-title">
-                    {edge.node.merchandise.product.title}
-                  </p>
-                </Link>
-              </div>
+
+                <p className={"cart-product-title"}>
+                  {edge.node.merchandise.product.title}
+                </p>
+              </Link>
 
               {/* Quantity */}
               <p className="text-center">{edge.node.quantity}</p>
@@ -222,7 +221,7 @@ const Page = () => {
           <hr />
 
           {/* Estimated Total */}
-          <div className="grid grid-cols-2 items-end justify-end text-lg md:flex md:gap-6 md:text-xl">
+          <div className="grid grid-cols-2 mb-2 items-end justify-end text-lg md:flex md:gap-6 md:text-xl">
             <p className={"small-text"}>Estimated Total</p>
             <p className="product-price text-right">
               ${parseFloat(cartData.cart.cost.totalAmount.amount).toFixed(2)}{" "}
