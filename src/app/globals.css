@@ -13,8 +13,22 @@
     @apply text-gray-600
   }
 
+  hr {
+    @apply pb-6 text-gray-300
+  }
+
   .small-text {
-    @apply text-xs lg:text-sm
+    @apply text-xs lg:text-sm text-gray-600
+  }
+
+  .extra-small-text {
+    @apply py-2 text-center text-xs font-light text-gray-500
+  }
+}
+
+@layer cart {
+  .cart-product-title {
+    @apply text-center hover:underline
   }
 }
 

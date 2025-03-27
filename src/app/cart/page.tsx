@@ -155,14 +155,14 @@ const Page = () => {
           <h2>Your cart</h2>
 
           {/* Grid Header */}
-          <div className="mb-2 grid text-xs text-gray-600 grid-cols-[2fr_1fr_1fr_1fr] md:text-sm">
-            <div>Product</div>
-            <div className="text-center">Quantity</div>
-            <div className="text-center">Total</div>
-            <div className="text-center">Remove</div>
+          <div className={"small-text text-center grid grid-cols-[2fr_1fr_1fr_1fr]"}>
+            <div className={"text-left"}>Product</div>
+            <div>Quantity</div>
+            <div>Total</div>
+            <div>Remove</div>
           </div>
 
-          <hr className="pb-6" />
+          <hr />
 
           {/* Cart Items Grid */}
           {cartData.cart.lines.edges.map((edge, i) => (
@@ -185,29 +185,29 @@ const Page = () => {
                 <Link
                   href={`/products/${edge.node.merchandise.product.handle}`}
                 >
-                  <p className="text-center hover:underline">
+                  <p className="cart-product-title">
                     {edge.node.merchandise.product.title}
                   </p>
                 </Link>
               </div>
 
               {/* Quantity */}
-              <div className="text-center">{edge.node.quantity}</div>
+              <p className="text-center">{edge.node.quantity}</p>
 
               {/* Total Price */}
-              <div className="text-center">
+              <p className="text-center">
                 $
                 {(
                   parseFloat(edge.node.merchandise.price.amount) *
                   edge.node.quantity
                 ).toFixed(2)}
-              </div>
+              </p>
 
               {/* Remove (Trash Icon) */}
               <div className="text-center">
                 <button
                   onClick={() => handleTrashIconClick(edge.node.id)}
-                  className="hover:text-red-600"
+                  className="hover:text-red-500"
                 >
                   <TrashIcon className="mx-auto cursor-pointer size-6" />
                 </button>
@@ -218,17 +218,17 @@ const Page = () => {
           <hr />
 
           {/* Estimated Total */}
-          <div className="mt-4 grid grid-cols-2 items-end justify-end pb-3 text-lg text-gray-700 md:flex md:gap-6 md:text-xl">
-            <div className="text-xs font-light text-gray-600">
+          <div className="grid grid-cols-2 items-end justify-end text-lg md:flex md:gap-6 md:text-xl">
+            <p className={"small-text"}>
               Estimated Total
-            </div>
-            <div className="text-right">
+            </p>
+            <p className="product-price text-right">
               ${parseFloat(cartData.cart.cost.totalAmount.amount).toFixed(2)}{" "}
               {cartData.cart.cost.totalAmount.currencyCode}
-            </div>
+            </p>
           </div>
 
-          <p className="pb-2 text-center text-xs font-light text-gray-500">
+          <p className="extra-small-text">
             Taxes, discounts and shipping calculated at checkout.
           </p>
 
