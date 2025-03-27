@@ -2,7 +2,7 @@
 
 @layer base {
   h1 {
-    @apply pb-4 text-3xl font-semibold
+    @apply pb-4 text-3xl font-semibold;
   }
 
   h2 {
@@ -10,25 +10,25 @@
   }
 
   p {
-    @apply text-gray-600
+    @apply text-gray-600;
   }
 
   hr {
-    @apply pb-6 text-gray-300
+    @apply pb-6 text-gray-300;
   }
 
   .small-text {
-    @apply text-xs lg:text-sm text-gray-600
+    @apply text-xs lg:text-sm text-gray-600;
   }
 
   .extra-small-text {
-    @apply py-2 text-center text-xs font-light text-gray-500
+    @apply py-2 text-center text-xs font-light text-gray-500;
   }
 }
 
 @layer cart {
   .cart-product-title {
-    @apply text-center hover:underline
+    @apply text-center hover:underline;
   }
 }
 

@@ -146,11 +146,7 @@ const Product = ({ data }: { data: ProductData }) => {
             </Button>
           </Paper>
 
-          <p
-            className={
-              "small-text pt-4"
-            }
-          >
+          <p className={"small-text pt-4"}>
             {data.variants.nodes[0]?.quantityAvailable > 0
               ? `${data.variants.nodes[0]?.quantityAvailable} left in stock`
               : "Sold out"}

@@ -155,7 +155,11 @@ const Page = () => {
           <h2>Your cart</h2>
 
           {/* Grid Header */}
-          <div className={"small-text text-center grid grid-cols-[2fr_1fr_1fr_1fr]"}>
+          <div
+            className={
+              "small-text text-center grid grid-cols-[2fr_1fr_1fr_1fr]"
+            }
+          >
             <div className={"text-left"}>Product</div>
             <div>Quantity</div>
             <div>Total</div>
@@ -219,9 +223,7 @@ const Page = () => {
 
           {/* Estimated Total */}
           <div className="grid grid-cols-2 items-end justify-end text-lg md:flex md:gap-6 md:text-xl">
-            <p className={"small-text"}>
-              Estimated Total
-            </p>
+            <p className={"small-text"}>Estimated Total</p>
             <p className="product-price text-right">
               ${parseFloat(cartData.cart.cost.totalAmount.amount).toFixed(2)}{" "}
               {cartData.cart.cost.totalAmount.currencyCode}
