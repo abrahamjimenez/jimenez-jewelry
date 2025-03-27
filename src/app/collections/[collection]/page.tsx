@@ -5,38 +5,43 @@ import Link from "next/link";
 import Combobox from "@/components/Combobox";
 
 type CollectionData = {
-  node: CollectionNode;
-}[];
-
-interface CollectionNode {
-  handle: string;
-  id: string;
-  title: string;
-  totalInventory: number;
-  images: {
-    nodes: CollectionImagesNodes[];
-  };
-  priceRange: {
-    maxVariantPrice: {
-      amount: string;
-    };
-    minVariantPrice: {
-      amount: string;
-    };
-  };
-  options: [
-    {
-      id: string;
-      name: string;
-      optionValues: [
-        {
+  collection: {
+    title: string
+    products: {
+      edges: Array<{
+        node: {
+          handle: string;
           id: string;
-          name: string;
-        },
-      ];
-    },
-  ];
-}
+          title: string;
+          totalInventory: number;
+          images: {
+            nodes: CollectionImagesNodes[];
+          };
+          priceRange: {
+            maxVariantPrice: {
+              amount: string;
+            };
+            minVariantPrice: {
+              amount: string;
+            };
+          };
+          options: [
+            {
+              id: string;
+              name: string;
+              optionValues: [
+                {
+                  id: string;
+                  name: string;
+                },
+              ];
+            },
+          ];
+        }
+      }>
+    }
+  }
+};
 
 interface CollectionImagesNodes {
   url: string;
@@ -55,6 +60,7 @@ const Page = async ({
 
   const collectionByHandleQuery = `{
     collection(handle: "${collectionHandle}") {
+      title
       products(first: 100, sortKey: ${sortKey}) {
         edges {
           node {
@@ -90,28 +96,33 @@ const Page = async ({
     }
   }`;
 
-  let data: CollectionData = [];
+  let data: CollectionData = {
+    collection: {
+      title: "",
+      products: {
+        edges: []
+      }
+    }
+  };
+
   try {
-    const { collection } = await fetchShopifyData(collectionByHandleQuery);
-    const { products } = collection;
-    const { edges } = products;
-    data = edges;
+    data = await fetchShopifyData(collectionByHandleQuery);
   } catch (e) {
     console.error("Failed to fetch collection data: ", e);
   }
 
   return (
     <div className={"p-2 sm:px-4 lg:p-0"}>
-      <h1 className={"text-3xl md:text-4xl pl-4"}>
-        {collectionHandle.charAt(0).toUpperCase() + collectionHandle.slice(1)}
-      </h1>
+      <h2 className={"pb-4 text-2xl"}>
+        {data.collection.title}
+      </h2>
 
       <div className={"px-4"}>
         <Combobox />
       </div>
 
       <div className="grid grid-cols-2 gap-x-4 gap-y-6 md:grid-cols-3 lg:grid-cols-4">
-        {data.map((collection, index) => (
+        {data.collection.products.edges.map((collection, index) => (
           <div
             key={collection.node.id}
             className={"relative group flex flex-col gap-3 group"}
