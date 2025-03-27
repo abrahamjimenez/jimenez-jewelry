@@ -95,72 +95,65 @@ const Product = ({ data }: { data: ProductData }) => {
   const imageUrls: string[] = data.images.edges.map((map) => map.node.url);
 
   return (
-    <div className={"p-4 sm:px-6 lg:p-8"}>
-      <div
-        className={
-          "md:grid md:grid-cols-2 lg:grid-cols-[2fr_1fr] gap-10 mx-auto"
-        }
-      >
-        <ImageCarousel images={imageUrls} />
-        <div className={"pt-6 flex flex-col gap-4"}>
-          <h1>{data.title}</h1>
-          <p className={"product-price"}>
-            $
-            {parseFloat(data.variants.nodes[0]?.price.amount || "0").toFixed(2)}{" "}
-            USD
-          </p>
-          <p className={"small-text"}>Quantity</p>
+    <div
+      className={"md:grid md:grid-cols-2 lg:grid-cols-[2fr_1fr] gap-10 mx-auto"}
+    >
+      <ImageCarousel images={imageUrls} />
+      <div className={"pt-6 flex flex-col gap-4"}>
+        <h1>{data.title}</h1>
+        <p className={"product-price"}>
+          ${parseFloat(data.variants.nodes[0]?.price.amount || "0").toFixed(2)}{" "}
+          USD
+        </p>
+        <p className={"small-text"}>Quantity</p>
 
-          <Paper
-            p="md"
-            withBorder
-            className={"flex justify-center min-w-1/2 w-2/3"}
-            classNames={classes}
-          >
-            <Button
-              variant={"transparent"}
-              onClick={() => handlersRef.current?.decrement()}
-            >
-              <MinusIcon className="size-6" />
-            </Button>
-
-            <NumberInput
-              classNames={classes}
-              handlersRef={handlersRef}
-              min={1}
-              max={data.variants.nodes[0]?.quantityAvailable}
-              value={quantity}
-              onChange={(value) => {
-                if (typeof value === "number") {
-                  setQuantity(value);
-                }
-              }}
-              defaultValue={1}
-              hideControls
-            />
-            <Button
-              variant={"transparent"}
-              onClick={() => handlersRef.current?.increment()}
-            >
-              <PlusIcon className="size-6" />
-            </Button>
-          </Paper>
-
-          <p className={"small-text pt-4"}>
-            {data.variants.nodes[0]?.quantityAvailable > 0
-              ? `${data.variants.nodes[0]?.quantityAvailable} left in stock`
-              : "Sold out"}
-          </p>
+        <Paper
+          p="md"
+          withBorder
+          className={"flex justify-center min-w-1/2 w-2/3"}
+          classNames={classes}
+        >
           <Button
-            disabled={
-              loading || data.variants.nodes[0]?.quantityAvailable === 0
-            }
-            onClick={handleAddToCart}
-            fullWidth
+            variant={"transparent"}
+            onClick={() => handlersRef.current?.decrement()}
           >
-            {loading ? "Adding..." : "Add to Cart"}
+            <MinusIcon className="size-6" />
           </Button>
-        </div>
+
+          <NumberInput
+            classNames={classes}
+            handlersRef={handlersRef}
+            min={1}
+            max={data.variants.nodes[0]?.quantityAvailable}
+            value={quantity}
+            onChange={(value) => {
+              if (typeof value === "number") {
+                setQuantity(value);
+              }
+            }}
+            defaultValue={1}
+            hideControls
+          />
+          <Button
+            variant={"transparent"}
+            onClick={() => handlersRef.current?.increment()}
+          >
+            <PlusIcon className="size-6" />
+          </Button>
+        </Paper>
+
+        <p className={"small-text pt-4"}>
+          {data.variants.nodes[0]?.quantityAvailable > 0
+            ? `${data.variants.nodes[0]?.quantityAvailable} left in stock`
+            : "Sold out"}
+        </p>
+        <Button
+          disabled={loading || data.variants.nodes[0]?.quantityAvailable === 0}
+          onClick={handleAddToCart}
+          fullWidth
+        >
+          {loading ? "Adding..." : "Add to Cart"}
+        </Button>
       </div>
     </div>
   );
