@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Combobox from "@/components/Combobox";
 
-type CollectionData = {
+interface CollectionData {
   collection: {
     title: string
     products: {
@@ -41,7 +41,7 @@ type CollectionData = {
       }>
     }
   }
-};
+}
 
 interface CollectionImagesNodes {
   url: string;
@@ -112,66 +112,53 @@ const Page = async ({
   }
 
   return (
-    <div className={"p-2 sm:px-4 lg:p-0"}>
-      <h2 className={"pb-4 text-2xl"}>
-        {data.collection.title}
-      </h2>
+    <>
+      <h2>{data.collection.title}</h2>
 
-      <div className={"px-4"}>
-        <Combobox />
-      </div>
+      <div className="product-grid">
+        {data.collection.products.edges.map((collection, index) => {
+          const { node } = collection;
+          const { id, handle, title, priceRange, images } = node;
+          const { nodes: imageNodes } = images;
+          const primaryImage = imageNodes[0];
+          const secondaryImage = imageNodes[1];
 
-      <div className="grid grid-cols-2 gap-x-4 gap-y-6 md:grid-cols-3 lg:grid-cols-4">
-        {data.collection.products.edges.map((collection, index) => (
-          <div
-            key={collection.node.id}
-            className={"relative group flex flex-col gap-3 group"}
-          >
-            {/* First Image (default) */}
-            <Link href={`/products/${collection.node.handle}`}>
+          const minPrice = parseFloat(priceRange.minVariantPrice.amount).toFixed(2);
+          const maxPrice = parseFloat(priceRange.maxVariantPrice.amount).toFixed(2);
+
+          return (
+            <Link href={`/products/${handle}`} key={id} className={"hover-image-parent group"}>
+              {/* First Image (default) */}
               <Image
-                priority={index === 0}
                 width={500}
                 height={500}
-                src={collection.node.images.nodes[0].url}
-                alt={
-                  collection.node.images.nodes[0].altText ??
-                  collection.node.title
-                }
-                className={
-                  "cursor-pointer transition-opacity duration-300 ease-in-out opacity-100"
-                }
+                src={primaryImage?.url}
+                alt={primaryImage?.altText ?? title}
+                priority={index === 0}
+                className={"hover-primary-image"}
               />
-            </Link>
-            <p className={"text-xs md:text-sm"}>{collection.node.title}</p>
-            <p className={"font-bold text-xl md:text-2xl"}>
-              {collection.node.priceRange.minVariantPrice.amount ===
-              collection.node.priceRange.maxVariantPrice.amount
-                ? `$${parseFloat(collection.node.priceRange.minVariantPrice.amount).toFixed(2)}`
-                : `$${parseFloat(collection.node.priceRange.minVariantPrice.amount).toFixed(2)} - $${parseFloat(collection.node.priceRange.maxVariantPrice.amount).toFixed(2)}`}
-            </p>
 
-            {/* Second Image (shows on hover) */}
-            {collection.node.images?.nodes?.length > 1 && (
-              <Link href={`/products/${collection.node.handle}`}>
+              {/* Second Image (shows on hover) */}
+              {secondaryImage && (
                 <Image
                   width={500}
                   height={500}
-                  src={collection.node.images.nodes[1].url}
-                  alt={
-                    collection.node.images.nodes[1].altText ??
-                    collection.node.title
-                  }
-                  className={
-                    "cursor-pointer transition-opacity duration-300 ease-in-out opacity-0 group-hover:opacity-100 absolute top-0 left-0"
-                  }
+                  src={secondaryImage?.url}
+                  alt={secondaryImage?.altText ?? title}
+                  priority={index === 0}
+                  className={"hover-secondary-image"}
                 />
-              </Link>
-            )}
-          </div>
-        ))}
+              )}
+
+              <p className="product-title">{title}</p>
+              <p className="product-price">
+                {minPrice === maxPrice ? `$${minPrice}` : `$${minPrice} - $${maxPrice}`}
+              </p>
+            </Link>
+          );
+        })}
       </div>
-    </div>
+    </>
   );
 };
 
