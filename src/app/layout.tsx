@@ -28,7 +28,7 @@ export default function RootLayout({
               <Header />
             </header>
 
-            <main className={"grow px-4 md:px-3 lg:px-4"}>{children}</main>
+            <main className={"grow p-4 md:p-3 lg:p-4"}>{children}</main>
 
             <footer className={""}>
               <Footer />
