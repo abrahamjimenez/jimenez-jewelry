@@ -49,14 +49,14 @@ const Footer = async () => {
 
           return (
             <ul key={url} className={"list-disc list-inside"}>
-              <Link href={url}>{title}</Link>
+              <Link href={url} className={"hover:underline"}>{title}</Link>
 
               {subItems?.map((subItem) => {
                 const { title: subTitle, url: subUrl } = subItem;
 
                 return (
                   <li key={subUrl}>
-                    <Link href={subUrl}>{subTitle}</Link>
+                    <Link href={subUrl} className={"hover:underline"}>{subTitle}</Link>
                   </li>
                 );
               })}
@@ -64,8 +64,6 @@ const Footer = async () => {
           );
         })}
       </div>
-
-      {/*<pre>{JSON.stringify(data, null, 2)}</pre>*/}
     </div>
   );
 };
