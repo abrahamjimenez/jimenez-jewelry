@@ -103,13 +103,13 @@ const Product = ({ data }: { data: ProductData }) => {
       >
         <ImageCarousel images={imageUrls} />
         <div className={"pt-6 flex flex-col gap-4"}>
-          <h2 className={"text-2xl md:text-3xl"}>{data.title}</h2>
-          <p className={"text-sm md:text-lg"}>
+          <h1>{data.title}</h1>
+          <p className={"product-price"}>
             $
             {parseFloat(data.variants.nodes[0]?.price.amount || "0").toFixed(2)}{" "}
             USD
           </p>
-          <p className={"text-xs text-gray-500"}>Quantity</p>
+          <p className={"small-text"}>Quantity</p>
 
           <Paper
             p="md"
@@ -148,7 +148,7 @@ const Product = ({ data }: { data: ProductData }) => {
 
           <p
             className={
-              "text-gray-500 text-xs md:text-sm lg:text-lg md:text-gray-600 pt-4"
+              "small-text pt-4"
             }
           >
             {data.variants.nodes[0]?.quantityAvailable > 0

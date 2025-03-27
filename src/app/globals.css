@@ -1,11 +1,25 @@
 @import "tailwindcss";
 
-/* Grid in home page and products page*/
-@layer products-grid {
+@layer base {
+  h1 {
+    @apply pb-4 text-3xl font-semibold
+  }
+
   h2 {
     @apply pb-4 text-2xl font-semibold;
   }
 
+  p {
+    @apply text-gray-600
+  }
+
+  .small-text {
+    @apply text-xs lg:text-sm
+  }
+}
+
+/* Grid in home page and products page*/
+@layer products-grid {
   .product-title {
     @apply mt-2 font-semibold;
   }
