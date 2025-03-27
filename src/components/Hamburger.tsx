@@ -57,7 +57,7 @@ const Hamburger = ({ data }: { data: MenuInterface }) => {
         }}
       >
         {/* Looping over the first level of items */}
-        <div className={"pl-2"}>
+        <div className="flex flex-col">
           {data.items.map(
             (item: {
               title: string;
@@ -66,25 +66,30 @@ const Hamburger = ({ data }: { data: MenuInterface }) => {
             }) => (
               <div
                 key={item.title}
-                className={"p-2 cursor-pointer hover:bg-gray-100 "}
+                className="cursor-pointer hover:bg-gray-100 flex items-center h-10"
               >
                 {item.items.length > 0 ? (
                   <Button
-                    size={"compact-md"}
-                    color={"black"}
+                    size="compact-md"
+                    color="black"
                     variant="transparent"
                     onClick={() => {
                       openInner();
                       updateInnerDrawer(item.title);
                     }}
                     styles={{
-                      root: { padding: 0 },
-                      label: { fontWeight: "normal", width: "100%" },
+                      root: { padding: 0, margin: 0, height: "100%" },
+                      label: {
+                        fontWeight: "normal",
+                        width: "100%",
+                        textAlign: "left",
+                      },
                     }}
+                    className="p-2 h-full flex items-center w-full"
                   >
-                    <div className={"flex items-center cursor-pointer"}>
+                    <div className="pl-2 flex items-center w-full">
                       {item.title}
-                      <ArrowRightIcon className={"size-4 ml-2"} />
+                      <ArrowRightIcon className="size-4 ml-2" />
                     </div>
                   </Button>
                 ) : (
@@ -94,6 +99,7 @@ const Hamburger = ({ data }: { data: MenuInterface }) => {
                       "/"
                     )}
                     onClick={close}
+                    className="pl-2 h-full flex items-center w-full"
                   >
                     {item.title}
                   </Link>
@@ -126,7 +132,7 @@ const Hamburger = ({ data }: { data: MenuInterface }) => {
             {innerData?.items.map((item) => (
               <p
                 key={item.url}
-                className={"p-2 cursor-pointer hover:bg-gray-100"}
+                className={"p-2 text-black cursor-pointer hover:bg-gray-100"}
               >
                 <Link
                   href={item.url.replace(

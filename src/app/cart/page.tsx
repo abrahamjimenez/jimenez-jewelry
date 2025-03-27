@@ -149,7 +149,7 @@ const Page = () => {
   };
 
   return (
-    <div className="mx-auto max-w-screen-lg p-4">
+    <div className="mx-auto max-w-screen-lg">
       {cartData && cartData.cart.lines.edges.length > 0 ? (
         <div>
           <h2>Your cart</h2>
