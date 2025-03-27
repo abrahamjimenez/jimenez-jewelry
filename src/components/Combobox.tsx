@@ -44,25 +44,32 @@ const ComboboxComponent = () => {
   };
 
   return (
-    <Combobox store={combobox} onOptionSubmit={handleOptionSubmit}>
-      <p className={"text-xs md:text-sm text-gray-500 pt-3"}>Sort by:</p>
-      <Combobox.Target>
-        <InputBase
-          component="button"
-          type="button"
-          pointer
-          rightSection={<Combobox.Chevron />}
-          rightSectionPointerEvents="none"
-          onClick={() => combobox.toggleDropdown()}
-        >
-          {value}
-        </InputBase>
-      </Combobox.Target>
+    <div className={"pb-2"}>
+      <Combobox store={combobox} onOptionSubmit={handleOptionSubmit}>
+        <div className={"flex gap-2 justify-end"}>
+          <p className={"text-xs md:text-sm text-gray-500 pt-3"}>Sort by:</p>
+          <div className={"min-w-1/3 md:min-w-[200px] lg:min-w-[250px]"}>
+            <Combobox.Target>
+              <InputBase
+                variant={"filled"}
+                component="button"
+                type="button"
+                pointer
+                rightSection={<Combobox.Chevron />}
+                rightSectionPointerEvents="none"
+                onClick={() => combobox.toggleDropdown()}
+              >
+                {value}
+              </InputBase>
+            </Combobox.Target>
+          </div>
+        </div>
 
-      <Combobox.Dropdown>
-        <Combobox.Options>{options}</Combobox.Options>
-      </Combobox.Dropdown>
-    </Combobox>
+        <Combobox.Dropdown>
+          <Combobox.Options>{options}</Combobox.Options>
+        </Combobox.Dropdown>
+      </Combobox>
+    </div>
   );
 };
 

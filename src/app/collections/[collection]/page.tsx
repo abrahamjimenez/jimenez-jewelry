@@ -115,6 +115,8 @@ const Page = async ({
     <>
       <h2>{data.collection.title}</h2>
 
+      <Combobox />
+
       <div className="product-grid">
         {data.collection.products.edges.map((collection, index) => {
           const { node } = collection;
