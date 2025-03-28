@@ -115,7 +115,11 @@ const Page = async ({
     <>
       <h2>{data.collection.title}</h2>
 
-      <div className={"flex justify-end items-center gap-2"}>
+      <div
+        className={
+          "flex flex-col-reverse md:flex-row justify-between md:justify-end items-end md:items-center gap-2"
+        }
+      >
         <Combobox />
         <p className={"text-sm text-gray-500"}>
           {data.collection.products.edges.length} products
