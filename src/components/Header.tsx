@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 const Header = async () => {
-  await new Promise((resolve) => setTimeout(resolve, 2000))
+  await new Promise((resolve) => setTimeout(resolve, 2000));
 
   const query = `{
         shop {

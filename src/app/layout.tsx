@@ -27,7 +27,7 @@ export default function RootLayout({
         <div className={"flex flex-col max-w-screen-xl min-h-screen mx-auto"}>
           <MantineProvider>
             <header>
-              <Suspense fallback={<HeaderSkeleton/>}>
+              <Suspense fallback={<HeaderSkeleton />}>
                 <Header />
               </Suspense>
             </header>
