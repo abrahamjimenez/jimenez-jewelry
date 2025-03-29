@@ -41,11 +41,13 @@ const DesktopMenu = ({ data }: { data: MenuInterface }) => {
     <Container size="xl" py={"0"} px={"0"}>
       <Group>
         {/* Logo */}
-        {shopLogo && (
-          <Link href={"/"}>
-            <Image src={shopLogo} alt={"logo"} width={100} height={100} />
-          </Link>
-        )}
+        <div className={"w-[100px] h-[100px]"}>
+          {shopLogo && (
+            <Link href={"/"}>
+              <Image src={shopLogo} alt={"logo"} width={100} height={100} />
+            </Link>
+          )}
+        </div>
 
         {/* Navigation */}
         <Group gap={"lg"}>
