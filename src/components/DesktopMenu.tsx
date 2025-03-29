@@ -38,7 +38,7 @@ const DesktopMenu = ({ data }: { data: MenuInterface }) => {
   }, []);
 
   return (
-    <Container size="xl" py="md">
+    <Container size="xl" py={"0"} px={"0"}>
       <Group>
         {/* Logo */}
         {shopLogo && (
