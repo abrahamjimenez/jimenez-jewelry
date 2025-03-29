@@ -6,7 +6,10 @@ import "@mantine/carousel/styles.css";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import HeaderSkeleton from "@/components/HeaderSkeleton";
 import { MantineProvider, mantineHtmlProps } from "@mantine/core";
+import { Suspense } from "react";
+import FooterSkeleton from "@/components/FooterSkeleton";
 
 export const metadata: Metadata = {
   title: "Jimenez Jewelry",
@@ -25,13 +28,17 @@ export default function RootLayout({
         <div className={"flex flex-col max-w-screen-xl min-h-screen mx-auto"}>
           <MantineProvider>
             <header>
-              <Header />
+              <Suspense fallback={<HeaderSkeleton />}>
+                <Header />
+              </Suspense>
             </header>
 
             <main className={"grow p-4 md:p-3 lg:p-4"}>{children}</main>
 
             <footer className={""}>
-              <Footer />
+              <Suspense fallback={<FooterSkeleton />}>
+                <Footer />
+              </Suspense>
             </footer>
           </MantineProvider>
           <Analytics />

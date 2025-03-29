@@ -1,5 +1,7 @@
+import { Suspense } from "react";
 import { fetchShopifyData } from "@/utils/shopify";
 import FeaturedProducts from "@/components/FeaturedProducts";
+import FeaturedProductsSkeleton from "@/components/FeaturedProductsSkeleton";
 
 interface PriceRange {
   maxVariantPrice: {
@@ -36,45 +38,43 @@ interface ProductEdge {
 
 export type ProductData = ProductEdge[];
 
-const Home = async () => {
+const FeaturedProductsLoader = async () => {
   const featuredProductsQuery = `{
-  products(first: 8, sortKey: BEST_SELLING) {
-    edges {
-      node {
-        id
-        handle
-        title
-        images(first: 5) {
-          edges {
-            node {
-              id
-              url(transform: {maxHeight: 360, maxWidth: 360})
+    products(first: 8, sortKey: BEST_SELLING) {
+      edges {
+        node {
+          id
+          handle
+          title
+          images(first: 5) {
+            edges {
+              node {
+                id
+                url(transform: {maxHeight: 360, maxWidth: 360})
+              }
             }
           }
-        }
-        priceRange {
-          maxVariantPrice {
-            amount
-          }
-          minVariantPrice {
-            amount
+          priceRange {
+            maxVariantPrice { amount }
+            minVariantPrice { amount }
           }
         }
       }
     }
-  }
-}`;
+  }`;
 
-  let data: ProductData = [];
-  try {
-    const { products } = await fetchShopifyData(featuredProductsQuery);
-    const { edges } = products;
-    data = edges;
-  } catch (e) {
-    console.error("Failed to fetch featured products: ", e);
-  }
+  const { products } = await fetchShopifyData(featuredProductsQuery);
+  const data = products.edges;
 
   return <FeaturedProducts data={data} />;
+};
+
+const Home = () => {
+  return (
+    <Suspense fallback={<FeaturedProductsSkeleton />}>
+      <FeaturedProductsLoader />
+    </Suspense>
+  );
 };
 
 export default Home;
