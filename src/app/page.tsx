@@ -39,8 +39,6 @@ interface ProductEdge {
 export type ProductData = ProductEdge[];
 
 const FeaturedProductsLoader = async () => {
-  await new Promise((resolve) => setTimeout(resolve, 2000));
-
   const featuredProductsQuery = `{
     products(first: 8, sortKey: BEST_SELLING) {
       edges {
