@@ -8,7 +8,6 @@ import { fetchShopifyData } from "@/utils/shopify";
 import Image from "next/image";
 
 const DesktopMenu = ({ data }: { data: MenuInterface }) => {
-  const [shopName, setShopName] = useState("Jimenez Jewelry");
   const [shopLogo, setShopLogo] = useState<string>("");
   const [opened, setOpened] = useState(false);
 
@@ -29,7 +28,6 @@ const DesktopMenu = ({ data }: { data: MenuInterface }) => {
     const getShopName = async () => {
       try {
         const { shop } = await fetchShopifyData(query);
-        setShopName(shop.name);
         setShopLogo(shop.brand.logo.image.url);
       } catch (error) {
         console.error("Failed to fetch shop name:", error);
@@ -43,12 +41,10 @@ const DesktopMenu = ({ data }: { data: MenuInterface }) => {
     <Container size="xl" py="md">
       <Group>
         {/* Logo */}
-        {shopLogo ? (
+        {shopLogo && (
           <Link href={"/"}>
             <Image src={shopLogo} alt={"logo"} width={100} height={100} />
           </Link>
-        ) : (
-          <Link href="/">{shopName}</Link>
         )}
 
         {/* Navigation */}
