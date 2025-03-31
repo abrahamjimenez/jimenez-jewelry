@@ -44,7 +44,6 @@ const FeaturedProducts = ({ data }: { data: ProductData }) => {
                 height={360}
                 src={secondaryImage?.url}
                 alt={secondaryImage?.altText ?? title}
-                priority={i === 0}
                 className={"hover-secondary-image"}
               />
 
