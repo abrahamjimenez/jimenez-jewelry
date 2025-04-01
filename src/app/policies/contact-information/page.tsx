@@ -25,19 +25,16 @@ const Page = async () => {
   const data: ContactInformation = await fetchAdminShopifyData(
     contactInformationQuery
   );
-  console.log(data);
 
   return (
-    <>
-      <h1 className={"text-center pb-6"}>Contact Information</h1>
-      <div className={"flex justify-center"}>
-        <div className={"flex flex-col gap-4 justify-self-center"}>
-          <p>Store Name: {data.shop.name}</p>
-          <p>Email: {data.shop.contactEmail}</p>
-          <p>Country: {data.shop.billingAddress.country}</p>
-        </div>
+    <div className={"flex flex-col justify-center items-center"}>
+      <div className={"max-w-screen-sm leading-8"}>
+        <h1>Do not sell or share my personal information</h1>
+        <p>Store Name: {data.shop.name}</p>
+        <p>Email: {data.shop.contactEmail}</p>
+        <p>Country: {data.shop.billingAddress.country}</p>
       </div>
-    </>
+    </div>
   );
 };
 

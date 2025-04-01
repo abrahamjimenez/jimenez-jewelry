@@ -27,8 +27,6 @@ const Page = async () => {
   }`;
 
   const data = await fetchShopifyData(DoNotSharePersonalInformationQuery);
-  console.log(data);
-
   const cleanedBody = extractText(data.pageByHandle.body);
 
   return (
