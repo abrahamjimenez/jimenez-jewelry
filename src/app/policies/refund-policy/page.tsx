@@ -22,16 +22,19 @@ const Page = async () => {
 }
 `;
 
-  const data: RefundPolicy = await fetchShopifyData(
-    refundPolicyQuery
-  );
+  const data: RefundPolicy = await fetchShopifyData(refundPolicyQuery);
 
-  return  <div className={"flex flex-col justify-center items-center"}>
-    <div className={"max-w-screen-sm leading-10"}>
-      <h1>{data.shop.refundPolicy.title}</h1>
-      <div className={"leading-8"} dangerouslySetInnerHTML={{__html: data.shop.refundPolicy.body}} />
+  return (
+    <div className={"flex flex-col justify-center items-center"}>
+      <div className={"max-w-screen-sm leading-10"}>
+        <h1>{data.shop.refundPolicy.title}</h1>
+        <div
+          className={"leading-8"}
+          dangerouslySetInnerHTML={{ __html: data.shop.refundPolicy.body }}
+        />
+      </div>
     </div>
-  </div>;
+  );
 };
 
 export default Page;

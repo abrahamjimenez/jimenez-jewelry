@@ -20,16 +20,19 @@ const Page = async () => {
     }
   }`;
 
-  const data: PrivacyPolicy = await fetchShopifyData(
-    privacyPolicyQuery
-  );
+  const data: PrivacyPolicy = await fetchShopifyData(privacyPolicyQuery);
 
-  return  <div className={"flex flex-col justify-center items-center"}>
-    <div className={"max-w-screen-sm leading-10"}>
-      <h1>{data.shop.privacyPolicy.title}</h1>
-      <div className={"leading-8"} dangerouslySetInnerHTML={{__html: data.shop.privacyPolicy.body}} />
+  return (
+    <div className={"flex flex-col justify-center items-center"}>
+      <div className={"max-w-screen-sm leading-10"}>
+        <h1>{data.shop.privacyPolicy.title}</h1>
+        <div
+          className={"leading-8"}
+          dangerouslySetInnerHTML={{ __html: data.shop.privacyPolicy.body }}
+        />
+      </div>
     </div>
-  </div>;
+  );
 };
 
 export default Page;
