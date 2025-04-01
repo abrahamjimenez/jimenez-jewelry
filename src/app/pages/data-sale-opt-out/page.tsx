@@ -1,9 +1,9 @@
 import React from "react";
 import { fetchShopifyData } from "@/utils/shopify";
-import * as cheerio from "cheerio";
 
-const extractText = (html: string) => {
-  const $ = cheerio.load(html);
+const extractText = async (html: string) => {
+  const { load } = await import("cheerio");
+  const $ = load(html);
   $("link, meta, script").remove();
 
   // Replace div with p

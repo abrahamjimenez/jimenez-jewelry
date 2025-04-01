@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prettier": "prettier --write ."
+    "prettier": "prettier --write .",
+    "analyze": "ANALYZE=true next build"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
@@ -15,6 +16,7 @@
     "@mantine/core": "^7.17.3",
     "@mantine/form": "^7.17.3",
     "@mantine/hooks": "^7.17.3",
+    "@next/bundle-analyzer": "^15.2.4",
     "@tabler/icons-react": "^3.31.0",
     "@vercel/analytics": "^1.5.0",
     "@vercel/speed-insights": "^1.2.0",
