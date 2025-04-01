@@ -14,7 +14,13 @@ const nextConfig: NextConfig = {
   },
   experimental: {
     optimizePackageImports: ['@mantine/core', '@mantine/hooks'],
-  }
+  },
+  webpack: (config, { isServer }) => {
+    if (isServer) {
+      config.externals = [...(config.externals || []), "cheerio"];
+    }
+    return config;
+  },
 };
 
 const withBundleAnalyzer = bundleAnalyzer({
