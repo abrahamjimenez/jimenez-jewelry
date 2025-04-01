@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "prettier": "prettier --write .",
-    "analyze": "true next build"
+    "analyze": "ANALYZE=true next build"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
