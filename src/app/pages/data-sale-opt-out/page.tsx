@@ -1,8 +1,8 @@
 import React from "react";
 import { fetchShopifyData } from "@/utils/shopify";
-import { load } from "cheerio";
 
-const extractText = (html: string) => {
+const extractText = async (html: string) => {
+  const { load } = await import("cheerio");
   const $ = load(html);
   $("link, meta, script").remove();
 
