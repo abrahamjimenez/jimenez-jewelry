@@ -99,7 +99,7 @@ const Product = ({ data }: { data: ProductData }) => {
       className={"md:grid md:grid-cols-2 lg:grid-cols-[2fr_1fr] gap-10 mx-auto"}
     >
       <ImageCarousel images={imageUrls} />
-      <div className={"pt-6 flex flex-col gap-4"}>
+      <div className={"pt-6 flex flex-col gap-2"}>
         <h1>{data.title}</h1>
         <p className={"product-price"}>
           ${parseFloat(data.variants.nodes[0]?.price.amount || "0").toFixed(2)}{" "}
