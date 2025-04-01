@@ -1,11 +1,7 @@
 import React from "react";
 
 const Page = () => {
-  return (
-    <div>
-      Terms of Service
-    </div>
-  );
+  return <div>Terms of Service</div>;
 };
 
 export default Page;

@@ -3,12 +3,12 @@ import { fetchAdminShopifyData } from "@/utils/shopify";
 
 interface ContactInformation {
   shop: {
-    name: string
-    contactEmail: string
+    name: string;
+    contactEmail: string;
     billingAddress: {
-      country: string
-  }
-  }
+      country: string;
+    };
+  };
 }
 
 const Page = async () => {
@@ -20,9 +20,11 @@ const Page = async () => {
           country
         }
     }
-  }`
+  }`;
 
-  const data: ContactInformation = await fetchAdminShopifyData(contactInformationQuery)
+  const data: ContactInformation = await fetchAdminShopifyData(
+    contactInformationQuery
+  );
   console.log(data);
 
   return (

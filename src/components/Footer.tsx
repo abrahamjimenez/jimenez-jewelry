@@ -49,10 +49,13 @@ const Footer = async () => {
 
           return (
             <ul key={url} className={"list-disc list-inside"}>
-              <Link href={url.replace(
-                process.env.NEXT_PUBLIC_SHOPIFY_URL as string,
-                "/"
-              )} className={"hover:underline"}>
+              <Link
+                href={url.replace(
+                  process.env.NEXT_PUBLIC_SHOPIFY_URL as string,
+                  "/"
+                )}
+                className={"hover:underline"}
+              >
                 {title}
               </Link>
 
@@ -61,10 +64,13 @@ const Footer = async () => {
 
                 return (
                   <li key={subUrl}>
-                    <Link href={subUrl.replace(
-                      process.env.NEXT_PUBLIC_SHOPIFY_URL as string,
-                      "/"
-                    )} className={"hover:underline"}>
+                    <Link
+                      href={subUrl.replace(
+                        process.env.NEXT_PUBLIC_SHOPIFY_URL as string,
+                        "/"
+                      )}
+                      className={"hover:underline"}
+                    >
                       {subTitle}
                     </Link>
                   </li>

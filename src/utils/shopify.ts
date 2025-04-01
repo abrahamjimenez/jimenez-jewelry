@@ -35,8 +35,7 @@ export async function fetchAdminShopifyData(query: string) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "X-Shopify-Access-Token": process.env
-          .X_SHOPIFY_ACCESS_TOKEN as string,
+        "X-Shopify-Access-Token": process.env.X_SHOPIFY_ACCESS_TOKEN as string,
       },
       body: JSON.stringify({ query }),
     });
