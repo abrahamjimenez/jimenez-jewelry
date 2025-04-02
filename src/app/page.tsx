@@ -24,8 +24,7 @@ interface ProductImagesEdges {
   node: {
     id: string;
     altText: string | null;
-    smallImage: string;
-    largeImage: string;
+    url: string;
   };
 }
 
@@ -52,8 +51,7 @@ const FeaturedProductsLoader = async () => {
               node {
                 id
                 altText
-                smallImage: url(transform: {maxHeight: 200, maxWidth: 200})
-                largeImage: url(transform: {maxHeight: 360, maxWidth: 360})
+                url(transform: {maxHeight: 200, maxWidth: 200})
               }
             }
           }

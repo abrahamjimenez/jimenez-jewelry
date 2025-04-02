@@ -36,8 +36,8 @@ const FeaturedProducts = ({ data }: { data: ProductData }) => {
                 src={primaryImage?.url}
                 alt={primaryImage?.altText ?? `${title}-${i + 1}`}
                 priority={i === 0}
-                loading={"eager"}
                 quality={50}
+                loading={"eager"}
                 className={"hover-primary-image"}
               />
 
@@ -47,7 +47,6 @@ const FeaturedProducts = ({ data }: { data: ProductData }) => {
                 src={secondaryImage?.url}
                 alt={""}
                 loading={"lazy"}
-                quality={50}
                 className={"hover-secondary-image"}
               />
 
