@@ -59,7 +59,11 @@ const ComboboxComponent = () => {
                 rightSectionPointerEvents="none"
                 onClick={() => combobox.toggleDropdown()}
               >
-                {value ?? <Input.Placeholder  style={{color: "#474747"}} >Pick a value</Input.Placeholder>}
+                {value ?? (
+                  <Input.Placeholder style={{ color: "#474747" }}>
+                    Pick a value
+                  </Input.Placeholder>
+                )}
               </InputBase>
             </Combobox.Target>
           </div>

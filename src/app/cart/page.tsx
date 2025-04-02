@@ -183,7 +183,7 @@ const Page = () => {
                   src={edge.node.merchandise.image.url}
                   alt={
                     edge.node.merchandise.image.altText ||
-                    `${edge.node.merchandise.product.title}-${i+1}`
+                    `${edge.node.merchandise.product.title}-${i + 1}`
                   }
                   height={100}
                   width={100}
@@ -211,7 +211,7 @@ const Page = () => {
                 <button
                   onClick={() => handleTrashIconClick(edge.node.id)}
                   className="hover:text-red-500"
-                  aria-label={`Remove product ${i+1}`}
+                  aria-label={`Remove product ${i + 1}`}
                 >
                   <TrashIcon className="mx-auto cursor-pointer size-6" />
                 </button>

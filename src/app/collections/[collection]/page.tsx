@@ -152,7 +152,7 @@ const Page = async ({
                 width={500}
                 height={500}
                 src={primaryImage?.url}
-                alt={primaryImage?.altText ?? `${title}-${i+1}`}
+                alt={primaryImage?.altText ?? `${title}-${i + 1}`}
                 priority={i === 0}
                 className={"hover-primary-image"}
               />
