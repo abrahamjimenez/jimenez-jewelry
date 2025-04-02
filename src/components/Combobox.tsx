@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { InputBase, Combobox, useCombobox } from "@mantine/core";
+import { Input, InputBase, Combobox, useCombobox } from "@mantine/core";
 import { useRouter, useSearchParams } from "next/navigation";
 
 const sortKeys = [
@@ -59,7 +59,7 @@ const ComboboxComponent = () => {
                 rightSectionPointerEvents="none"
                 onClick={() => combobox.toggleDropdown()}
               >
-                {value}
+                {value ?? <Input.Placeholder  style={{color: "#474747"}} >Pick a value</Input.Placeholder>}
               </InputBase>
             </Combobox.Target>
           </div>
