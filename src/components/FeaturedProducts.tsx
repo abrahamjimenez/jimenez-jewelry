@@ -31,8 +31,7 @@ const FeaturedProducts = ({ data }: { data: ProductData }) => {
               className={"hover-image-parent group"}
             >
               <Image
-                width={360}
-                height={360}
+                fill
                 src={primaryImage?.url}
                 alt={primaryImage?.altText ?? `${title}-${i + 1}`}
                 priority={i === 0}
