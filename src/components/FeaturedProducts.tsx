@@ -30,32 +30,24 @@ const FeaturedProducts = ({ data }: { data: ProductData }) => {
               key={id}
               className={"hover-image-parent group"}
             >
-              {/* Mobile Image (200px) - Shown on screens < 768px */}
-              <Image
-                width={200}
-                height={200}
-                src={primaryImage?.smallImage}
-                alt={primaryImage?.altText ?? `${title}-${i + 1}`}
-                priority={i === 0}
-                className="block md:hidden"
-              />
-
-              {/* Desktop Image (360px) - Shown on screens >= 768px */}
               <Image
                 width={360}
                 height={360}
-                src={primaryImage.largeImage}
+                src={primaryImage?.url}
                 alt={primaryImage?.altText ?? `${title}-${i + 1}`}
                 priority={i === 0}
-                className="hidden md:block"
+                quality={50}
+                loading={"eager"}
+                className={"hover-primary-image"}
               />
 
               <Image
                 width={360}
                 height={360}
-                src={secondaryImage?.largeImage}
-                alt=""
-                className="hidden md:block hover-secondary-image"
+                src={secondaryImage?.url}
+                alt={""}
+                loading={"lazy"}
+                className={"hover-secondary-image"}
               />
 
               <p className="product-title">{title}</p>
