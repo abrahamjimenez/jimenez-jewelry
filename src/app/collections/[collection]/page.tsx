@@ -152,7 +152,6 @@ const Page = async ({
                   height={500}
                   src={secondaryImage?.url}
                   alt={""}
-                  priority={i === 0}
                   className={"hover-secondary-image"}
                 />
               )}
