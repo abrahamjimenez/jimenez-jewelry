@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Group, Container, Anchor, Menu } from "@mantine/core";
+import { Group, Container, Menu } from "@mantine/core";
 import { MenuInterface } from "@/components/NavigationMenu";
 import Link from "next/link";
 import { fetchShopifyData } from "@/utils/shopify";
@@ -63,7 +63,7 @@ const DesktopMenu = ({ data }: { data: MenuInterface }) => {
                 onClose={() => setOpened(false)}
               >
                 <Menu.Target>
-                  <Anchor c={"black"}>
+                  <p className={"text-black cursor-pointer"}>
                     {item.title}{" "}
                     <span
                       style={{
@@ -74,7 +74,7 @@ const DesktopMenu = ({ data }: { data: MenuInterface }) => {
                     >
                       ▼
                     </span>
-                  </Anchor>
+                  </p>
                 </Menu.Target>
                 <Menu.Dropdown>
                   {item.items.map((subItem) => (
