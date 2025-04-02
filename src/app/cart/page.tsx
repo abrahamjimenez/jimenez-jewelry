@@ -234,7 +234,9 @@ const Page = () => {
           </p>
 
           <Link href={cartData.cart.checkoutUrl}>
-            <Button color={"rgba(77, 77, 77, 1)"} fullWidth>Check out</Button>
+            <Button color={"rgba(77, 77, 77, 1)"} fullWidth>
+              Check out
+            </Button>
           </Link>
         </div>
       ) : (

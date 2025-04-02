@@ -9,7 +9,7 @@ import { Image } from "@/components/Product";
 const ImageCarousel = ({ images }: { images: Image[] }) => {
   const slides = images.map(({ url, title }, i) => (
     <Carousel.Slide key={url}>
-      <ImageMantine src={url} alt={`${title}-${i+1}`} />
+      <ImageMantine src={url} alt={`${title}-${i + 1}`} />
     </Carousel.Slide>
   ));
 
@@ -19,6 +19,5 @@ const ImageCarousel = ({ images }: { images: Image[] }) => {
     </Carousel>
   );
 };
-
 
 export default ImageCarousel;
