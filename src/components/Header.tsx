@@ -18,7 +18,7 @@ const Header = async () => {
     }
 }`;
   let shopLogo = "Unknown";
-  let shopName = "Unknown"
+  let shopName = "Unknown";
 
   try {
     const { shop } = await fetchShopifyData(query);
@@ -39,7 +39,13 @@ const Header = async () => {
       </div>
 
       <Link className={"lg:hidden items-center"} href={"/"}>
-        <Image src={shopLogo} alt={shopName} width={100} height={100} priority />
+        <Image
+          src={shopLogo}
+          alt={shopName}
+          width={100}
+          height={100}
+          priority
+        />
       </Link>
 
       <div className={"flex gap-2 justify-self-end"}>

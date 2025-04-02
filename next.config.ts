@@ -13,7 +13,7 @@ const nextConfig: NextConfig = {
     ],
   },
   experimental: {
-    optimizePackageImports: ['@mantine/core', '@mantine/hooks'],
+    optimizePackageImports: ["@mantine/core", "@mantine/hooks"],
   },
   webpack: (config, { isServer }) => {
     if (isServer) {
@@ -24,7 +24,7 @@ const nextConfig: NextConfig = {
 };
 
 const withBundleAnalyzer = bundleAnalyzer({
-  enabled: process.env.ANALYZE === "true"
-})
+  enabled: process.env.ANALYZE === "true",
+});
 
 export default withBundleAnalyzer(nextConfig);
