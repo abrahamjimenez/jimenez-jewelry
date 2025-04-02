@@ -34,7 +34,7 @@ const FeaturedProducts = ({ data }: { data: ProductData }) => {
                 width={360}
                 height={360}
                 src={primaryImage?.url}
-                alt={primaryImage?.altText ?? `${title}-${i}`}
+                alt={primaryImage?.altText ?? `${title}-${i+1}`}
                 priority={i === 0}
                 className={"hover-primary-image"}
               />

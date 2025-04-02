@@ -234,14 +234,14 @@ const Page = () => {
           </p>
 
           <Link href={cartData.cart.checkoutUrl}>
-            <Button fullWidth>Check out</Button>
+            <Button color={"rgba(77, 77, 77, 1)"} fullWidth>Check out</Button>
           </Link>
         </div>
       ) : (
         <div className="flex flex-col gap-4 pt-40 text-center text-xl md:text-2xl">
           <h1>Your cart is empty</h1>
           <Link href={"/collections/earrings"}>
-            <Button>Continue Shopping</Button>
+            <Button color={"rgba(77, 77, 77, 1)"}>Continue Shopping</Button>
           </Link>
         </div>
       )}
