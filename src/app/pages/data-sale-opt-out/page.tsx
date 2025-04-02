@@ -1,6 +1,6 @@
 import React from "react";
 import { fetchShopifyData } from "@/utils/shopify";
-import { load } from "cheerio"
+import { load } from "cheerio";
 
 const extractText = (html: string) => {
   const $ = load(html);
