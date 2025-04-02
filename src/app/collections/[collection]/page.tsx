@@ -113,7 +113,7 @@ const Page = async ({
 
   return (
     <>
-      <h2>{data.collection.title}</h2>
+      <h1>{data.collection.title}</h1>
 
       <div
         className={

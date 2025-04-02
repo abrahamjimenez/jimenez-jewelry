@@ -7,7 +7,7 @@ import Link from "next/link";
 const FeaturedProducts = ({ data }: { data: ProductData }) => {
   return (
     <>
-      <h2>Featured products</h2>
+      <h1>Featured products</h1>
 
       <div className="product-grid">
         {data.map((productEdge, i) => {

@@ -155,6 +155,7 @@ const Hamburger = ({ data }: { data: MenuInterface }) => {
         color={"black"}
         onClick={open}
         styles={{ root: { padding: 0, border: 0 } }}
+        aria-label={"hamburger menu"}
       >
         <Bars3Icon className={"size-8"} />
       </Button>

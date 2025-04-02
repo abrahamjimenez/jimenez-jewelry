@@ -152,7 +152,7 @@ const Page = () => {
     <div className="mx-auto max-w-screen-lg">
       {cartData && cartData.cart.lines.edges.length > 0 ? (
         <div>
-          <h2>Your cart</h2>
+          <h1>Your cart</h1>
 
           {/* Grid Header */}
           <div
