@@ -1,6 +1,3 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import React from "react";
 import { fetchShopifyData } from "@/utils/shopify";
 import Image from "next/image";
@@ -39,73 +36,82 @@ interface CollectionImagesNodes {
   altText: string | null;
 }
 
-const Page = ({ params, searchParams }: { params: { collection: string }; searchParams: { sortKey?: string } }) => {
-  const [data, setData] = useState<CollectionData | null>(null);
-  const [loading, setLoading] = useState(true);
+const Page = async ({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ collection: string }>;
+  searchParams: Promise<{ sortKey?: string }>;
+}) => {
+  const collectionHandle = (await params).collection;
+  const sortKey = (await searchParams)?.sortKey ?? "BEST_SELLING";
 
-  const collectionHandle = params.collection;
-  const sortKey = searchParams?.sortKey ?? "BEST_SELLING";
-
-  useEffect(() => {
-    const collectionByHandleQuery = `{
-      collection(handle: "${collectionHandle}") {
-        title
-        products(first: 100, sortKey: ${sortKey}) {
-          edges {
-            node {
-              handle
+  const collectionByHandleQuery = `{
+    collection(handle: "${collectionHandle}") {
+      title
+      products(first: 100, sortKey: ${sortKey}) {
+        edges {
+          node {
+            handle
+            id
+            title
+            options {
               id
-              title
-              images(first: 5) {
-                nodes {
-                  url(transform: {maxHeight: 500, maxWidth: 500})
-                  altText
-                }
+              name
+              optionValues {
+                id
+                name
               }
-              priceRange {
-                maxVariantPrice {
-                  amount
-                }
-                minVariantPrice {
-                  amount
-                }
-              }
-              totalInventory
             }
+            images(first: 5) {
+              nodes {
+                url(transform: {maxHeight: 500, maxWidth: 500})
+                altText
+              }
+            }
+            priceRange {
+              maxVariantPrice {
+                amount
+              }
+              minVariantPrice {
+                amount
+              }
+            }
+            totalInventory
           }
         }
       }
-    }`;
+    }
+  }`;
 
-    const fetchData = async () => {
-      try {
-        const response = await fetchShopifyData(collectionByHandleQuery);
-        setData(response);
-      } catch (e) {
-        console.error("Failed to fetch collection data:", e);
-      } finally {
-        setLoading(false);
-      }
-    };
+  let data: CollectionData = {
+    collection: {
+      title: "",
+      products: {
+        edges: [],
+      },
+    },
+  };
 
-    fetchData();
-  }, [collectionHandle, sortKey]);
-
-  if (loading) {
-    return <div>Loading...</div>; // Simple loading state, or skeleton
-  }
-
-  if (!data) {
-    return <div>Error loading collection</div>;
+  try {
+    data = await fetchShopifyData(collectionByHandleQuery);
+  } catch (e) {
+    console.error("Failed to fetch collection data: ", e);
   }
 
   return (
     <>
       <h1>{data.collection.title}</h1>
 
-      <div className="flex flex-col-reverse md:flex-row justify-between md:justify-end items-end md:items-center gap-2">
+      <div
+        className={
+          "flex flex-col-reverse md:flex-row justify-between md:justify-end items-end md:items-center gap-2"
+        }
+      >
         <Combobox />
-        <p className="text-sm text-gray-500">{data.collection.products.edges.length} products</p>
+        <p className={"text-sm text-gray-500"}>
+          {data.collection.products.edges.length} products
+        </p>
       </div>
 
       <div className="product-grid">
@@ -116,11 +122,19 @@ const Page = ({ params, searchParams }: { params: { collection: string }; search
           const primaryImage = imageNodes[0];
           const secondaryImage = imageNodes[1];
 
-          const minPrice = parseFloat(priceRange.minVariantPrice.amount).toFixed(2);
-          const maxPrice = parseFloat(priceRange.maxVariantPrice.amount).toFixed(2);
+          const minPrice = parseFloat(
+            priceRange.minVariantPrice.amount
+          ).toFixed(2);
+          const maxPrice = parseFloat(
+            priceRange.maxVariantPrice.amount
+          ).toFixed(2);
 
           return (
-            <Link href={`/products/${handle}`} key={id} className="hover-image-parent group">
+            <Link
+              href={`/products/${handle}`}
+              key={id}
+              className={"hover-image-parent group"}
+            >
               {/* First Image (default) */}
               <Image
                 width={500}
@@ -128,8 +142,7 @@ const Page = ({ params, searchParams }: { params: { collection: string }; search
                 src={primaryImage?.url}
                 alt={primaryImage?.altText ?? `${title}-${i + 1}`}
                 priority={i === 0}
-                className="hover-primary-image"
-                loading="eager" // Ensure the first image is eagerly loaded
+                className={"hover-primary-image"}
               />
 
               {/* Second Image (shows on hover) */}
@@ -140,14 +153,15 @@ const Page = ({ params, searchParams }: { params: { collection: string }; search
                   src={secondaryImage?.url}
                   alt={""}
                   priority={i === 0}
-                  className="hover-secondary-image"
-                  loading="lazy" // Lazy load the secondary image
+                  className={"hover-secondary-image"}
                 />
               )}
 
               <p className="product-title">{title}</p>
               <p className="product-price">
-                {minPrice === maxPrice ? `$${minPrice}` : `$${minPrice} - $${maxPrice}`}
+                {minPrice === maxPrice
+                  ? `$${minPrice}`
+                  : `$${minPrice} - $${maxPrice}`}
               </p>
             </Link>
           );
