@@ -48,6 +48,7 @@ const FeaturedProducts = ({ data }: { data: ProductData }) => {
                 sizes={
                   "(max-width: 768px) 200px, (max-width: 1024px) 240px, 300px"
                 }
+                loading={"lazy"}
                 src={secondaryImage?.url}
                 alt={""}
                 className={"hover-secondary-image"}
