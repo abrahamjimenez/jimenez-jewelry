@@ -31,10 +31,10 @@ const FeaturedProducts = ({ data }: { data: ProductData }) => {
               className={"hover-image-parent group"}
             >
               <Image
-                width={300}
-                height={300}
+                width={360}
+                height={360}
                 sizes={
-                  "(max-width: 768px) 200px, (max-width: 1024px) 240px, 300px"
+                  "(max-width: 768px) 200px, (max-width: 1024px) 240px, 360px"
                 }
                 src={primaryImage?.url}
                 alt={primaryImage?.altText ?? `${title}-${i + 1}`}
@@ -42,17 +42,16 @@ const FeaturedProducts = ({ data }: { data: ProductData }) => {
                 className={"hover-primary-image"}
               />
 
-              <Image
-                width={300}
-                height={300}
-                sizes={
-                  "(max-width: 768px) 200px, (max-width: 1024px) 240px, 300px"
-                }
-                loading={"lazy"}
-                src={secondaryImage?.url}
-                alt={""}
-                className={"hover-secondary-image"}
-              />
+              {typeof window !== "undefined" && window.innerWidth > 768 && (
+                <Image
+                  width={300}
+                  height={300}
+                  src={secondaryImage?.url}
+                  alt=""
+                  className="hover-secondary-image"
+                  loading="lazy"
+                />
+              )}
 
               <p className="product-title">{title}</p>
               <p className="product-price">
