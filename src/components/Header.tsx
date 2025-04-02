@@ -18,10 +18,12 @@ const Header = async () => {
     }
 }`;
   let shopLogo = "Unknown";
+  let shopName = "Unknown";
 
   try {
     const { shop } = await fetchShopifyData(query);
     shopLogo = shop.brand.logo.image.url;
+    shopName = shop.name;
   } catch (error) {
     console.error("Failed to fetch shop name:", error);
   }
@@ -36,14 +38,19 @@ const Header = async () => {
         <NavigationMenu />
       </div>
 
-      {/*  */}
       <Link className={"lg:hidden items-center"} href={"/"}>
-        <Image src={shopLogo} alt={"logo"} width={100} height={100} priority />
+        <Image
+          src={shopLogo}
+          alt={shopName}
+          width={100}
+          height={100}
+          priority
+        />
       </Link>
 
       <div className={"flex gap-2 justify-self-end"}>
         <div className={"flex items-center"}>
-          <Link href={"/cart"}>
+          <Link href={"/cart"} aria-label={"Go to shopping cart"}>
             <ShoppingBagIcon className={"size-8"} />
           </Link>
         </div>

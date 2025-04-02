@@ -113,7 +113,7 @@ const Page = async ({
 
   return (
     <>
-      <h2>{data.collection.title}</h2>
+      <h1>{data.collection.title}</h1>
 
       <div
         className={
@@ -127,7 +127,7 @@ const Page = async ({
       </div>
 
       <div className="product-grid">
-        {data.collection.products.edges.map((collection, index) => {
+        {data.collection.products.edges.map((collection, i) => {
           const { node } = collection;
           const { id, handle, title, priceRange, images } = node;
           const { nodes: imageNodes } = images;
@@ -152,8 +152,8 @@ const Page = async ({
                 width={500}
                 height={500}
                 src={primaryImage?.url}
-                alt={primaryImage?.altText ?? title}
-                priority={index === 0}
+                alt={primaryImage?.altText ?? `${title}-${i + 1}`}
+                priority={i === 0}
                 className={"hover-primary-image"}
               />
 
@@ -163,8 +163,8 @@ const Page = async ({
                   width={500}
                   height={500}
                   src={secondaryImage?.url}
-                  alt={secondaryImage?.altText ?? title}
-                  priority={index === 0}
+                  alt={""}
+                  priority={i === 0}
                   className={"hover-secondary-image"}
                 />
               )}

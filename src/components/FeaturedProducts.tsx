@@ -7,7 +7,7 @@ import Link from "next/link";
 const FeaturedProducts = ({ data }: { data: ProductData }) => {
   return (
     <>
-      <h2>Featured products</h2>
+      <h1>Featured products</h1>
 
       <div className="product-grid">
         {data.map((productEdge, i) => {
@@ -34,7 +34,7 @@ const FeaturedProducts = ({ data }: { data: ProductData }) => {
                 width={360}
                 height={360}
                 src={primaryImage?.url}
-                alt={primaryImage?.altText ?? title}
+                alt={primaryImage?.altText ?? `${title}-${i + 1}`}
                 priority={i === 0}
                 className={"hover-primary-image"}
               />
@@ -43,7 +43,7 @@ const FeaturedProducts = ({ data }: { data: ProductData }) => {
                 width={360}
                 height={360}
                 src={secondaryImage?.url}
-                alt={secondaryImage?.altText ?? title}
+                alt={""}
                 className={"hover-secondary-image"}
               />
 

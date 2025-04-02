@@ -4,7 +4,7 @@ import ContactForm from "@/components/ContactForm";
 const Page = () => {
   return (
     <div className={"pt-6"}>
-      <h2>Contact Form</h2>
+      <h1>Contact Form</h1>
 
       <ContactForm />
     </div>

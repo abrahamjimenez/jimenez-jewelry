@@ -9,6 +9,7 @@ import Image from "next/image";
 
 const DesktopMenu = ({ data }: { data: MenuInterface }) => {
   const [shopLogo, setShopLogo] = useState<string>("");
+  const [shopName, setShopName] = useState<string>("");
   const [opened, setOpened] = useState(false);
 
   useEffect(() => {
@@ -29,6 +30,7 @@ const DesktopMenu = ({ data }: { data: MenuInterface }) => {
       try {
         const { shop } = await fetchShopifyData(query);
         setShopLogo(shop.brand.logo.image.url);
+        setShopName(shop.name);
       } catch (error) {
         console.error("Failed to fetch shop name:", error);
       }
@@ -42,9 +44,9 @@ const DesktopMenu = ({ data }: { data: MenuInterface }) => {
       <Group>
         {/* Logo */}
         <div className={"w-[100px] h-[100px]"}>
-          {shopLogo && (
+          {shopLogo && shopName && (
             <Link href={"/"}>
-              <Image src={shopLogo} alt={"logo"} width={100} height={100} />
+              <Image src={shopLogo} alt={shopName} width={100} height={100} />
             </Link>
           )}
         </div>

@@ -152,7 +152,7 @@ const Page = () => {
     <div className="mx-auto max-w-screen-lg">
       {cartData && cartData.cart.lines.edges.length > 0 ? (
         <div>
-          <h2>Your cart</h2>
+          <h1>Your cart</h1>
 
           {/* Grid Header */}
           <div
@@ -169,7 +169,7 @@ const Page = () => {
           <hr />
 
           {/* Cart Items Grid */}
-          {cartData.cart.lines.edges.map((edge) => (
+          {cartData.cart.lines.edges.map((edge, i) => (
             <div
               key={edge.node.id}
               className="mb-5 grid items-center gap-4 grid-cols-[2fr_1fr_1fr_1fr] md:gap-6"
@@ -183,7 +183,7 @@ const Page = () => {
                   src={edge.node.merchandise.image.url}
                   alt={
                     edge.node.merchandise.image.altText ||
-                    edge.node.merchandise.product.title
+                    `${edge.node.merchandise.product.title}-${i + 1}`
                   }
                   height={100}
                   width={100}
@@ -211,6 +211,7 @@ const Page = () => {
                 <button
                   onClick={() => handleTrashIconClick(edge.node.id)}
                   className="hover:text-red-500"
+                  aria-label={`Remove product ${i + 1}`}
                 >
                   <TrashIcon className="mx-auto cursor-pointer size-6" />
                 </button>
@@ -234,14 +235,16 @@ const Page = () => {
           </p>
 
           <Link href={cartData.cart.checkoutUrl}>
-            <Button fullWidth>Check out</Button>
+            <Button color={"rgba(77, 77, 77, 1)"} fullWidth>
+              Check out
+            </Button>
           </Link>
         </div>
       ) : (
         <div className="flex flex-col gap-4 pt-40 text-center text-xl md:text-2xl">
           <h1>Your cart is empty</h1>
           <Link href={"/collections/earrings"}>
-            <Button>Continue Shopping</Button>
+            <Button color={"rgba(77, 77, 77, 1)"}>Continue Shopping</Button>
           </Link>
         </div>
       )}

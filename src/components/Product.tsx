@@ -25,6 +25,11 @@ interface CartResponse {
   };
 }
 
+export interface Image {
+  url: string;
+  title: string | null;
+}
+
 const Product = ({ data }: { data: ProductData }) => {
   const productId = data.variants.nodes[0]?.id;
   const handlersRef = useRef<NumberInputHandlers>(null);
@@ -92,13 +97,16 @@ const Product = ({ data }: { data: ProductData }) => {
     }
   }, [cartId, productId, quantity, loading]);
 
-  const imageUrls: string[] = data.images.edges.map((map) => map.node.url);
+  const imageData: Image[] = data.images.edges.map((image) => ({
+    url: image.node.url,
+    title: data.title,
+  }));
 
   return (
     <div
       className={"md:grid md:grid-cols-2 lg:grid-cols-[2fr_1fr] gap-10 mx-auto"}
     >
-      <ImageCarousel images={imageUrls} />
+      <ImageCarousel images={imageData} />
       <div className={"pt-6 flex flex-col gap-2"}>
         <h1>{data.title}</h1>
         <p className={"product-price"}>
@@ -116,6 +124,7 @@ const Product = ({ data }: { data: ProductData }) => {
           <Button
             variant={"transparent"}
             onClick={() => handlersRef.current?.decrement()}
+            aria-label={"Decrease quantity"}
           >
             <MinusIcon className="size-6" />
           </Button>
@@ -133,10 +142,12 @@ const Product = ({ data }: { data: ProductData }) => {
             }}
             defaultValue={1}
             hideControls
+            aria-label={"Product Quantity"}
           />
           <Button
             variant={"transparent"}
             onClick={() => handlersRef.current?.increment()}
+            aria-label={"Increase quantity"}
           >
             <PlusIcon className="size-6" />
           </Button>
@@ -151,6 +162,7 @@ const Product = ({ data }: { data: ProductData }) => {
           disabled={loading || data.variants.nodes[0]?.quantityAvailable === 0}
           onClick={handleAddToCart}
           fullWidth
+          color={"rgba(77, 77, 77, 1)"}
         >
           {loading ? "Adding..." : "Add to Cart"}
         </Button>

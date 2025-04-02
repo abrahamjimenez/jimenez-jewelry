@@ -18,7 +18,7 @@ const HeaderSkeleton = () => {
             }
           />
 
-          <div className={"flex gap-4"}>
+          <div className={"hidden lg:flex gap-4"}>
             {Array.from({ length: 4 }).map((_, i) => (
               <div
                 key={i}

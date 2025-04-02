@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import classes from "./ContactForm.module.css";
 import { Button, Group, Textarea, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { action } from "@/utils/contact-form-actions";
@@ -63,6 +64,7 @@ const ContactForm = () => {
       />
 
       <TextInput
+        classNames={classes}
         withAsterisk
         label="Email"
         placeholder="Email *"
@@ -78,8 +80,8 @@ const ContactForm = () => {
       />
 
       <Textarea
-        autosize
         minRows={4}
+        resize={"vertical"}
         label="Comment"
         placeholder="Comment"
         key={form.key("comment")}
@@ -97,7 +99,7 @@ const ContactForm = () => {
       )}
 
       <Group justify="flex-start" mt="md">
-        <Button disabled={loading} type="submit">
+        <Button disabled={loading} type="submit" color={"rgba(77, 77, 77, 1)"}>
           {loading ? "Sending..." : "Send"}
         </Button>
       </Group>
