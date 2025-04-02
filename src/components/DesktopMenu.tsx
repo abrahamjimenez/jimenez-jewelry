@@ -63,7 +63,11 @@ const DesktopMenu = ({ data }: { data: MenuInterface }) => {
                 onClose={() => setOpened(false)}
               >
                 <Menu.Target>
-                  <p className={"text-black cursor-pointer"}>
+                  <button
+                    className={"text-black cursor-pointer"}
+                    aria-haspopup={"menu"}
+                    aria-expanded={"false"}
+                  >
                     {item.title}{" "}
                     <span
                       style={{
@@ -74,7 +78,7 @@ const DesktopMenu = ({ data }: { data: MenuInterface }) => {
                     >
                       ▼
                     </span>
-                  </p>
+                  </button>
                 </Menu.Target>
                 <Menu.Dropdown>
                   {item.items.map((subItem) => (
