@@ -1,4 +1,6 @@
-import { Suspense } from "react";
+"use client"
+
+import { Suspense, useEffect, useState } from "react";
 import { fetchShopifyData } from "@/utils/shopify";
 import FeaturedProducts from "@/components/FeaturedProducts";
 import FeaturedProductsSkeleton from "@/components/FeaturedProductsSkeleton";
@@ -38,34 +40,48 @@ interface ProductEdge {
 
 export type ProductData = ProductEdge[];
 
-const FeaturedProductsLoader = async () => {
-  const featuredProductsQuery = `{
-    products(first: 8, sortKey: BEST_SELLING) {
-      edges {
-        node {
-          id
-          handle
-          title
-          images(first: 5) {
-            edges {
-              node {
-                id
-                altText
-                url(transform: {maxHeight: 200, maxWidth: 200})
+const FeaturedProductsLoader = () => {
+  const [data, setData] = useState<ProductData>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const featuredProductsQuery = `{
+        products(first: 8, sortKey: BEST_SELLING) {
+          edges {
+            node {
+              id
+              handle
+              title
+              images(first: 5) {
+                edges {
+                  node {
+                    id
+                    altText
+                    url(transform: {maxHeight: 200, maxWidth: 200})
+                  }
+                }
+              }
+              priceRange {
+                maxVariantPrice { amount }
+                minVariantPrice { amount }
               }
             }
           }
-          priceRange {
-            maxVariantPrice { amount }
-            minVariantPrice { amount }
-          }
         }
-      }
-    }
-  }`;
+      }`;
 
-  const { products } = await fetchShopifyData(featuredProductsQuery);
-  const data = products.edges;
+      const { products } = await fetchShopifyData(featuredProductsQuery);
+      setData(products.edges);
+      setLoading(false);
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return <FeaturedProductsSkeleton />;
+  }
 
   return <FeaturedProducts data={data} />;
 };
