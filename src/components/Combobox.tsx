@@ -61,9 +61,7 @@ const ComboboxComponent = () => {
               >
                 {value ?? (
                   <Input.Placeholder>
-                    <p className={"text-gray-600"}>
-                    Pick a value
-                    </p>
+                    <p className={"text-gray-600"}>Pick a value</p>
                   </Input.Placeholder>
                 )}
               </InputBase>

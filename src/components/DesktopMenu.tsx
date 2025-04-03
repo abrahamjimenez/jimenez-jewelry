@@ -70,7 +70,7 @@ const DesktopMenu = ({ data }: { data: MenuInterface }) => {
                   >
                     {item.title}{" "}
                     <span
-                      className={`inline-block transition-transform duration-200 ease-in ${opened ? "rotate-180": "rotate-0"}`}
+                      className={`inline-block transition-transform duration-200 ease-in ${opened ? "rotate-180" : "rotate-0"}`}
                     >
                       ▼
                     </span>
