@@ -243,7 +243,7 @@ const Page = () => {
       ) : (
         <div className="flex flex-col gap-4 pt-40 text-center text-xl md:text-2xl">
           <h1>Your cart is empty</h1>
-          <Link href={"/collections/earrings"}>
+          <Link href={"/collections/all"}>
             <Button color={"rgba(77, 77, 77, 1)"}>Continue Shopping</Button>
           </Link>
         </div>
