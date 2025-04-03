@@ -12,9 +12,9 @@ import { Suspense } from "react";
 import FooterSkeleton from "@/components/FooterSkeleton";
 
 export const metadata: Metadata = {
-  title: "Jimenez Jewelry",
+  title: "14K Gold Stud Earrings & Sterling Silver | Jimenez Jewelry",
   description:
-    "Shop at Jimenez Jewelry for an exquisite collection of 14k gold and silver earrings.",
+    "Shop stunning sterling silver & 14K gold CZ stud earrings at Jimenez Jewelry. Elegant designs, perfect for any occasion. Browse our collection today!",
 };
 
 export default function RootLayout({

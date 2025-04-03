@@ -60,8 +60,8 @@ const ComboboxComponent = () => {
                 onClick={() => combobox.toggleDropdown()}
               >
                 {value ?? (
-                  <Input.Placeholder style={{ color: "#474747" }}>
-                    Pick a value
+                  <Input.Placeholder>
+                    <p className={"text-gray-600"}>Pick a value</p>
                   </Input.Placeholder>
                 )}
               </InputBase>

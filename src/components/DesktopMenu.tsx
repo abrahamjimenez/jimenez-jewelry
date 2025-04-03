@@ -5,7 +5,7 @@ import { Group, Container, Menu } from "@mantine/core";
 import { MenuInterface } from "@/components/NavigationMenu";
 import Link from "next/link";
 import { fetchShopifyData } from "@/utils/shopify";
-import Image from "next/image";
+import HeaderLogo from "@/components/HeaderLogo";
 
 const DesktopMenu = ({ data }: { data: MenuInterface }) => {
   const [shopLogo, setShopLogo] = useState<string>("");
@@ -45,9 +45,9 @@ const DesktopMenu = ({ data }: { data: MenuInterface }) => {
         {/* Logo */}
         <div className={"w-[100px] h-[100px]"}>
           {shopLogo && shopName && (
-            <Link href={"/"}>
-              <Image src={shopLogo} alt={shopName} width={100} height={100} />
-            </Link>
+            <div className={"sm:hidden lg:block "}>
+              <HeaderLogo shopLogo={shopLogo} shopName={shopName} />
+            </div>
           )}
         </div>
 
@@ -70,11 +70,7 @@ const DesktopMenu = ({ data }: { data: MenuInterface }) => {
                   >
                     {item.title}{" "}
                     <span
-                      style={{
-                        transform: `rotate(${opened ? 180 : 0}deg)`,
-                        display: "inline-block",
-                        transition: "transform 0.2s ease",
-                      }}
+                      className={`inline-block transition-transform duration-200 ease-in ${opened ? "rotate-180" : "rotate-0"}`}
                     >
                       ▼
                     </span>

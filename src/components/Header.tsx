@@ -1,8 +1,8 @@
+import Link from "next/link";
 import { ShoppingBagIcon } from "@heroicons/react/24/outline";
 import { fetchShopifyData } from "@/utils/shopify";
 import NavigationMenu from "@/components/NavigationMenu";
-import Link from "next/link";
-import Image from "next/image";
+import HeaderLogo from "@/components/HeaderLogo";
 
 const Header = async () => {
   const query = `{
@@ -34,19 +34,13 @@ const Header = async () => {
         "grid grid-cols-3 lg:grid-cols-2 justify-items-center items-center pt-6 px-4"
       }
     >
-      <div className={"flex self-center justify-self-start"}>
+      <nav className={"flex self-center justify-self-start"}>
         <NavigationMenu />
-      </div>
+      </nav>
 
-      <Link className={"lg:hidden items-center"} href={"/"}>
-        <Image
-          src={shopLogo}
-          alt={shopName}
-          width={100}
-          height={100}
-          priority
-        />
-      </Link>
+      <div className={"lg:hidden"}>
+        <HeaderLogo shopName={shopName} shopLogo={shopLogo} />
+      </div>
 
       <div className={"flex gap-2 justify-self-end"}>
         <div className={"flex items-center"}>

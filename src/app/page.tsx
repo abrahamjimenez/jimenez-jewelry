@@ -58,7 +58,7 @@ const FeaturedProductsLoader = () => {
                   node {
                     id
                     altText
-                    url(transform: {maxHeight: 200, maxWidth: 200})
+                    url(transform: {maxHeight: 360, maxWidth: 360})
                   }
                 }
               }
