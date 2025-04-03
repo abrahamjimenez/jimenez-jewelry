@@ -4,7 +4,6 @@ import { Suspense, useEffect, useState } from "react";
 import { fetchShopifyData } from "@/utils/shopify";
 import FeaturedProducts from "@/components/FeaturedProducts";
 import FeaturedProductsSkeleton from "@/components/FeaturedProductsSkeleton";
-import { usePathname } from "next/navigation";
 
 interface PriceRange {
   maxVariantPrice: {
@@ -59,7 +58,7 @@ const FeaturedProductsLoader = () => {
                   node {
                     id
                     altText
-                    url(transform: {maxHeight: 200, maxWidth: 200})
+                    url(transform: {maxHeight: 360, maxWidth: 360})
                   }
                 }
               }
