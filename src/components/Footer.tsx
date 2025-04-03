@@ -49,7 +49,7 @@ const Footer = async () => {
 
           return (
             <ul key={url} className={"list-disc list-inside"}>
-              <li>
+              <li className={"list-none"}>
                 <Link
                   href={url.replace(
                     process.env.NEXT_PUBLIC_SHOPIFY_URL as string,
