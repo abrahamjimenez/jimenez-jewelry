@@ -2,6 +2,8 @@ import React from "react";
 
 // components/FeaturedProductsSkeleton.tsx
 const FeaturedProductsSkeleton = () => {
+  const gridItems = [1, 2, 3, 4, 5, 6, 7, 8];
+
   return (
     <>
       {/* Skeleton for the page title */}
@@ -9,8 +11,8 @@ const FeaturedProductsSkeleton = () => {
 
       <div className="product-grid">
         {/* Looping to create skeletons for 8 product items */}
-        {Array.from({ length: 8 }).map((_, i) => (
-          <div key={i} className={"mb-2"}>
+        {gridItems.map((item) => (
+          <div key={item} className={"mb-2"}>
             {/* Skeleton for image */}
             <div className="aspect-square bg-gray-300 animate-pulse mb-2"></div>
 

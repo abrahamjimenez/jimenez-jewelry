@@ -2,6 +2,9 @@ import React from "react";
 import { ShoppingBagIcon } from "@heroicons/react/24/outline";
 
 const HeaderSkeleton = () => {
+  const desktopNavItems = [1, 2, 3, 4];
+  const mobileHamburger = [1, 2, 3];
+
   return (
     <div
       className={
@@ -18,20 +21,24 @@ const HeaderSkeleton = () => {
             }
           />
 
+          {/* Nav Items */}
           <div className={"hidden lg:flex gap-4"}>
-            {Array.from({ length: 4 }).map((_, i) => (
+            {desktopNavItems.map((num) => (
               <div
-                key={i}
+                key={num}
                 className={"w-[80px] h-6 animate-pulse bg-gray-300"}
               ></div>
             ))}
           </div>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile Menu Hamburger */}
         <div className={"lg:hidden "}>
-          {Array.from({ length: 3 }).map((_, i) => (
-            <div key={i} className={"w-[20px] h-[2px] bg-gray-300 mb-1"}></div>
+          {mobileHamburger.map((num) => (
+            <div
+              key={num}
+              className={"w-[20px] h-[2px] bg-gray-300 mb-1"}
+            ></div>
           ))}
         </div>
       </div>
