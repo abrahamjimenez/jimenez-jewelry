@@ -4,6 +4,7 @@ import { Suspense, useEffect, useState } from "react";
 import { fetchShopifyData } from "@/utils/shopify";
 import FeaturedProducts from "@/components/FeaturedProducts";
 import FeaturedProductsSkeleton from "@/components/FeaturedProductsSkeleton";
+import { usePathname } from "next/navigation";
 
 interface PriceRange {
   maxVariantPrice: {
