@@ -1,12 +1,18 @@
-"use client"
+"use client";
 
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from 'next/navigation'
+import { usePathname } from "next/navigation";
 
-const HeaderLogoMobile = ({shopLogo, shopName}: {shopLogo: string, shopName: string}) => {
-  const pathname  = usePathname()
+const HeaderLogoMobile = ({
+  shopLogo,
+  shopName,
+}: {
+  shopLogo: string;
+  shopName: string;
+}) => {
+  const pathname = usePathname();
 
   return (
     <div className={"lg:hidden items-center"}>
@@ -19,7 +25,11 @@ const HeaderLogoMobile = ({shopLogo, shopName}: {shopLogo: string, shopName: str
           priority
         />
       ) : (
-        <Link href={"/"} aria-label={`Go to ${shopName} homepage`} aria-current={pathname === "/" ? "page" : undefined}>
+        <Link
+          href={"/"}
+          aria-label={`Go to ${shopName} homepage`}
+          aria-current={pathname === "/" ? "page" : undefined}
+        >
           <span className={"sr-only"}>Go to {shopName} homepage</span>
           <Image
             src={shopLogo}
