@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 
-const HeaderLogoMobile = ({
+const HeaderLogo = ({
   shopLogo,
   shopName,
 }: {
@@ -15,7 +15,7 @@ const HeaderLogoMobile = ({
   const pathname = usePathname();
 
   return (
-    <div className={"lg:hidden items-center"}>
+    <div className={"items-center"}>
       {pathname === "/" ? (
         <Image
           src={shopLogo}
@@ -44,4 +44,4 @@ const HeaderLogoMobile = ({
   );
 };
 
-export default HeaderLogoMobile;
+export default HeaderLogo;

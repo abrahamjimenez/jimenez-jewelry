@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ShoppingBagIcon } from "@heroicons/react/24/outline";
 import { fetchShopifyData } from "@/utils/shopify";
 import NavigationMenu from "@/components/NavigationMenu";
-import HeaderLogoMobile from "@/components/HeaderLogoMobile";
+import HeaderLogo from "@/components/HeaderLogo";
 
 const Header = async () => {
   const query = `{
@@ -38,7 +38,9 @@ const Header = async () => {
         <NavigationMenu />
       </nav>
 
-      <HeaderLogoMobile shopName={shopName} shopLogo={shopLogo} />
+      <div className={"lg:hidden"}>
+        <HeaderLogo shopName={shopName} shopLogo={shopLogo} />
+      </div>
 
       <div className={"flex gap-2 justify-self-end"}>
         <div className={"flex items-center"}>
