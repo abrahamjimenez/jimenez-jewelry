@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+@layer base {
+  h1 {
+    @apply pb-6 text-4xl;
+  }
+
+  h2 {
+    @apply pb-4 text-2xl font-semibold;
+  }
+
+  p {
+    @apply text-gray-600;
+  }
+
+  hr {
+    @apply pb-6 text-gray-300;
+  }
+
+  .small-text {
+    @apply text-xs lg:text-sm text-gray-600;
+  }
+
+  .extra-small-text {
+    @apply py-2 text-center text-xs font-light text-gray-500;
+  }
+}
+
+@layer cart {
+  .cart-product-title {
+    @apply text-center hover:underline;
+  }
+}
+
+/* Grid in home page and products page*/
+@layer products-grid {
+  .product-title {
+    @apply mt-2 font-semibold;
+  }
+
+  .product-price {
+    @apply text-gray-700;
+  }
+
+  .product-grid {
+    @apply grid grid-cols-2 gap-x-4 gap-y-6 md:grid-cols-3 lg:grid-cols-4;
+  }
+}
+
+/* Primary and secondary image hovering */
+@layer image-hover {
+  .hover-image-parent {
+    /* Add group to this class in tailwind */
+    @apply relative;
+  }
+
+  .hover-primary-image {
+    @apply opacity-100 transition-opacity duration-300 group-hover:opacity-0;
+  }
+
+  .hover-secondary-image {
+    @apply absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100;
+  }
+}
